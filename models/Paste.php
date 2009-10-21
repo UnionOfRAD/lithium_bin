@@ -1,0 +1,168 @@
+<?php
+
+namespace app\models;
+
+use \Geshi;
+use lithium\util\Validator;
+use lithium\data\Connections;
+
+class Paste extends \lithium\core\Object {
+
+	/**
+	 * public name of the model
+	 *
+	 * @var string
+	 */
+	public static $alias = 'Paste';
+
+	/**
+	 *  Available languages
+	 *
+	 * @var array
+	 */
+	public static $languages = array('php','html','javascript','text');
+
+	/**
+	 *  Metadata
+	 *
+	 * @var array
+	 */
+	protected static $_meta = array(
+		'source' => 'pastebin'
+	);
+
+	/**
+	 *  Default values for document based db
+	 *
+	 * @var array
+	 */
+	protected static $_defaults = array(
+		'author' => null,
+		'content' => null,
+		'parsed' => null,
+		'permanent' => false,
+		'language' => null,
+		'remember' => false,
+		'created' => '1979-07-26 08:05:00'
+	);
+
+	/*
+	* Validate data
+	*
+	* @return stdClass
+	*/
+	public static function validate($data) {
+		if (!Validator::isAlphaNumeric($data->author)) {
+			$data->errors['author'] =
+				'This field can only be alphanumeric';
+		}
+		if (!Validator::isNotEmpty($data->content)) {
+			$data->errors['content'] =
+				'This field can not be left empty';
+		}
+		if (!in_array($data->language, static::$languages)) {
+			$data->errors['language'] =
+				'You have messed with the HTML that is not valid language';
+		}
+		if (!Validator::isBoolean($data->permanent)) {
+			$data->errors['permanent'] =
+				'You have messed with the HTML that is not a boolean';
+		}
+		return $data;
+	}
+
+	/**
+	 * Saves the given data to the database
+	 * Will automatically validate if not given a false 2nd parameter.
+	 * If validation fails, will return with a 'validate' property set to
+	 * false and 'errors' array of 'field' => 'error message'
+	 *
+	 * @param array $data request->data
+	 * @param boolean $validate
+	 * @return stdClass
+	 */
+	public static function save($data, $validate = true) {
+		$data = (object) $data[static::$alias];
+
+		$data->validates = true;
+		$data->errors = array();
+		$data->saved = false;
+		$data->parsed = null;
+
+		if ($validate && $data = static::validate($data)) {
+			if (!empty($data->errors)) {
+				$data->validates = false;
+				return $data;
+			}
+		}
+		foreach (static::$_defaults as $field => $value) {
+			if (!isset($data->{$field})) {
+				$data->{$field} = $value;
+			}
+		}
+
+		$raw = $data->content;
+		$data->content  = rawurlencode($data->content);
+
+		if ($data->language != 'text' && in_array($data->language, static::$languages)) {
+			$geshi = new GeSHi($raw, $data->language);
+			$geshi->enable_classes();
+			$geshi->enable_keyword_links(false);
+			$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
+			$data->parsed = rawurlencode($geshi->parse_code());
+		}
+
+		$couch = Connections::get('couch');
+		$result = $couch->post(static::$_meta['source'], $data);
+
+		if (!$result->ok) {
+			return $data;
+		}
+		$data->saved = true;
+		$data->id = $result->id;
+		$data->rev = $result->rev;
+		return $data;
+	}
+
+	public static function create($data = array()) {
+		$data += static::$_defaults;
+		$data += array('errors' => array());
+		return (object) $data;
+	}
+
+	/**
+	 * Find and return a dataobject for the given $id
+	 * will parse data unless given option 'parsed' => false
+	 *
+	 * @param string $id uuid of the document for this paste
+	 * @param array $options Valid keys are:
+	 *		- parsed: A bool that if true will return geshi parsed code
+	 * @return stdClass dataobject if found, null if
+	 */
+	public static function findFirstById($id, $options = array()) {
+		$couch = Connections::get('couch');
+		$result = $couch->get(static::$_meta['source'].'/'.$id);
+		$result->content = rawurldecode($result->content);
+		$result->parsed = rawurldecode($result->parsed);
+		if (isset($result->error)) {
+			if ($result->error == 'not_found') {
+				// ok
+			} else {
+				// throw error?
+			}
+			return null;
+		}
+		return $result;
+	}
+
+	public static function find($type = 'all', $options = array()) {
+		$modifiers = '';
+		if (isset($options['limit'])) {
+			$modifiers = '?limit='.$options['limit'];
+		}
+		$couch = Connections::get('couch');
+		$data = $couch->get(static::$_meta['source'].'/_all_docs'.$modifiers);
+		return $data;
+	}
+}
+?>

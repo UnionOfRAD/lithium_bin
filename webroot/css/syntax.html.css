@@ -1,0 +1,54 @@
+/**
+ *  CSS rules for GeSHI paste bin 
+ *
+ */
+li.li1 {
+	background-color: white;
+}
+li.li2 {
+	background-color: #eee;
+}
+
+/* keyword 2 
+*/
+.kw1, .kw2 {
+	color: black;
+	font-weight: bold;
+}
+/* linked keyword*/
+a {
+	text-decoration: underline;
+}
+.kw3, .kw4 {
+	color: blue;
+	font-weight: bold;
+}
+
+/* 
+*/
+.br0 {
+	font-weight: bold;
+}
+/* 
+*/
+.re0 {
+	color: blue;
+}
+/* 
+*/
+.st_h {
+	color:red;
+}
+/* 
+*/
+.me1 {
+	color: green;
+}
+/*  */
+.sy0 {
+	font-weight: bold;
+}
+/* code comment */
+.co1, .co2, .co3, .co4 {
+	color: #888;
+}
