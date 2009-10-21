@@ -40,7 +40,13 @@
 			</nav>
 		</aside>
 		<aside id="git-shortcuts">
-			<span class="clone">git clone code@rad-dev.org:lithium.git</span>
+			<span id="git-clone-path" class="clone">git clone code@rad-dev.org:lithium.git</span>
+			<nav>
+				<?php /*<a href="#" class="download" title="Download Lithium">download</a> */ ?>
+				<a href="#" id="git-copy" class="copy" title="Copy the git clone shortcut to your clipboard">
+					copy to clipboard
+				</a>
+			</nav>
 		</aside>
 		<div>
 			<h1><?=@$this->html->link('Lithium', '/'); ?></h1>
