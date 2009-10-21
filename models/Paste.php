@@ -83,7 +83,7 @@ class Paste extends \lithium\core\Object {
 	 */
 	public static function save($data, $validate = true) {
 		$data = (object) $data[static::$alias];
-
+		$data->created = date('Y-m-d h:m:s');
 		$data->validates = true;
 		$data->errors = array();
 		$data->saved = false;
@@ -126,6 +126,7 @@ class Paste extends \lithium\core\Object {
 
 	public static function create($data = array()) {
 		$data += static::$_defaults;
+		$data['created'] = date('Y-m-d h:m:s');
 		$data += array('errors' => array());
 		return (object) $data;
 	}
@@ -163,6 +164,15 @@ class Paste extends \lithium\core\Object {
 		$couch = Connections::get('couch');
 		$data = $couch->get(static::$_meta['source'].'/_all_docs'.$modifiers);
 		return $data;
+	}
+	
+	public static function latest($type = 'all') {
+		$view = 'function(doc) {
+			if (doc.saved && doc.permanent) {
+				preview = String.substring(doc.content, 40);
+				emit(author:doc.author, language:doc.language, preview: preview);
+			}
+		}';
 	}
 }
 ?>

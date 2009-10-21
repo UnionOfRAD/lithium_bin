@@ -1,46 +1,28 @@
-<div class="view">
 <?php if (empty($paste->author)) { ?>
-	<h3>This <strong><?=@$paste->language;?></strong> paste was created
+	<h2>This <strong><?=@$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
-		at <strong><?=@$paste->created;?></strong></h3>
+		on <strong><?=@$paste->created;?></strong></h2>
 <?php } else  { ?>
-	<h3>This <strong><?=@$paste->language;?></strong> paste was created by
-		<strong><?=@$paste->author;?></strong> at
-		<strong><?=@$paste->created;?></strong></h3>
+	<h2>This <strong><?=@$paste->language;?></strong> paste was created by
+		<strong><?=@$paste->author;?></strong> on
+		<strong><?=@$paste->created;?></strong></h2>
 <?php } ?>
-	<br>
-	<script>
-var toogle = false;
-$(document).ready(function() {
-	$('div#clean').hide();
 
-	$('a#copy').add(function() {
-		var clip = new ZeroClipboard.Client();
-		var div = $('div#clean');
-		clip.glue(div);
-		clip.setText(div.text);
-		//Add a complete event to let the user know the text was copied
-		clip.addEventListener('complete', function(client) {
-			alert("Copied text to clipboard!\n");
-		});
-	});
-	$('a#toggle').click(function() {
-		if (toogle) {
-			$('div#clean').hide();
-			$('div#paste').show();
-			$(this).text('clean');
-		} else {
-			$('div#clean').show();
-			$('div#paste').hide();
-			$(this).text('highlight');
-		}
-		toogle = !toogle;
-		return false;
-	});
+<nav class="tabs light">
+	<ul>
+		<li><a class="color" href="#" id="toggle-color" title="Toggle Color"><span>Color</span></a></li>
+		<li><a class="contrast" href="#" id="toggle-contrast" title="Toggle Contrast"><span>Contrast</span></a></li>
+		<li><a class="bigger" href="#" id="code-bigger" title="Larger code"><span>Larger</span></a></li>
+		<li><a class="smaller" href="#" id="code-smaller" title="Smaller code"><span>Smaller</span></a></li>
+		<li><a class="copy" href="#" id="copy-to-clipboard" title="Copy to clipboard"><span>Copy</span></a></li>
+	</ul>
+</nav>
 
-});
-	</script>
-	<a href="#" id="toggle">clean</a> <a href="#" id="copy">copy</a>
-	<div id="clean" ><pre><code><?=$paste->content;?></code></pre></div>
-	<div id="paste"><?=@$paste->parsed;?></div>
-</div>
+<section id="clean" class="code"><pre><code><?=@$paste->content;?></code></pre></section>
+<section id="paste" class="code"><?=@$paste->parsed;?></section>
+	
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		li3Bin.setup();
+	});
+</script>

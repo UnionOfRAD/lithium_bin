@@ -1,106 +1,71 @@
-* {
-	margin: 0;
-	padding: 0;
-}
+article > h1:before { content:url(../img/pastium-logo.png); display:block; float:left; margin:0 1em 1em 0; }
 
-html {
-  height:100%; 
-}
-body {
-  min-height:101%;
-}
-html, body { 
-  margin:0; 
-  padding:0; 
-  background:white url(../img/accent.png) no-repeat bottom right; 
-  color:#333; 
-  font-family:Helvetica, Arial, sans-serif; 
-}
-a {
-	color: #333;
-}
-#header {
-}
-h1 {
-	margin: 0;
-	color: #555;
-}
-#menu {
-	float: right;
-	margin: 30px 50px 0 0;
-}
-#menu ul {
-	list-style: none;
-}
-#menu li {
-	display: inline;
-	padding: 5px 5px 2px;
-	background-color: white;
-}
-#menu a {
-}
+.pastebin h2 { margin:.5em 0; }
 
-div#content {
-	margin: 0 30px;
-}
-h2 {
-	font-size: 20px;
-	margin: 0 0 0 30px;
-}
-h3 {
-	font-size: 12px;
-	font-weight: normal;
-	margin: 0 0 0 30px;
-}
-input[type=text] {
-	display: block;
-	width: 70%;
-	padding: 1px 3px;
-	font-size: 110%;
-}
-input[type=submit] {
-	display: block;
-	width: auto;
-	font-size: 110%;
-}
-input[type=checkbox] {
-	margin: 10px 0 0 10px;
-}
-select {
-	display:block;
-}
-textarea {
-	display: block;
-	width: 70%;
-	padding: 0 0 0 3px ;
-	font-size: 110%;
-}
-label {
-	font-size: 85%;
-}
-label.required, div.required label {
-	font-weight: bold;
-}
-div#paste, div#clean {
-	margin: 10px 0 10px 30px;
-	padding: 4px;
-	border-top: 2px solid #333333;
-	border-right: 2px solid #AAAAAA;
-	border-bottom: 2px solid #AAAAAA;
-	border-left: 2px solid #333333;
-	background-color: white;
-}
-a#toggle {
-	margin-left: 2em;
-}
-div#footer {
-	padding: 30px 0 35px;
-	text-align: center;
-	font-size: 70%;
-}
+nav.tabs.light { clear:both; }
 
-pre.debug {
-	background-color: orange;
-	padding: 15px 5px;
-	display: block;
-}
+.pastebin form { display:block; clear:both; }
+
+.pastebin input[type=submit] { padding:.5em 1em; background:#e5e5e5; color:black; font-size:16px; border:none; }
+/**
+ * Navigation and Icons
+ */
+nav .paste:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png); margin:0 .25em 0 0; }
+nav .index:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_stack.png); margin:0 .25em 0 0; }
+nav .color:before { content: url(http://li3.rad-dev.org/img/icons/silk/color_wheel.png); }
+nav .contrast:before { content: url(http://li3.rad-dev.org/img/icons/silk/contrast.png); }
+nav .bigger:before { content: url(http://li3.rad-dev.org/img/icons/silk/zoom_in.png); }
+nav .smaller:before { content: url(http://li3.rad-dev.org/img/icons/silk/zoom_out.png); }
+nav .copy:before { content: url(http://li3.rad-dev.org/img/icons/silk/tag.png); z-index:10; }
+
+	nav .color span, nav .contrast span, nav .smaller span, nav .bigger span, nav .copy span { display:none; }
+	
+	ul.pastes { list-style:none; padding:0; margin:1em; clear:both; }
+		.pastes li { display:block; }
+			.pastes li a { display:block; padding:.25em .5em .25em 24px; background:url(http://li3.rad-dev.org/img/icons/silk/page_white.png) no-repeat center left; }
+		
+
+/**
+ * New Pastebin
+ */
+ 
+	.pastebin .text input { width:20em; }
+	.pastebin .checkbox label { display:inline; }
+	.pastebin label { color:#999; }
+	.pastebin .textarea textarea { width:670px; }
+ 
+	.pastebin section { display:block; }
+		.pastebin section.paste-content { width:670px; float:left; }
+		.pastebin section.paste-meta { width:200px; float:left; padding:0 0 0 20px; }
+		.pastebin section.submit { clear:both; }
+		
+	p.error { background:#ffe5e5; border:1px solid #ffb1b1; border-width:1px 0 0 0; padding:.5em 1em; font-style:italic;  }
+	
+	small {  display:block; padding:1em 0; font-size:16px; }
+/**
+ * Code Stylin'
+ */
+#clean { padding:2em; }
+#paste { padding:.25em 0; }
+.dark { color:#fafafa; }
+ 
+section.code { width:80em; font-size:12px; background:#fafafa; border:2px solid #f0f0f0; }
+section.code.dark { background:black; border-color:#333; }
+
+	.code ol { padding:0 0 0 3em; }
+	.code .de1, .code .de2 { padding:.25em 1em; }
+	.code .de1 { background: #fafafa; }
+	.dark.code .de1 { background:#080808; }
+	.code .de2 { background: white; }
+	.dark.code .de2 { background:black; }
+	
+	.kw1 { color:black !important; }
+	.dark .kw1 { color:black; }
+	.kw2 { color:black !important; }
+	.dark .kw2 { color:white !important; }
+	.kw3 { color:#00bbff !important; }
+	.kw4 { color:#7aa722 !important; }
+	.re0 { color:#e957e9 !important; }
+	.st_h { color:#8aae00 !important; }
+	.me1 { color:black !important; }
+	.dark .me1 { color:white !important; }
