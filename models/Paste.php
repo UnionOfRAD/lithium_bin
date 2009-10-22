@@ -41,6 +41,7 @@ class Paste extends \lithium\core\Object {
 		'content' => null,
 		'parsed' => null,
 		'permanent' => false,
+		'remember' => false, /* @todo remove when cookie logic is implemented */
 		'language' => null,
 		'created' => '1979-07-26 08:05:00'
 	);
