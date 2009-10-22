@@ -50,6 +50,8 @@ class PastesController extends \lithium\action\Controller {
 		if ($paste == null) {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
+		$binJs = true;
+		$this->set(compact('binJs'));
 		return compact('paste');
 	}
 }

@@ -18,11 +18,5 @@
 	</ul>
 </nav>
 
-<section id="clean" class="code"><pre><code><?=@$paste->content;?></code></pre></section>
+<section id="clean" class="code" style="display:none;"><pre><code><?=@$paste->content;?></code></pre></section>
 <section id="paste" class="code"><?=@$paste->parsed;?></section>
-	
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		li3Bin.setup();
-	});
-</script>

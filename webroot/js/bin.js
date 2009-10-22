@@ -43,7 +43,7 @@ var li3Bin = {
 			clip.setText($('#clean').text());
 			clip.glue($('#copy-to-clipboard')[0]);
 			clip.addEventListener('complete', function(client, text) {
-                li3.clearCli();
+                li3Cli.clearCli();
                 $('#cli-display').html('Copied to clipboard!');
                 $('#cli-display').animate({
 					height: 'show',

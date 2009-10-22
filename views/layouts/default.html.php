@@ -17,8 +17,6 @@
 		'http://li3.rad-dev.org/css/li3.css',
 		'bin'
 	)); ?>
-	<?=@$this->html->script('http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js'); ?>
-	<?=@$this->html->script(array('bin', 'ZeroClipboard')); ?>
 	<?php
 		if (!empty($paste->language)) {
 			echo $this->html->style('syntax.' . $paste->language);
@@ -75,13 +73,21 @@
 	<footer id="site-footer">
 		<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
 	</footer>
-	<?=@$this->html->script('http://li3.rad-dev.org/js/li3.js'); ?>
+	<?=@$this->html->script(array(
+		'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
+		'http://li3.rad-dev.org/js/li3.js',
+		'http://li3.rad-dev.org/js/cli.js',
+		'http://li3.rad-dev.org/libraries/ZeroClipboard/ZeroClipboard.js',
+		'bin'
+	)); ?>
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function () {
 			li3.setup({
 				base : '<?php echo $this->_request->env('base');?>',
 				testimonials: <?php echo !empty($testimonials) ? 'true' : 'false'; ?>
 			});
+			li3Cli.setup();
+			<?php echo !empty($binJs) ? 'li3Bin.setup();' : null ; ?>
 		});
 	</script>
 </body>
