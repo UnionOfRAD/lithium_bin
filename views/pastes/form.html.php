@@ -50,11 +50,9 @@
 			<?=($paste->permanent) ? 'checked=checked' : null;?> name="Paste[permanent]" /> &nbsp;
 		<label for="Paste.permanent">Save this paste</label>
 		</small>
-		
+		<input type="submit" value="Paste this" />
 	</div>
-	
-	<div class="section submit">
-		<input type="submit" />
+	<div class="notice">
+		<small>Pastes are publicly viewable. Paste wisely.</small>
 	</div>
-	
 </form>

@@ -6,12 +6,12 @@
 
 .pastebin form { display:block; clear:both; }
 
-.pastebin input[type=submit] { padding:.5em 1em; background:#e5e5e5; color:black; font-size:16px; border:none; }
+.pastebin input[type=submit] { display:block; margin:20px auto; padding:.5em 1em; background:#e5e5e5; color:black; font-size:16px; border:none; }
 /**
  * Navigation and Icons
  */
-.nav .paste:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png); margin:0 .25em 0 0; }
-.nav .index:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_stack.png); margin:0 .25em 0 0; }
+.nav .paste:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png); margin:0 .55em 0 0; }
+.nav .index:before { content: url(http://li3.rad-dev.org/img/icons/silk/page_white_stack.png); margin:0 .55em 0 0; }
 .nav .color:before { content: url(http://li3.rad-dev.org/img/icons/silk/color_wheel.png); }
 .nav .contrast:before { content: url(http://li3.rad-dev.org/img/icons/silk/contrast.png); }
 .nav .bigger:before { content: url(http://li3.rad-dev.org/img/icons/silk/magnifier_zoom_in.png); }
@@ -20,11 +20,16 @@
 
 	.nav .color span, .nav .contrast span, .nav .smaller span, .nav .bigger span, .nav .copy span { display:none; }
 	
-	ul.pastes { list-style:none; padding:0; margin:1em; clear:both; }
-		.pastes li { display:block; }
-			.pastes li a { display:block; padding:.25em .5em .25em 24px; background:url(http://li3.rad-dev.org/img/icons/silk/page_white.png) no-repeat center left; }
-		
-
+	.pastes { list-style:none; padding:0; width:100%; background:#f0f0f0; clear:both; }
+		.pastes th { padding:.5em; }
+		.pastes td { padding:.5em; }
+		.pastes .del1 td { background:#fafafa; }
+		.pastes .del2 td { background:white; }
+			.pastes a { padding:0 .5em 0 24px; background:url(http://li3.rad-dev.org/img/icons/silk/page_white_text.png) no-repeat center left; }
+			.pastes .php a { background-image:url(http://li3.rad-dev.org/img/icons/silk/page_white_php.png); }
+			.pastes .html a { background-image:url(http://li3.rad-dev.org/img/icons/silk/page_white_code.png); }
+			.pastes .javascript a { background-image:url(http://li3.rad-dev.org/img/icons/silk/page_white_cup.png); }
+			.pastes .preview { font-style:italic; }
 /**
  * New Pastebin
  */
@@ -32,12 +37,15 @@
 	.pastebin .text input { width:20em; }
 	.pastebin .checkbox label { display:inline; }
 	.pastebin label { color:#999; }
-	.pastebin .textarea textarea { width:670px; }
+	.pastebin .textarea textarea { width:680px; }
  
 	.pastebin .section { display:block; }
-		.pastebin .section.paste-content { width:670px; float:left; }
-		.pastebin .section.paste-meta { width:200px; float:left; padding:0 0 0 20px; }
+		.pastebin form { display:block; background:#f0f0f0; padding:20px; }
+		.pastebin .section.paste-content { width:690px; float:left; }
+		.pastebin .section.paste-meta { width:200px; float:left; padding:0 0 0 20px; background:#f0f0f0; }
 		.pastebin .section.submit { clear:both; }
+		.pastebin .notice { display:block; clear:both; text-align:left; }
+			.notice small { font-size:10px; color:#ccc; font-style:italic; }
 		
 	p.error { background:#ffe5e5; border:1px solid #ffb1b1; border-width:1px 0 0 0; padding:.5em 1em; font-style:italic;  }
 	
@@ -49,15 +57,15 @@
 #paste { padding:.25em 0; }
 .dark { color:#fafafa; }
  
-.section.code { width:80em; font-size:12px; background:#fafafa; border:2px solid #f0f0f0; }
+.section.code { width:80em; font-size:12px; background:white; border:2px solid #f0f0f0; }
 .section.code.dark { background:black; border-color:#333; }
 
 	.code ol { padding:0 0 0 3em; }
 	.code .de1, .code .de2 { padding:.25em 1em; }
-	.code .de1 { background: #fafafa; }
-	.dark.code .de1 { background:#080808; }
-	.code .de2 { background: white; }
-	.dark.code .de2 { background:black; }
+	.code .de1 { background:white; }
+	.dark.code .de1 { background:black; }
+	.code .de2 { background:#f2f2f2; }
+	.dark.code .de2 {  background:#0d0d0d; }
 	
 	.kw1 { color:black !important; }
 	.dark .kw1 { color:black; }

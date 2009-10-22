@@ -17,7 +17,6 @@ use \lithium\http\Router;
  * @todo Implement me.
  */
 // Router::namespace('/admin', array('admin' => true));
-
 Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));

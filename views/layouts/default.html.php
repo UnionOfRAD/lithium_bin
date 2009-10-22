@@ -25,45 +25,20 @@
 	<?=@$this->scripts(); ?>
 </head>
 <body class="pastebin">
-	<div class="header" id="site-header">
-		<div class="aside" id="cli">
-			<div class="nav">
-				<div id="cli-display"></div>
-				<div>
-					<form id="cli-form" onSubmit="return false">
-						<input type="text" id="cli-input" />
-						<input id="cli-submit" type="submit" />
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="aside" id="git-shortcuts">
-			<span id="git-clone-path" class="clone">git clone code@rad-dev.org:lithium.git</span>
-			<div class="nav">
-				<?php /*<a href="#" class="download" title="Download Lithium">download</a> */ ?>
-				<a href="#" id="git-copy" class="copy" title="Copy the git clone shortcut to your clipboard">
-					copy to clipboard
-				</a>
-			</div>
-		</div>
-		<div>
-			<h1><?=@$this->html->link('Lithium', '/'); ?></h1>
-		</div>
-	</div>
 
 	<div class="width-constraint">
 		<div class="article">
 			<h1>Pastium</h1>
 			<div class="nav tabs right">
 				<ul>
-					<li><?=@$this->html->link('New', array(
-						'controller' => 'pastes', 
-						'action' => 'add'
-					));?></li>
 					<li><?=@$this->html->link('Latest', array(
 						'controller' => 'pastes', 
 						'action' => 'index'
-					));?></li>
+					), array('class' => 'index'));?></li>
+					<li><?=@$this->html->link('New', array(
+						'controller' => 'pastes', 
+						'action' => 'add'
+					), array('class'=> 'paste'));?></li>
 				</ul>
 			</div>
 			<?=@$this->content();?>
@@ -76,17 +51,12 @@
 	<?=@$this->html->script(array(
 		'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
 		'http://li3.rad-dev.org/js/li3.js',
-		'http://li3.rad-dev.org/js/cli.js',
 		'http://li3.rad-dev.org/libraries/ZeroClipboard/ZeroClipboard.js',
 		'bin'
 	)); ?>
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function () {
-			li3.setup({
-				base : '<?php echo $this->_request->env('base');?>',
-				testimonials: <?php echo !empty($testimonials) ? 'true' : 'false'; ?>
-			});
-			li3Cli.setup();
+			li3.setupFooter();
 			<?php echo !empty($binJs) ? 'li3Bin.setup();' : null ; ?>
 		});
 	</script>

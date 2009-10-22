@@ -43,14 +43,13 @@ var li3Bin = {
 			clip.setText($('#clean').text());
 			clip.glue($('#copy-to-clipboard')[0]);
 			clip.addEventListener('complete', function(client, text) {
-                li3Cli.clearCli();
-                $('#cli-display').html('Copied to clipboard!');
-                $('#cli-display').animate({
+                $('.article').prepend('<div id="copied-notification">...copied!</div>');
+                $('#copied-notification').animate({
 					height: 'show',
 					opacity: 'show'
 				});
 				setTimeout(function() {
-					$('#cli-display').animate({
+					$('#copied-notification').animate({
 						height: 'hide',
 						opacity: 'hide'
 					});
