@@ -12,6 +12,11 @@
 	</div>
 	
 	<div class="section paste-meta">
+
+		<?php if (isset($paste->_id) && isset($paste->_rev)) : ?>
+			<input type="hidden" name="Paste[_id]" value="<?=@$paste->_id;?>" />
+			<input type="hidden" name="Paste[_rev]" value="<?=@$paste->_rev;?>" />
+		<?php endif; ?>
 		<label for="Paste[author]">Name/Nick</label>
 		<input type="text" name="Paste[author]" value="<?=@$paste->author;?>" />
 		<?=@(isset($paste->errors['author'])) ?

@@ -3,8 +3,8 @@
 namespace app\models;
 
 use \Geshi;
-use lithium\util\Validator;
-use lithium\data\Connections;
+use \lithium\util\Validator;
+use \lithium\data\Connections;
 
 class Paste extends \lithium\core\Object {
 
@@ -41,8 +41,8 @@ class Paste extends \lithium\core\Object {
 		'content' => null,
 		'parsed' => null,
 		'permanent' => false,
+		'remember' => false, /* @todo remove when cookie logic is implemented */
 		'language' => null,
-		'remember' => false,
 		'created' => '1979-07-26 08:05:00'
 	);
 
@@ -83,23 +83,24 @@ class Paste extends \lithium\core\Object {
 	 */
 	public static function save($data, $validate = true) {
 		$data = (object) $data[static::$alias];
-		$data->created = date('Y-m-d h:m:s');
+
 		$data->validates = true;
 		$data->errors = array();
 		$data->saved = false;
 		$data->parsed = null;
 
-		if ($validate && $data = static::validate($data)) {
-			if (!empty($data->errors)) {
-				$data->validates = false;
-				return $data;
-			}
-		}
 		foreach (static::$_defaults as $field => $value) {
 			if (!isset($data->{$field})) {
 				$data->{$field} = $value;
 			}
 		}
+		
+		if ($validate && $data = static::validate($data)) {
+			if (!empty($data->errors)) {
+				$data->validates = false;
+				return $data;
+			}
+		}		
 
 		$raw = $data->content;
 		$data->content  = rawurlencode($data->content);
@@ -112,15 +113,16 @@ class Paste extends \lithium\core\Object {
 			$data->parsed = rawurlencode($geshi->parse_code());
 		}
 
+		$data->created = date('Y-m-d H:i:s');
+
 		$couch = Connections::get('couch');
 		$result = $couch->post(static::$_meta['source'], $data);
-
 		if (!$result->ok) {
 			return $data;
 		}
 		$data->saved = true;
-		$data->id = $result->id;
-		$data->rev = $result->rev;
+		$data->_id = $result->id;
+		$data->_rev = $result->rev;
 		return $data;
 	}
 
@@ -163,6 +165,14 @@ class Paste extends \lithium\core\Object {
 		}
 		$couch = Connections::get('couch');
 		$data = $couch->get(static::$_meta['source'].'/_all_docs'.$modifiers);
+				
+		if (isset($data->error) && 
+			$data->error == 'not_found' &&
+			$data->reason == 'no_db_file')  {
+			$couch->put(static::$_meta['source']);
+			return null;
+		}
+
 		return $data;
 	}
 	
