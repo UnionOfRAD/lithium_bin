@@ -2,17 +2,42 @@
 
 namespace app\controllers;
 
-use app\models\Paste;
+use \app\models\Paste;
 
 class PastesController extends \lithium\action\Controller {
 
 	/**
 	 * Index
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function index() {
 		return array('latest' => Paste::find('all', array('limit' => 10)));
+	}
+
+	/**
+	 * Edit existing paste document
+	 *
+	 * @param string $id
+	 * @return array
+	 */
+	public function edit($id = null) {
+		if (empty($this->request->data)) {
+			$paste = Paste::findFirstById($id);
+			if ($paste == null) {
+				$this->redirect(array('controller' => 'pastes', 'action' => 'add'));
+			}
+		} else {
+			$paste = Paste::save($this->request->data);
+			if ($paste->saved) {
+				$this->redirect(array(
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
+				));
+			}
+		}
+		$languages = Paste::$languages;
+		$this->set(compact('paste', 'languages'));
+		$this->render('form');
 	}
 
 	/*
@@ -20,19 +45,20 @@ class PastesController extends \lithium\action\Controller {
 	 *
 	 * @todo add cookie / session remembering of author name
 	 */
-	public function add($nick = null, $language = null) {
+	public function add($author = null, $language = null) {
 		if (empty($this->request->data)) {
-			$paste = Paste::create(compact('nick', 'language'));
+			$paste = Paste::create(compact('author', 'language'));
 		} else {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
 				));
 			}
 		}
 		$languages = Paste::$languages;
-		return compact('paste', 'languages');
+		$this->set(compact('paste', 'languages'));
+		$this->render('form');
 	}
 
 	/**
@@ -51,8 +77,7 @@ class PastesController extends \lithium\action\Controller {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
 		$binJs = true;
-		$this->set(compact('binJs'));
-		return compact('paste');
+		return compact('paste','binJs');
 	}
 }
 
