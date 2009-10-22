@@ -41,8 +41,24 @@ class Paste extends \lithium\core\Object {
 		'content' => null,
 		'parsed' => null,
 		'permanent' => false,
+		'remember' => false, /* @todo remove when cookie logic is implemented */
 		'language' => null,
 		'created' => '1979-07-26 08:05:00'
+	);
+	
+	/**
+	 * Views Document
+	 */
+	protected static $_views = array(
+		'latest' => array(
+			'_id' => '_design/latest',
+			'language' => 'javascript',
+			'views' => array(
+				'all' => array(
+					'map' => 'function(doc) { var preview = String.substring(doc.content, 0, 100); emit(doc.author, {author:doc.author, language:doc.language, preview: preview, created: doc.created}); }'
+				)
+			)
+		)
 	);
 
 	/*
@@ -127,6 +143,7 @@ class Paste extends \lithium\core\Object {
 
 	public static function create($data = array()) {
 		$data += static::$_defaults;
+		$data['created'] = date('Y-m-d h:m:s');
 		$data += array('errors' => array());
 		return (object) $data;
 	}
@@ -171,6 +188,24 @@ class Paste extends \lithium\core\Object {
 			return null;
 		}
 
+		return $data;
+	}
+	
+	public static function latest($type = 'default') {
+		$modifiers = '';
+		if (isset($options['limit'])) {
+			$modifiers = '?limit='.$options['limit'];
+		}
+		$couch = Connections::get('couch');
+		$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
+		
+		if (isset($data->error) && 
+			$data->error == 'not_found' &&
+			in_array($data->reason, array('missing', 'deleted')))  {
+				$create = $couch->post(static::$_meta['source'], (object)static::$_views['latest']);
+				$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
+		}
+		
 		return $data;
 	}
 }
