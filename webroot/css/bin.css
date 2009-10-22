@@ -1,0 +1,106 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+  height:100%; 
+}
+body {
+  min-height:101%;
+}
+html, body { 
+  margin:0; 
+  padding:0; 
+  background:white url(../img/accent.png) no-repeat bottom right; 
+  color:#333; 
+  font-family:Helvetica, Arial, sans-serif; 
+}
+a {
+	color: #333;
+}
+#header {
+}
+h1 {
+	margin: 0;
+	color: #555;
+}
+#menu {
+	float: right;
+	margin: 30px 50px 0 0;
+}
+#menu ul {
+	list-style: none;
+}
+#menu li {
+	display: inline;
+	padding: 5px 5px 2px;
+	background-color: white;
+}
+#menu a {
+}
+
+div#content {
+	margin: 0 30px;
+}
+h2 {
+	font-size: 20px;
+	margin: 0 0 0 30px;
+}
+h3 {
+	font-size: 12px;
+	font-weight: normal;
+	margin: 0 0 0 30px;
+}
+input[type=text] {
+	display: block;
+	width: 70%;
+	padding: 1px 3px;
+	font-size: 110%;
+}
+input[type=submit] {
+	display: block;
+	width: auto;
+	font-size: 110%;
+}
+input[type=checkbox] {
+	margin: 10px 0 0 10px;
+}
+select {
+	display:block;
+}
+textarea {
+	display: block;
+	width: 70%;
+	padding: 0 0 0 3px ;
+	font-size: 110%;
+}
+label {
+	font-size: 85%;
+}
+label.required, div.required label {
+	font-weight: bold;
+}
+div#paste, div#clean {
+	margin: 10px 0 10px 30px;
+	padding: 4px;
+	border-top: 2px solid #333333;
+	border-right: 2px solid #AAAAAA;
+	border-bottom: 2px solid #AAAAAA;
+	border-left: 2px solid #333333;
+	background-color: white;
+}
+a#toggle {
+	margin-left: 2em;
+}
+div#footer {
+	padding: 30px 0 35px;
+	text-align: center;
+	font-size: 70%;
+}
+
+pre.debug {
+	background-color: orange;
+	padding: 15px 5px;
+	display: block;
+}
