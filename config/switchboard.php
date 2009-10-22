@@ -1,10 +1,6 @@
 <?php
 /**
  * Lithium: the most rad php framework
- * Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
- *
- * Licensed under The BSD License
- * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
@@ -33,7 +29,6 @@
  * well as the parameters.
  */
 
-use \lithium\http\Router;
 use \lithium\core\Environment;
 use \lithium\action\Dispatcher;
 
@@ -55,9 +50,9 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
  * @see lithium\action\Request
  * @see lithium\core\Environment
  */
-Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
-	Environment::set($params['request']);
-	return $chain->next($self, $params, $chain);
-});
+// Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
+// 	Environment::set($params['request']);
+// 	return $chain->next($self, $params, $chain);
+// });
 
 ?>
