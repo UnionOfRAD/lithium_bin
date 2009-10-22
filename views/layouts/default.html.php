@@ -25,9 +25,9 @@
 	<?=@$this->scripts(); ?>
 </head>
 <body class="pastebin">
-	<header id="site-header">
-		<aside id="cli">
-			<nav>
+	<div class="header" id="site-header">
+		<div class="aside" id="cli">
+			<div class="nav">
 				<div id="cli-display"></div>
 				<div>
 					<form id="cli-form" onSubmit="return false">
@@ -35,26 +35,26 @@
 						<input id="cli-submit" type="submit" />
 					</form>
 				</div>
-			</nav>
-		</aside>
-		<aside id="git-shortcuts">
+			</div>
+		</div>
+		<div class="aside" id="git-shortcuts">
 			<span id="git-clone-path" class="clone">git clone code@rad-dev.org:lithium.git</span>
-			<nav>
+			<div class="nav">
 				<?php /*<a href="#" class="download" title="Download Lithium">download</a> */ ?>
 				<a href="#" id="git-copy" class="copy" title="Copy the git clone shortcut to your clipboard">
 					copy to clipboard
 				</a>
-			</nav>
-		</aside>
+			</div>
+		</div>
 		<div>
 			<h1><?=@$this->html->link('Lithium', '/'); ?></h1>
 		</div>
-	</header>
+	</div>
 
 	<div class="width-constraint">
-		<article>
+		<div class="article">
 			<h1>Pastium</h1>
-			<nav class="tabs right">
+			<div class="nav tabs right">
 				<ul>
 					<li><?=@$this->html->link('New', array(
 						'controller' => 'pastes', 
@@ -65,14 +65,14 @@
 						'action' => 'index'
 					));?></li>
 				</ul>
-			</nav>
+			</div>
 			<?=@$this->content();?>
-		</article>
+		</div>
 	</div>
 
-	<footer id="site-footer">
+	<div class="footer" id="site-footer">
 		<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
-	</footer>
+	</div>
 	<?=@$this->html->script(array(
 		'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
 		'http://li3.rad-dev.org/js/li3.js',

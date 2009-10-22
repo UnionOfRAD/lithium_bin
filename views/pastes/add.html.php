@@ -2,16 +2,16 @@
 
 <form method="POST">
 	
-	<section class="paste-content">
+	<div class="section paste-content">
 		<div class="input textarea">
 			<textarea name="Paste[content]" rows="15"><?=@$paste->content;?></textarea>
 		</div>
 		<?=@(isset($paste->errors['content'])) ?
 			'<p class="error">'.$paste->errors['content'].'</p>' : null;
 		?>
-	</section>
+	</div>
 	
-	<section class="paste-meta">
+	<div class="section paste-meta">
 		<label for="Paste[author]">Name/Nick</label>
 		<input type="text" name="Paste[author]" value="<?=@$paste->author;?>" />
 		<?=@(isset($paste->errors['author'])) ?
@@ -46,10 +46,10 @@
 		<label for="Paste.permanent">Save this paste</label>
 		</small>
 		
-	</section>
+	</div>
 	
-	<section class="submit">
+	<div class="section submit">
 		<input type="submit" />
-	</section>
+	</div>
 	
 </form>
