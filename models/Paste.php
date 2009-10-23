@@ -198,47 +198,30 @@ class Paste extends \lithium\core\Object {
 	}
 
 	/**
-	 * Find all (or a limited amount of) documents
-	 *
-	 * @param string $type search types, currently only supports 'all'
-	 * @param array $options valid keys are:
-	 *		- limit : number of documents to retrieve
-	 * @return stdClass data object
-	 */
-	public static function find($type = 'all', $options = array()) {
-		$modifiers = '';
-		if (isset($options['limit'])) {
-			$modifiers = '?limit='.$options['limit'];
-		}
-		$couch = Connections::get('couch');
-		$data = $couch->get(static::$_meta['source'].'/_all_docs'.$modifiers);
-				
-		if (isset($data->error) && 
-			$data->error == 'not_found' &&
-			$data->reason == 'no_db_file')  {
-			$couch->put(static::$_meta['source']);
-			return null;
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Direct access to the CouchDB view called 'latest'
 	 *
 	 * @param string $type
 	 * @return stdClass object
 	 */
-	public static function latest($type = 'default') {
-		$modifiers = '?limit=10';
+	public static function latest($limit = 10) {
+		$modifiers = '?limit='.$limit;
 		$couch = Connections::get('couch');
 		$data = $couch->get(
 			static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
 		);
 		
+		if (isset($data->error) &&
+			$data->error == 'not_found' &&
+			$data->reason == 'no_db_file')  {
+				
+				$couch->put(static::$_meta['source']);
+			return null;
+		}
+
 		if (isset($data->error) && 
 			$data->error == 'not_found' &&
 			in_array($data->reason, array('missing', 'deleted')))  {
+
 				$create = $couch->post(
 					static::$_meta['source'],
 					(object)static::$_views['latest']
