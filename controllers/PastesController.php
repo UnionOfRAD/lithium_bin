@@ -46,7 +46,10 @@ class PastesController extends \lithium\action\Controller {
 	}
 
 	/**
-	 * Add paste
+	 * Controller action for the urls that add pastes
+	 * Will set up a form with default values and if given POST data through the
+	 * Request object will post that tothe model for save. If save is successfull
+	 * it will redirect to a view of the newly created paste.
 	 *
 	 * @todo add cookie / session remembering of author name
      *
@@ -60,7 +63,9 @@ class PastesController extends \lithium\action\Controller {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
+					'controller' => 'pastes', 
+					'action' => 'view',
+					'args' => array($paste->_id)
 				));
 			}
 		}
@@ -70,7 +75,12 @@ class PastesController extends \lithium\action\Controller {
 	}
 
 	/**
-	 * Edit existing paste document
+	 * controller action for editing existing pastes. No user authentication or
+	 * authorization required (new pastes will be new revisions). The action
+	 * asks the model for the current values if not given POST data, otherwise
+	 * it will ask the model to save it. If the save is succesful it will
+	 * redirect to the view, if not, render the form again with the failed post
+	 * data (dataobject will now include validation errors).
 	 *
 	 * @param string $id
 	 * @return array
@@ -79,13 +89,18 @@ class PastesController extends \lithium\action\Controller {
 		if (empty($this->request->data)) {
 			$paste = Paste::findFirstById($id);
 			if ($paste == null) {
-				$this->redirect(array('controller' => 'pastes', 'action' => 'add'));
+				$this->redirect(array(
+					'controller' => 'pastes',
+					'action' => 'add'
+				));
 			}
 		} else {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
+					'controller' => 'pastes', 
+					'action' => 'view',
+					'args' => array($paste->_id)
 				));
 			}
 		}
@@ -94,5 +109,4 @@ class PastesController extends \lithium\action\Controller {
 		$this->render('form');
 	}
 }
-
 ?>
