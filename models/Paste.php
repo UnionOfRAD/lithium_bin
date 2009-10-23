@@ -199,6 +199,8 @@ class Paste extends \lithium\core\Object {
 
 	/**
 	 * Direct access to the CouchDB view called 'latest'
+	 * If the table (database to couchdb) is not present, it will create it.
+	 * If that view is not present it, it will create it
 	 *
 	 * @param string $type
 	 * @return stdClass object
