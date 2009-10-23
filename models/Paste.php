@@ -232,6 +232,9 @@ class Paste extends \lithium\core\Object {
 					static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
 				);
 		}
+		foreach ($data->rows as $key => $row) {
+			$data->rows[$key]->value->preview = rawurldecode($row->value->preview);
+		}
 		
 		return $data;
 	}
