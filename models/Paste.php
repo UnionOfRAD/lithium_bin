@@ -27,20 +27,19 @@ class Paste extends \lithium\core\Object {
 	public static $alias = 'Paste';
 
 	/**
-	 *  Available languages
+	 * Available languages
 	 *
 	 * @var array
 	 */
 	public static $languages = array('php','html','javascript','text');
 
 	/**
-	 *  Metadata
+	 * Metadata
 	 *
-	 * @var array
+	 * @var array array of meta data to link the model with the couchdb datasource
+	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected static $_meta = array(
-		'source' => 'pastebin'
-	);
+	protected static $_meta = array('source' => 'pastebin');
 
 	/**
 	 *  Default values for document based db
@@ -233,13 +232,20 @@ class Paste extends \lithium\core\Object {
 	public static function latest($type = 'default') {
 		$modifiers = '?limit=10';
 		$couch = Connections::get('couch');
-		$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
+		$data = $couch->get(
+			static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
+		);
 		
 		if (isset($data->error) && 
 			$data->error == 'not_found' &&
 			in_array($data->reason, array('missing', 'deleted')))  {
-				$create = $couch->post(static::$_meta['source'], (object)static::$_views['latest']);
-				$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
+				$create = $couch->post(
+					static::$_meta['source'],
+					(object)static::$_views['latest']
+				);
+				$data = $couch->get(
+					static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
+				);
 		}
 		
 		return $data;
