@@ -11,7 +11,7 @@
 <head>
 	<?=@$this->html->charset(); ?>
 	<title>Pastium <?=@$this->title(); ?></title>
-	<?=@$this->html->link('Icon', 'http://li3.rad-dev.org/favicon.png', array('type' => 'icon')); ?>
+	<?=@$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?=@$this->html->style(array(
 		'http://li3.rad-dev.org/css/base.css', 
 		'http://li3.rad-dev.org/css/li3.css',

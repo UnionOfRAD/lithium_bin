@@ -55,7 +55,13 @@ class Paste extends \lithium\core\Object {
 			'language' => 'javascript',
 			'views' => array(
 				'all' => array(
-					'map' => 'function(doc) { var preview = String.substring(doc.content, 0, 100); emit(doc.author, {author:doc.author, language:doc.language, preview: preview, created: doc.created}); }'
+					'map' => 'function(doc) { 
+						var preview = String.substring(doc.content, 0, 100); 
+						emit(doc.author, {
+							author: doc.author, language: doc.language, 
+							preview: preview, created: doc.created
+						}); 
+					}'
 				)
 			)
 		)
@@ -174,12 +180,8 @@ class Paste extends \lithium\core\Object {
 	}
 
 	public static function find($type = 'all', $options = array()) {
-		$modifiers = '';
-		if (isset($options['limit'])) {
-			$modifiers = '?limit='.$options['limit'];
-		}
 		$couch = Connections::get('couch');
-		$data = $couch->get(static::$_meta['source'].'/_all_docs'.$modifiers);
+		$data = $couch->get(static::$_meta['source'].'/_all_docs' . $modifiers, $options);
 				
 		if (isset($data->error) && 
 			$data->error == 'not_found' &&
@@ -191,18 +193,14 @@ class Paste extends \lithium\core\Object {
 		return $data;
 	}
 	
-	public static function latest($type = 'default') {
-		$modifiers = '';
-		if (isset($options['limit'])) {
-			$modifiers = '?limit='.$options['limit'];
-		}
+	public static function latest($options = array()) {
 		$couch = Connections::get('couch');
-		$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
+		$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all', $options);
 		
 		if (isset($data->error) && 
 			$data->error == 'not_found' &&
 			in_array($data->reason, array('missing', 'deleted')))  {
-				$create = $couch->post(static::$_meta['source'], (object)static::$_views['latest']);
+				$create = $couch->put(static::$_meta['source'], (object)static::$_views['latest']);
 				$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all'.$modifiers);
 		}
 		
