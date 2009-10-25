@@ -193,7 +193,8 @@ class Paste extends \lithium\core\StaticObject {
 	 */
 	public static function latest($options = array()) {
 		$couch = Connections::get('couch');
-		$data = $couch->get(static::$_meta['source'] . '/_design/latest/_view/all', $options);
+		$path = static::$_meta['source'] . '/' . static::$_views['latest']['_id'];
+		$data = $couch->get($path . '/_view/all', $options);
 
 		$isError = (
 			isset($data->error) && $data->error == 'not_found'
@@ -203,8 +204,8 @@ class Paste extends \lithium\core\StaticObject {
 			return null;
 		}
 		if ($isError && in_array($data->reason, array('missing', 'deleted')))  {
-			$create = $couch->post(static::$_meta['source'], static::$_views['latest']);
-			$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all', $options);
+			$create = $couch->put($path, static::$_views['latest']);
+			$data = $couch->get($path . '/_view/all', $options);
 		}
 		foreach ($data->rows as $key => $row) {
 			$data->rows[$key]->value->preview = rawurldecode($row->value->preview);
