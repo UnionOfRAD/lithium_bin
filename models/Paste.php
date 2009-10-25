@@ -17,7 +17,7 @@ use \lithium\data\Connections;
  * @package	lithium_bin
  * @author	alkemann
  */
-class Paste extends \lithium\core\Object {
+class Paste extends \lithium\core\StaticObject {
 
 	/**
 	 * public name of the model
@@ -39,7 +39,7 @@ class Paste extends \lithium\core\Object {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected static $_meta = array('source' => 'pastebin');
+	protected static $_meta = array('source' => 'lithium_bin');
 
 	/**
 	 *  Default values for document based db
@@ -55,7 +55,7 @@ class Paste extends \lithium\core\Object {
 		'language' => null,
 		'created' => '1979-07-26 08:05:00'
 	);
-	
+
 	/**
 	 * Views Document
 	 */
@@ -65,13 +65,13 @@ class Paste extends \lithium\core\Object {
 			'language' => 'javascript',
 			'views' => array(
 				'all' => array(
-					'map' =>
-'function(doc) {
-	var preview = String.substring(doc.content, 0, 100);
-	emit(doc.author, {
-		author:doc.author, language:doc.language, preview: preview, created: doc.created
-	});
-}'
+					'map' => 'function(doc) {
+						var preview = String.substring(doc.content, 0, 100);
+						emit(doc.author, {
+							author:doc.author, language:doc.language,
+							preview: preview, created: doc.created
+						});
+					}'
 				)
 			)
 		)
@@ -114,26 +114,17 @@ class Paste extends \lithium\core\Object {
 	 * @return stdClass
 	 */
 	public static function save($data, $validate = true) {
-		$data = (object) $data[static::$alias];
+		$defaults = array(
+			'validates' => true, 'errors' => array(), 'saved' => false, 'parsed' => null
+		);
+		$data = (object) ($data[static::$alias] + $defaults + static::$_defaults);
 
-		$data->validates = true;
-		$data->errors = array();
-		$data->saved = false;
-		$data->parsed = null;
-
-		foreach (static::$_defaults as $field => $value) {
-			if (!isset($data->{$field})) {
-				$data->{$field} = $value;
-			}
-		}
-		
 		if ($validate && $data = static::validate($data)) {
 			if (!empty($data->errors)) {
 				$data->validates = false;
 				return $data;
 			}
-		}		
-
+		}
 		$raw = $data->content;
 		$data->content  = rawurlencode($data->content);
 
@@ -187,11 +178,6 @@ class Paste extends \lithium\core\Object {
 		$result->content = rawurldecode($result->content);
 		$result->parsed = rawurldecode($result->parsed);
 		if (isset($result->error)) {
-			if ($result->error == 'not_found') {
-				// ok
-			} else {
-				// throw error?
-			}
 			return null;
 		}
 		return $result;
@@ -205,37 +191,24 @@ class Paste extends \lithium\core\Object {
 	 * @param string $type
 	 * @return stdClass object
 	 */
-	public static function latest($limit = 10) {
-		$modifiers = '?limit='.$limit;
+	public static function latest($options = array()) {
 		$couch = Connections::get('couch');
-		$data = $couch->get(
-			static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
+		$data = $couch->get(static::$_meta['source'] . '/_design/latest/_view/all', $options);
+
+		$isError = (
+			isset($data->error) && $data->error == 'not_found'
 		);
-		
-		if (isset($data->error) &&
-			$data->error == 'not_found' &&
-			$data->reason == 'no_db_file')  {
-				
-				$couch->put(static::$_meta['source']);
+		if ($isError && $data->reason == 'no_db_file')  {
+			$couch->put(static::$_meta['source']);
 			return null;
 		}
-
-		if (isset($data->error) && 
-			$data->error == 'not_found' &&
-			in_array($data->reason, array('missing', 'deleted')))  {
-
-				$create = $couch->post(
-					static::$_meta['source'],
-					(object)static::$_views['latest']
-				);
-				$data = $couch->get(
-					static::$_meta['source'].'/_design/latest/_view/all'.$modifiers
-				);
+		if ($isError && in_array($data->reason, array('missing', 'deleted')))  {
+			$create = $couch->post(static::$_meta['source'], static::$_views['latest']);
+			$data = $couch->get(static::$_meta['source'].'/_design/latest/_view/all', $options);
 		}
 		foreach ($data->rows as $key => $row) {
 			$data->rows[$key]->value->preview = rawurldecode($row->value->preview);
 		}
-		
 		return $data;
 	}
 }

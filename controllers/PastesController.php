@@ -23,7 +23,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::latest(10));
+		return array('latest' => Paste::latest(array('limit' => '10')));
 	}
 
 	/**
@@ -63,9 +63,7 @@ class PastesController extends \lithium\action\Controller {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 
-					'action' => 'view',
-					'args' => array($paste->_id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
 				));
 			}
 		}
@@ -90,17 +88,14 @@ class PastesController extends \lithium\action\Controller {
 			$paste = Paste::findFirstById($id);
 			if ($paste == null) {
 				$this->redirect(array(
-					'controller' => 'pastes',
-					'action' => 'add'
+					'controller' => 'pastes', 'action' => 'add'
 				));
 			}
 		} else {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 
-					'action' => 'view',
-					'args' => array($paste->_id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
 				));
 			}
 		}

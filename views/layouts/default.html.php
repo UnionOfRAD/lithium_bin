@@ -17,9 +17,8 @@
 	<title>Li3 Paste Bin</title>
 	<?=@$this->html->style('bin'); ?>
 	<?=@$this->scripts(); ?>
-	<?=@$this->html->link('Icon', 'img/favicon.png', array('type' => 'icon')); ?>
-	<?=@$this->html->script('jquery-1.3.2.min.js'); ?>
-	<?=@$this->html->script('ZeroClipboard.js'); ?>
+	<?=@$this->html->link('Icon', null, array('type' => 'icon')); ?>
+	<?=@$this->html->script(array('jquery-1.3.2.min.js', 'ZeroClipboard.js', 'bin.js')); ?>
 	<?php
 		if (!empty($paste->language)) {
 			echo $this->html->style('syntax.' . $paste->language);

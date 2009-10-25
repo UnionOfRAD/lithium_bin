@@ -12,14 +12,15 @@ body {
 html, body { 
   margin:0; 
   padding:0; 
-  background:white url(../img/accent.png) no-repeat bottom right; 
+  background:white url(../img/accent.png) no-repeat bottom right fixed; 
   color:#333; 
   font-family:Helvetica, Arial, sans-serif; 
 }
 a {
 	color: #333;
 }
-#header {
+p {
+	margin-top: 1em;
 }
 h1 {
 	margin: 0;
@@ -45,12 +46,13 @@ div#content {
 }
 h2 {
 	font-size: 20px;
-	margin: 0 0 0 30px;
 }
 h3 {
 	font-size: 12px;
 	font-weight: normal;
-	margin: 0 0 0 30px;
+}
+ul.latest, ul.latest li {
+	margin: 1em;
 }
 input[type=text] {
 	display: block;
@@ -94,9 +96,12 @@ a#toggle {
 	margin-left: 2em;
 }
 div#footer {
+	position: absolute;
 	padding: 30px 0 35px;
 	text-align: center;
 	font-size: 70%;
+	bottom: 0;
+	right: 20px;
 }
 
 pre.debug {
