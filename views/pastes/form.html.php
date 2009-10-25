@@ -1,6 +1,13 @@
 <form method="POST">
 
-<?php if (isset($paste->_id) && isset($paste->_rev)) : ?>
+<?php
+$this->form->config(array('templates' => array('checkbox' =>
+	'<input type="hidden" name="{:name}" value="0" />
+	 <input type="checkbox" value="1" name="{:name}"{:options} />'
+)));
+
+
+if (isset($paste->_id) && isset($paste->_rev)) : ?>
 	<input type="hidden" name="Paste[_id]" value="<?=@$paste->_id;?>" />
 	<input type="hidden" name="Paste[_rev]" value="<?=@$paste->_rev;?>" />
 <?php endif;?>
