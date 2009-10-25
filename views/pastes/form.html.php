@@ -1,7 +1,7 @@
 <h2>Let there be paste!</h2>
 
 <form method="POST">
-	
+
 	<div class="section paste-content">
 		<div class="input textarea">
 			<textarea name="Paste[content]" rows="15"><?=@$paste->content;?></textarea>
@@ -10,7 +10,7 @@
 			'<p class="error">'.$paste->errors['content'].'</p>' : null;
 		?>
 	</div>
-	
+
 	<div class="section paste-meta">
 
 		<?php if (isset($paste->_id) && isset($paste->_rev)) : ?>

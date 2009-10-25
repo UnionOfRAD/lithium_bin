@@ -1,0 +1,31 @@
+Pastebin, an example app for Lithium a PHP 5.3 framework 
+
+This application is supply to function as an implementation example of lithium.
+For more information about it, please see http://rad-dev.org/lithium_bin , where
+you can also find the code to make sure you are up to date.
+
+REQUIREMENTS
+
+ - Lithium Core ( git clone code@rad-dev.org:lithium.git )
+ - php 5.3
+ - CouchDB (Tested with version 0.10.0)
+ - GeSHI 1.0.8.4 (originally supplied with this package)
+ 
+INSTALLATION
+
+Once you have set up the requirements above, go to 
+
+htpp:/localhost/[path to app]/latest 
+
+The "latest" view includes logic to create the database and couch view.
+If you have set up the application to know where to find Lithium 
+
+app/config/bootstrap.php  -> LITHIUM_LIBRARY_PATH
+
+This should make the app working with the following urls:
+
+ domain.com/    
+ domain.com/latest
+ domain.com/view/[paste id]
+ domain.com/add/[author]
+ domain.com/add/[author]/[language]
