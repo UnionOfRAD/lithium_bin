@@ -59,23 +59,25 @@ class Paste extends \lithium\core\StaticObject {
 	/**
 	 * Views Document
 	 */
-	protected static $_views = array(
-		'latest' => array(
-			'_id' => '_design/latest',
-			'language' => 'javascript',
-			'views' => array(
-				'all' => array(
-					'map' => 'function(doc) {
+protected static $_views = array(
+	'latest' => array(
+		'_id' => '_design/latest',
+		'language' => 'javascript',
+		'views' => array(
+			'all' => array(
+				'map' => 'function(doc) {
+					if (doc.permanent == "1") {
 						var preview = String.substring(doc.content, 0, 100);
-						emit(doc.author, {
+						emit(Date.parse(doc.created), {
 							author:doc.author, language:doc.language,
 							preview: preview, created: doc.created
 						});
-					}'
-				)
+					}
+				}'
 			)
 		)
-	);
+	)
+);
 
 	/*
 	* Validate the input data before saving to data
@@ -95,10 +97,6 @@ class Paste extends \lithium\core\StaticObject {
 		if (!in_array($data->language, static::$languages)) {
 			$data->errors['language'] =
 				'You have messed with the HTML that is not valid language';
-		}
-		if (!Validator::isBoolean($data->permanent)) {
-			$data->errors['permanent'] =
-				'You have messed with the HTML that is not a boolean';
 		}
 		return $data;
 	}
