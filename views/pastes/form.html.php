@@ -4,7 +4,7 @@
 
 	<div class="section paste-content">
 		<div class="input textarea">
-			<textarea name="Paste[content]" rows="15"><?=@$paste->content;?></textarea>
+			<textarea name="Paste[content]" rows="25"><?=@$paste->content;?></textarea>
 		</div>
 		<?=@(isset($paste->errors['content'])) ?
 			'<p class="error">'.$paste->errors['content'].'</p>' : null;
