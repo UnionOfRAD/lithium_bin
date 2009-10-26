@@ -44,6 +44,7 @@ class Paste extends \lithium\core\StaticObject {
 	/**
 	 *  Default values for document based db
 	 *
+	 * @todo remove 'remember' field when cookie logic is implemented
 	 * @var array
 	 */
 	protected static $_defaults = array(
@@ -51,7 +52,7 @@ class Paste extends \lithium\core\StaticObject {
 		'content' => null,
 		'parsed' => null,
 		'permanent' => false,
-		'remember' => false, /* @todo remove when cookie logic is implemented */
+		'remember' => false,
 		'language' => null,
 		'created' => '1979-07-26 08:05:00'
 	);
@@ -59,25 +60,25 @@ class Paste extends \lithium\core\StaticObject {
 	/**
 	 * Views Document
 	 */
-protected static $_views = array(
-	'latest' => array(
-		'_id' => '_design/latest',
-		'language' => 'javascript',
-		'views' => array(
-			'all' => array(
-				'map' => 'function(doc) {
-					if (doc.permanent == "1") {
-						var preview = String.substring(doc.content, 0, 100);
-						emit(Date.parse(doc.created), {
-							author:doc.author, language:doc.language,
-							preview: preview, created: doc.created
-						});
-					}
-				}'
+	protected static $_views = array(
+		'latest' => array(
+			'_id' => '_design/latest',
+			'language' => 'javascript',
+			'views' => array(
+				'all' => array(
+					'map' => 'function(doc) {
+						if (doc.permanent == "1") {
+							var preview = String.substring(doc.content, 0, 100);
+							emit(Date.parse(doc.created), {
+								author:doc.author, language:doc.language,
+								preview: preview, created: doc.created
+							});
+						}
+					}'
+				)
 			)
 		)
-	)
-);
+	);
 
 	/*
 	* Validate the input data before saving to data
