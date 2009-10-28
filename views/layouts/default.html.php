@@ -13,7 +13,6 @@
 	<title>Pastium <?=@$this->title(); ?></title>
 	<?=@$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?=@$this->html->style(array(
-		'http://li3.rad-dev.org/css/base.css', 
 		'http://li3.rad-dev.org/css/li3.css',
 		'bin'
 	)); ?>
@@ -57,7 +56,7 @@
 	<script type="text/javascript" charset="utf-8">
 		$(document).ready(function () {
 			li3.setupFooter();
-			<?php echo !empty($binJs) ? 'li3Bin.setup();' : null ; ?>
+			<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(($binText) ? 'true' : 'false' ).'});' : null ; ?>
 		});
 	</script>
 </body>

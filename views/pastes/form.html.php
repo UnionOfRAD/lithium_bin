@@ -22,12 +22,12 @@
 		<?=@(isset($paste->errors['author'])) ?
 			'<p class="error">'.$paste->errors['author'].'</p>' : null;
 		?>
-		<small>
+		<div class="checkbox">
 		<input type="hidden" name="Paste[remember]" value="0" />
 		<input type="checkbox" id="Paste.remember" value="1"
 			<?=($paste->remember) ? 'checked=checked' : null;?> name="Paste[remember]" /> &nbsp;
 		<label for="Paste.remember">Remember me</label>
-		</small>
+		</div>
 
 		<label for="Paste.language">Language</label>
 		<select id="Paste.language" name="Paste[language]" value="">
@@ -44,12 +44,12 @@
 		<?=@(isset($paste->errors['language'])) ?
 			'<p class="error">'.$paste->errors['language'].'</p>' : null;
 		?>
-		<small>
+		<div class="checkbox">
 		<input type="hidden" name="Paste[permanent]" value="0" />
 		<input type="checkbox" id="Paste.permanent" value="1"
 			<?=($paste->permanent) ? 'checked=checked' : null;?> name="Paste[permanent]" /> &nbsp;
 		<label for="Paste.permanent">Save this paste</label>
-		</small>
+		</div>
 		<input type="submit" value="Paste this" />
 	</div>
 	<div class="notice">

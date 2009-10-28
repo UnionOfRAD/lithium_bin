@@ -1,7 +1,14 @@
 var li3Bin = {
+	_config: {},
 	
-	setup: function() {
-		$('#clean').hide();
+	setup: function(options) {
+		this._config = options;
+		if (this._config.text) {
+			$('#paste').hide();
+			$('#clean').show();
+		} else {
+			$('#clean').hide();
+		}
 		this.setupColor();
 		this.setupContrast();
 		this.setupCodeSizers();
