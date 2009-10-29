@@ -1,5 +1,3 @@
-<h2>Let there be paste!</h2>
-
 <form method="POST">
 
 	<div class="section paste-content">

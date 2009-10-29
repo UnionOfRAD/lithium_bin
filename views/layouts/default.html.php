@@ -14,7 +14,7 @@
 	<?=@$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?=@$this->html->style(array(
 		'http://li3.rad-dev.org/css/li3.css',
-		'bin'
+		'pastium'
 	)); ?>
 	<?php
 		if (!empty($paste->language)) {
@@ -24,22 +24,22 @@
 	<?=@$this->scripts(); ?>
 </head>
 <body class="pastebin">
-
 	<div class="width-constraint">
 		<div class="article">
 			<h1>Pastium</h1>
 			<div class="nav tabs right">
 				<ul>
 					<li><?=@$this->html->link('Latest', array(
-						'controller' => 'pastes', 
+						'controller' => 'pastes',
 						'action' => 'index'
 					), array('class' => 'index'));?></li>
 					<li><?=@$this->html->link('New', array(
-						'controller' => 'pastes', 
+						'controller' => 'pastes',
 						'action' => 'add'
 					), array('class'=> 'paste'));?></li>
 				</ul>
 			</div>
+			<h2>Let there be paste!</h2>
 			<?=@$this->content();?>
 		</div>
 	</div>

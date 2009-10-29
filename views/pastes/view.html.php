@@ -1,11 +1,11 @@
 <?php if (empty($paste->author)) { ?>
-	<h2>This <strong><?=@$paste->language;?></strong> paste was created
+	<div class="author">This <strong><?=@$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
-		on <strong><?=@$paste->created;?></strong></h2>
+		on <strong><?=@$paste->created;?></strong>.</div>
 <?php } else  { ?>
-	<h2>This <strong><?=@$paste->language;?></strong> paste was created by
+	<div class="author">This <strong><?=@$paste->language;?></strong> paste was created by
 		<strong><?=@$paste->author;?></strong> on
-		<strong><?=@$paste->created;?></strong></h2>
+		<strong><?=@$paste->created;?></strong>.</div>
 <?php } ?>
 
 <div class="nav tabs light">

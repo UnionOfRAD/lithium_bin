@@ -1,5 +1,3 @@
-<h2>Latest Pastes</h2>
-
 <table class="pastes">
 	<tr>
 		<th>Paste</th>
