@@ -24,6 +24,7 @@
 	<?=@$this->scripts(); ?>
 </head>
 <body class="pastebin">
+<div id="container">
 	<div class="width-constraint">
 		<div class="article">
 			<h1>Pastium</h1>
@@ -43,21 +44,22 @@
 			<?=@$this->content();?>
 		</div>
 	</div>
-
-	<div class="footer" id="site-footer">
-		<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
-	</div>
-	<?=@$this->html->script(array(
-		'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
-		'http://li3.rad-dev.org/js/li3.js',
-		'http://li3.rad-dev.org/libraries/ZeroClipboard/ZeroClipboard.js',
-		'bin'
-	)); ?>
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function () {
-			li3.setupFooter();
-			<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(($binText) ? 'true' : 'false' ).'});' : null ; ?>
-		});
-	</script>
+	<div id="footer-spacer"></div>
+</div>
+<div class="footer" id="site-footer">
+	<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
+</div>
+<?=@$this->html->script(array(
+	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
+	'http://li3.rad-dev.org/js/li3.js',
+	'http://li3.rad-dev.org/libraries/ZeroClipboard/ZeroClipboard.js',
+	'bin'
+)); ?>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function () {
+		li3.setupFooter();
+		<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(($binText) ? 'true' : 'false' ).'});' : null ; ?>
+	});
+</script>
 </body>
 </html>
