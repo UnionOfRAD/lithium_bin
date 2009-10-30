@@ -13,7 +13,7 @@
 			</td>
 			<td class="preview"><?=$row->value->preview; ?></td>
 			<td><?=$row->value->author; ?></td>
-			<td><?=date('Y-m-d', strtotime($row->value->created)); ?></td>
+			<td><?=date('Y-m-d H:i', strtotime($row->value->created)); ?></td>
 		</tr>
 	<?php endforeach;?>
 	</tbody>
