@@ -44,6 +44,7 @@ class Paste extends \lithium\core\StaticObject {
 	/**
 	 *  Default values for document based db
 	 *
+	 * @todo remove 'remember' field when cookie logic is implemented
 	 * @var array
 	 */
 	protected static $_defaults = array(
@@ -51,7 +52,7 @@ class Paste extends \lithium\core\StaticObject {
 		'content' => null,
 		'parsed' => null,
 		'permanent' => false,
-		'remember' => false, /* @todo remove when cookie logic is implemented */
+		'remember' => false,
 		'language' => null,
 		'created' => '1979-07-26 08:05:00'
 	);
@@ -95,10 +96,6 @@ class Paste extends \lithium\core\StaticObject {
 		if (!in_array($data->language, static::$languages)) {
 			$data->errors['language'] =
 				'You have messed with the HTML that is not valid language';
-		}
-		if (!Validator::isBoolean($data->permanent)) {
-			$data->errors['permanent'] =
-				'You have messed with the HTML that is not a boolean';
 		}
 		return $data;
 	}
