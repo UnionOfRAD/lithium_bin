@@ -23,7 +23,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::latest(array('limit' => 10)));
+		return array('latest' => Paste::latest(array('limit' => 10, 'descending' => 'true')));
 	}
 
 	/**
