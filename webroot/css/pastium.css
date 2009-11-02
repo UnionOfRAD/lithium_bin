@@ -126,3 +126,6 @@ p.error {
 .nav .color span, .nav .contrast span, .nav .smaller span, .nav .bigger span, .nav .copy span, .nav .edit span {
 	display: none;
 }
+
+#clean code { border:none; }
+#clean.dark code { background:black; border:none; }
