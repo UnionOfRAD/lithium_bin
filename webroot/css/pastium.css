@@ -12,14 +12,18 @@
 
 .pastebin .section.paste-content {
 	display:block;
-	width: 680px;
+	width: 670px;
 	float: left;
 }
 .pastebin .section.paste-meta {
 	width: 200px;
 	float: left;
-	padding: 0 0 0 20px;
+	padding: 1em 0 1em 20px;
 	background: #f0f0f0;
+}
+
+.pastebin .section.paste-meta input[type=text] {
+	width:11.5em;
 }
 .pastebin .section.submit {
 	clear: both;
@@ -48,7 +52,8 @@ p.error {
 }
 
 .pastebin .textarea textarea {
-	width: 670px;
+	width: 630px;
+	margin:0;
 }
 
 .pastes {
