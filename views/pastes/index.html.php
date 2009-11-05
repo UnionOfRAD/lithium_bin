@@ -11,7 +11,7 @@ endif;
 			<?=$row->value->author?> @
 			<?=$row->value->created?> &middot;
 			<?=$row->value->language?>
-			<?=@$this->html->link('view', '/view/' . $row->id)?>
+			<?=$this->html->link('view', '/view/' . $row->id)?>
 			<p><?=$row->value->preview?></p>
 		</li>
 	<?php endforeach;?>
