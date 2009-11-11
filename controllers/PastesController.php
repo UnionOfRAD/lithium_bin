@@ -23,7 +23,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::latest(array('limit' => '10', 'descending' => 'true')));
+		return array('latest' => Paste::latest(array('limit' => 10, 'descending' => 'true')));
 	}
 
 	/**
@@ -41,12 +41,8 @@ class PastesController extends \lithium\action\Controller {
 		if ($paste == null) {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
-		$binText = false;
-		if ($paste->language == 'text') {
-			$binText = true;
-		}
 		$binJs = true;
-		return compact('paste','binText','binJs');
+		return compact('paste','binJs');
 	}
 
 	/**
