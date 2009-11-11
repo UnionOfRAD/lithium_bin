@@ -2,9 +2,9 @@
 
 	<div class="section paste-content">
 		<div class="input textarea">
-			<textarea name="Paste[content]" rows="25"><?=@$paste->content;?></textarea>
+			<textarea name="Paste[content]" rows="25"><?=$paste->content;?></textarea>
 		</div>
-		<?=@(isset($paste->errors['content'])) ?
+		<?php echo (isset($paste->errors['content'])) ?
 			'<p class="error">'.$paste->errors['content'].'</p>' : null;
 		?>
 	</div>
@@ -12,12 +12,12 @@
 	<div class="section paste-meta">
 
 		<?php if (isset($paste->_id) && isset($paste->_rev)) : ?>
-			<input type="hidden" name="Paste[_id]" value="<?=@$paste->_id;?>" />
-			<input type="hidden" name="Paste[_rev]" value="<?=@$paste->_rev;?>" />
+			<input type="hidden" name="Paste[_id]" value="<?=$paste->_id;?>" />
+			<input type="hidden" name="Paste[_rev]" value="<?=$paste->_rev;?>" />
 		<?php endif; ?>
 		<label for="Paste[author]">Name/Nick</label>
-		<input type="text" name="Paste[author]" value="<?=@$paste->author;?>" />
-		<?=@(isset($paste->errors['author'])) ?
+		<input type="text" name="Paste[author]" value="<?=$paste->author;?>" />
+		<?php echo (isset($paste->errors['author'])) ?
 			'<p class="error">'.$paste->errors['author'].'</p>' : null;
 		?>
 		<div class="checkbox">
@@ -39,7 +39,7 @@
 			}
 		?>
 		</select>
-		<?=@(isset($paste->errors['language'])) ?
+		<?php echo (isset($paste->errors['language'])) ?
 			'<p class="error">'.$paste->errors['language'].'</p>' : null;
 		?>
 		<div class="checkbox">

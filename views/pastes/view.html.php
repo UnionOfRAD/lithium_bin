@@ -1,11 +1,11 @@
 <?php if (empty($paste->author)) { ?>
-	<div class="author">This <strong><?=@$paste->language;?></strong> paste was created
+	<div class="author">This <strong><?=$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
-		on <strong><?=@$paste->created;?></strong>.</div>
+		on <strong><?=$paste->created;?></strong>.</div>
 <?php } else  { ?>
-	<div class="author">This <strong><?=@$paste->language;?></strong> paste was created by
-		<strong><?=@$paste->author;?></strong> on
-		<strong><?=@$paste->created;?></strong>.</div>
+	<div class="author">This <strong><?=$paste->language;?></strong> paste was created by
+		<strong><?=$paste->author;?></strong> on
+		<strong><?=$paste->created;?></strong>.</div>
 <?php } ?>
 
 <div class="nav tabs light">
@@ -36,7 +36,7 @@
 			</a>
 		</li>
 		<li>
-			<a class="edit" href="<?=@$this->_request->env('base');?>/edit/<?=@$paste->_id;
+			<a class="edit" href="<?=$this->_request->env('base');?>/edit/<?=$paste->_id;
 			?>" id="code-edit" title="Edit paste">
 				<span>Edit</span>
 			</a>
@@ -45,4 +45,4 @@
 </div>
 
 <div id="clean" class="section code" style="display:none;"><pre><code><?=$paste->content;?></code></pre></div>
-<div id="paste" class="section code"><?=@$paste->parsed;?></div>
+<div id="paste" class="section code"><?=$paste->parsed;?></div>
