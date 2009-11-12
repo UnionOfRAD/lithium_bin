@@ -54,6 +54,29 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);		
 		$result = $paste->validates();
 		$this->assertTrue($result);	
+		
+		$data = array(
+			'title' => 'Post',
+			'content' => '',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockPaste::create($data);		
+		$result = $paste->validates();
+		$this->assertFalse($result);	
+	}
+	
+	public function testSave() {
+		$data = array(
+			'title' => 'Post',
+			'content' => 'Lorem Ipsum',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockPaste::create($data);		
+		$result = $paste->save(null, array('validate' => false));
+		$this->assertTrue($result);	
+	
 	}
 	
 }
