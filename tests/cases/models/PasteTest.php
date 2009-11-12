@@ -43,36 +43,36 @@ class PasteTest extends \lithium\test\Unit {
 			'permanent',
 			'remember',  
 			'created',
-		);                           
+		);
 		$result = array_keys($paste->data());
-		$this->assertEqual($expected, $result);		
+		$this->assertEqual($expected, $result);
 		
 		$expected = 'Post';
 		$result = $paste->title;
-		$this->assertEqual($expected, $result);	
+		$this->assertEqual($expected, $result);
 		
 		$expected = 'Lorem Ipsum';
 		$result = $paste->content;
-		$this->assertEqual($expected, $result);	
+		$this->assertEqual($expected, $result);
 		
 		$expected = 'text';
 		$result = $paste->language;
-		$this->assertEqual($expected, $result);	
+		$this->assertEqual($expected, $result);
 		
 		$expected = 'alkemann';
 		$result = $paste->author;
-		$this->assertEqual($expected, $result);	
+		$this->assertEqual($expected, $result);
 		
-		$this->assertNull($paste->parsed);	
-		$this->assertFalse($paste->permanent);	
-		$this->assertFalse($paste->remember);	
+		$this->assertNull($paste->parsed);
+		$this->assertFalse($paste->permanent);
+		$this->assertFalse($paste->remember);
 		
 		$expected = '(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})';
-		$result = $paste->created;		
-		$this->assertPattern($expected, $result);	
+		$result = $paste->created;
+		$this->assertPattern($expected, $result);
 		
 	}
-		
+	
 	public function testValidation() {
 		$data = array(
 			'title' => 'Post',
@@ -80,9 +80,9 @@ class PasteTest extends \lithium\test\Unit {
 			'author' => 'alkemann',
 			'language' => 'text'
 		);
-		$paste = MockPaste::create($data);		
+		$paste = MockPaste::create($data);
 		$result = $paste->validates();
-		$this->assertTrue($result);	
+		$this->assertTrue($result);
 		
 		$data = array(
 			'title' => 'Post',
@@ -90,12 +90,12 @@ class PasteTest extends \lithium\test\Unit {
 			'author' => 'alkemann',
 			'language' => 'text'
 		);
-		$paste = MockPaste::create($data);		
+		$paste = MockPaste::create($data);
 		$result = $paste->validates();
-		$this->assertFalse($result);	
+		$this->assertFalse($result);
 	}
 
-	public function testValidationErrors() {		
+	public function testValidationErrors() {
 		$data = array(
 			'title' => 'Post',
 			'content' => '',
@@ -104,7 +104,7 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$paste = MockPaste::create($data);
 		$result = $paste->validates();
-		$this->assertFalse($result);	
+		$this->assertFalse($result);
 
 		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
 		$expected = array(
@@ -113,9 +113,9 @@ class PasteTest extends \lithium\test\Unit {
 			'language' => 'You have messed with the HTML that is not valid language'
 		);
 		$result = $paste->errors->data();
-		$this->assertEqual($expected, $result);	
+		$this->assertEqual($expected, $result);
 	}
-	        
+
 	public function testSave() {
 		$data = array(
 			'title' => 'Post',
@@ -123,12 +123,11 @@ class PasteTest extends \lithium\test\Unit {
 			'author' => 'alkemann',
 			'language' => 'text'
 		);
-		$paste = MockPaste::create($data);		
+		$paste = MockPaste::create($data);
 		$result = $paste->save();
-		$this->assertTrue($result);	
-		var_dump($paste);
-	}  
-	
+		$this->assertTrue($result);
+	}
+
 }
 
 ?>
