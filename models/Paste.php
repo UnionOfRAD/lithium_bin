@@ -39,8 +39,7 @@ class Paste extends \lithium\data\Model {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected $_meta = array(
-		'key' => '_id',
+	protected $_meta = array(    
 		'source' => 'lithium_bin'
 	);
 

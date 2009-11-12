@@ -118,7 +118,19 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->errors;
 		$this->assertEqual($expected, $result);	
 	}
-	          
+	        
+	public function testSave() {
+		$data = array(
+			'title' => 'Post',
+			'content' => 'Lorem Ipsum',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockPaste::create($data);		
+		$result = $paste->save();
+		$this->assertTrue($result);	
+		var_dump($paste);
+	}  
 	
 }
 
