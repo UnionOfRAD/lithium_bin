@@ -3,6 +3,7 @@
 namespace app\models;
 
 use \Geshi;
+use \lithium\data\model\Document;
 use \lithium\util\Validator;
 use \lithium\data\Connections;
 
@@ -90,10 +91,9 @@ class Paste extends \lithium\data\Model {
 	 */
 	public static function create($data = array()) {
 		$data += static::$_defaults;
-		$data['created'] = date('Y-m-d h:m:s');  
-		$class = '\lithium\data\model\Document';
+		$data['created'] = date('Y-m-d h:m:s'); 
 		$model = get_called_class();
-		return new $class(compact('model', 'data'));    
+		return new Document(compact('model', 'data'));
 	}
 	
 	/*
