@@ -17,11 +17,11 @@ class PasteTest extends \lithium\test\Unit {
 	public function setUp() {
 		MockPaste::schema();
 	}
-	
+
 	public function tearDown() {
-	
+
 	}
-	
+
 	public function testCreate() {
 		$data = array(
 			'title' => 'Post',
@@ -30,10 +30,10 @@ class PasteTest extends \lithium\test\Unit {
 			'author' => 'alkemann'
 		);
 		$paste = MockPaste::create($data);
-		
+
 		$result = $paste->exists();
 		$this->assertFalse($result);
-		
+
 		$expected = array(
 			'title',
 			'content',
@@ -41,38 +41,38 @@ class PasteTest extends \lithium\test\Unit {
 			'author',
 			'parsed',
 			'permanent',
-			'remember',  
+			'remember',
 			'created',
 		);
 		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);
-		
+
 		$expected = 'Post';
 		$result = $paste->title;
 		$this->assertEqual($expected, $result);
-		
+
 		$expected = 'Lorem Ipsum';
 		$result = $paste->content;
 		$this->assertEqual($expected, $result);
-		
+
 		$expected = 'text';
 		$result = $paste->language;
 		$this->assertEqual($expected, $result);
-		
+
 		$expected = 'alkemann';
 		$result = $paste->author;
 		$this->assertEqual($expected, $result);
-		
+
 		$this->assertNull($paste->parsed);
 		$this->assertFalse($paste->permanent);
 		$this->assertFalse($paste->remember);
-		
+
 		$expected = '(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})';
 		$result = $paste->created;
 		$this->assertPattern($expected, $result);
-		
+
 	}
-	
+
 	public function testValidation() {
 		$data = array(
 			'title' => 'Post',
@@ -83,7 +83,7 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);
 		$result = $paste->validates();
 		$this->assertTrue($result);
-		
+
 		$data = array(
 			'title' => 'Post',
 			'content' => '',
