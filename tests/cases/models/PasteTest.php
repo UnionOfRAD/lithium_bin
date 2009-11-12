@@ -94,10 +94,9 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->validates();
 		$this->assertFalse($result);	
 		
-		$expected = array(
-			'content' => 'This field can not be left empty'
-		);
-		$result = $paste->errors;
+		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
+		$expected = 'This field can not be left empty';
+		$result = $paste->errors->content;
 		$this->assertEqual($expected, $result);	
 		
 		$data = array(
@@ -106,10 +105,11 @@ class PasteTest extends \lithium\test\Unit {
 			'author' => 'Tom Good',
 			'language' => 'nose'
 		);
-		$paste = MockPaste::create($data);		
+		$paste = MockPaste::create($data);
 		$result = $paste->validates();
 		$this->assertFalse($result);	
-		
+
+		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
 		$expected = array(
 			'author' => 'This field can only be alphanumeric',
 			'content' => 'This field can not be left empty',
