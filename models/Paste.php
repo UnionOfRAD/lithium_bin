@@ -91,7 +91,9 @@ class Paste extends \lithium\data\Model {
 	public static function create($data = array()) {
 		$data += static::$_defaults;
 		$data['created'] = date('Y-m-d h:m:s');  
-		return parent::create($data);
+		$class = '\lithium\data\model\Document';
+		$model = get_called_class();
+		return new $class(compact('model', 'data'));    
 	}
 	
 	/*
