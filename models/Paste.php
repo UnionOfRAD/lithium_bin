@@ -53,9 +53,9 @@ class Paste extends \lithium\data\Model {
 		'author' => null,
 		'content' => null,
 		'parsed' => null,
-		'permanent' => false,
-		'remember' => false,
-		'language' => null,
+		'permanent' => 0,
+		'remember' => 0,
+		'language' => 'text',
 		'created' => '1979-07-26 08:05:00'
 	);
 
