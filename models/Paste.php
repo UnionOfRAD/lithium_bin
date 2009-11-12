@@ -89,22 +89,24 @@ class Paste extends \lithium\data\Model {
 	* @return stdClass
 	*/
 	public function validates($record, $options = array()) {
-		$success = true;
+		$success = true; $errors = array();
 		if (!Validator::isAlphaNumeric($record->author)) {
 			$success = false;
-		//	$record->errors['author'] =
-		//		'This field can only be alphanumeric';
+			$errors['author'] =
+				'This field can only be alphanumeric';
 		}
 		if (!Validator::isNotEmpty($record->content)) {
 			$success = false;
-		//	$record->errors['content'] =
-		//		'This field can not be left empty';
+			$errors['content'] =
+				'This field can not be left empty';
 		}
 		if (!in_array($record->language, static::$languages)) {
 			$success = false;
-		//	$record->errors['language'] =
-		//		'You have messed with the HTML that is not valid language';
+			$errors['language'] =
+				'You have messed with the HTML that is not valid language';
 		}
+		if (!$success) 
+			$record->set(array('errors' => $errors));
 		return $success;
 	}
 
