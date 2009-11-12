@@ -37,13 +37,13 @@ class PasteTest extends \lithium\test\Unit {
 		$expected = array(
 			'title',
 			'content',
+			'language',
 			'author',
 			'parsed',
 			'permanent',
-			'remember',
-			'language',
+			'remember',  
 			'created',
-		);
+		);                           
 		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);		
 		
@@ -99,20 +99,26 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$result = $paste->errors;
 		$this->assertEqual($expected, $result);	
-	}
-	
-	public function testSave() {
+		
 		$data = array(
 			'title' => 'Post',
-			'content' => 'Lorem Ipsum',
-			'author' => 'alkemann',
-			'language' => 'text'
+			'content' => '',
+			'author' => 'Tom Good',
+			'language' => 'nose'
 		);
 		$paste = MockPaste::create($data);		
-		$result = $paste->save(null, array('validate' => false));
-		$this->assertTrue($result);	
-	
+		$result = $paste->validates();
+		$this->assertFalse($result);	
+		
+		$expected = array(
+			'author' => 'This field can only be alphanumeric',
+			'content' => 'This field can not be left empty',
+			'language' => 'You have messed with the HTML that is not valid language'
+		);
+		$result = $paste->errors;
+		$this->assertEqual($expected, $result);	
 	}
+	          
 	
 }
 
