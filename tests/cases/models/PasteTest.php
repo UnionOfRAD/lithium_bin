@@ -67,9 +67,9 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertFalse($paste->permanent);	
 		$this->assertFalse($paste->remember);	
 		
-		$expected = ''; //date regex
+		$expected = '(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})';
 		$result = $paste->created;		
-		//$this->assertRegex($expected, $result);	
+		$this->assertPattern($expected, $result);	
 		
 	}
 		
