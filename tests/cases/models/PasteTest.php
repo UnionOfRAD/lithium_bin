@@ -9,6 +9,9 @@ class MockPaste extends \app\models\Paste {
 		'connection' => 'test'
 	);
 
+	public function classes() {
+		return $this->_classes;
+	}
 }
 
 
@@ -20,6 +23,23 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function tearDown() {
 
+	}
+
+	public function testUsesDocument() {
+		$paste = new MockPaste();
+
+		$expected = array(
+	      'query' => '\lithium\data\model\Query',
+	      'record' => '\lithium\data\model\Document',
+	      'validator' => '\lithium\util\Validator',
+	      'recordSet' => '\lithium\data\model\RecordSet',
+	      'connections' => '\lithium\data\Connections'
+		);
+		$result = $paste->classes();
+		$this->assertEqual($expected, $result);
+
+		$doc = MockPaste::create();
+		$this->assertTrue(is_a($doc, '\lithium\data\model\Document'));
 	}
 
 	public function testCreate() {
@@ -106,6 +126,9 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->validates();
 		$this->assertFalse($result);
 
+		$this->assertTrue(is_a($paste, '\lithium\data\model\Document'),
+			'Paste isnt a Document');
+		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
 		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
 		$expected = array(
 			'author' => 'This field can only be alphanumeric',
@@ -126,6 +149,13 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);
 		$result = $paste->save();
 		$this->assertTrue($result);
+	}
+
+	public function stestRead() {
+		$paste = MockPaste::find('first', array(
+			'_id' => 'dd5f119b503daccbfc07b0f2cfb549c2'
+		));
+		var_dump($paste);
 	}
 
 }

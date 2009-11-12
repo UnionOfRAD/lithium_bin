@@ -40,7 +40,7 @@ class Paste extends \lithium\data\Model {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected $_meta = array(    
+	protected $_meta = array(
 		'source' => 'lithium_bin'
 	);
 
@@ -91,11 +91,10 @@ class Paste extends \lithium\data\Model {
 	 */
 	public static function create($data = array()) {
 		$data += static::$_defaults;
-		$data['created'] = date('Y-m-d h:m:s'); 
-		$model = get_called_class();
-		return new Document(compact('model', 'data'));
+		$data['created'] = date('Y-m-d h:m:s');
+		return parent::create($data);
 	}
-	
+
 	/*
 	* Validate the input data before saving to data
 	* Validates author, content, language, permanent
@@ -118,10 +117,10 @@ class Paste extends \lithium\data\Model {
 			$success = false;
 			$errors['language'] = 'You have messed with the HTML that is not valid language';
 		}
-		if (!$success) 
+		if (!$success)
 			$record->set(array('errors' => $errors));
 		return $success;
 	}
-  
+
 }
 ?>
