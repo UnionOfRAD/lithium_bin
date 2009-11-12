@@ -40,6 +40,7 @@ class Paste extends \lithium\data\Model {
 	 *		- source : the name of the table (called database in couchdb)
 	 */
 	protected $_meta = array(
+		'key' => '_id',
 		'source' => 'lithium_bin'
 	);
 
@@ -83,11 +84,10 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	 * Create a stdClass data object with default values
-	 * optionally include start values of your own.
+	 *  Sets default values and calls the parent create()
 	 *
 	 * @param array $data of field values to start with
-	 * @return stdClass a dataobject
+	 * @return Document
 	 */
 	public static function create($data = array()) {
 		$data += static::$_defaults;
@@ -99,7 +99,9 @@ class Paste extends \lithium\data\Model {
 	* Validate the input data before saving to data
 	* Validates author, content, language, permanent
 	*
-	* @return stdClass
+	* @param $record Document instance
+	* @param $options array
+	* @return boolean
 	*/
 	public function validates($record, $options = array()) {
 		$success = true; $errors = array();
