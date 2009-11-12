@@ -17,7 +17,7 @@ use \lithium\data\Connections;
  * @package	lithium_bin
  * @author	alkemann
  */
-class Paste extends \lithium\core\StaticObject {
+class Paste extends \lithium\data\Model {
 
 	/**
 	 * public name of the model
@@ -39,7 +39,9 @@ class Paste extends \lithium\core\StaticObject {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected static $_meta = array('source' => 'lithium_bin');
+	protected $_meta = array(
+		'source' => 'lithium_bin'
+	);
 
 	/**
 	 *  Default values for document based db
@@ -60,7 +62,7 @@ class Paste extends \lithium\core\StaticObject {
 	/**
 	 * Views Document
 	 */
-	protected static $_views = array(
+	public static $_views = array(
 		'latest' => array(
 			'_id' => '_design/latest',
 			'language' => 'javascript',
@@ -112,7 +114,7 @@ class Paste extends \lithium\core\StaticObject {
 	 * @param boolean $validate
 	 * @return stdClass
 	 */
-	public static function save($data, $validate = true) {
+	public static function ssave($data, $validate = true) {
 		$defaults = array(
 			'validates' => true, 'errors' => array(), 'saved' => false, 'parsed' => null
 		);
@@ -155,7 +157,7 @@ class Paste extends \lithium\core\StaticObject {
 	 * @param array $data of field values to start with
 	 * @return stdClass a dataobject
 	 */
-	public static function create($data = array()) {
+	public static function screate($data = array()) {
 		$data += static::$_defaults;
 		$data['created'] = date('Y-m-d h:m:s');
 		$data += array('errors' => array());
