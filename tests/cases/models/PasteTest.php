@@ -115,7 +115,7 @@ class PasteTest extends \lithium\test\Unit {
 			'content' => 'This field can not be left empty',
 			'language' => 'You have messed with the HTML that is not valid language'
 		);
-		$result = $paste->errors;
+		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);	
 	}
 	        
