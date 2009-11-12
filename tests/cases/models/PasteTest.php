@@ -93,12 +93,9 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);		
 		$result = $paste->validates();
 		$this->assertFalse($result);	
-		
-		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
-		$expected = 'This field can not be left empty';
-		$result = $paste->errors->content;
-		$this->assertEqual($expected, $result);	
-		
+	}
+
+	public function testValidationErrors() {		
 		$data = array(
 			'title' => 'Post',
 			'content' => '',
