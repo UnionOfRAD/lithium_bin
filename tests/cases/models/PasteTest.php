@@ -33,21 +33,29 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function setUpTasks($setUpTasks) {
 		foreach ($setUpTasks as $task) {
-			$this->{$task}();
+			$this->{'_task'.$task}();
 		}
 	}
 
 	public function tearDownTasks($tearDownTasks) {
 		foreach ($tearDownTasks as $task) {
-			$this->{$task}();
+			$this->{'_task'.$task}();
 		}
 	}
 
-	protected function taskPutTable() {
+	protected function _taskPutTable() {
 		Connections::get("test")->put('/test_pastes');
 	}
 
-	protected function taskDeleteTable() {
+	protected function _taskFillTable() {
+		Connections::get("test")->put('/test_pastes/abcd1', array(
+			'_id' => 'abcd1',
+			'author' => 'alkemann',
+			'content' => 'Lorem Ipsum'
+		));
+	}
+
+	protected function _taskDeleteTable() {
         Connections::get("test")->delete(new Query(
        		array('model' => '\app\tests\cases\models\MockPaste')
         ));
@@ -168,7 +176,7 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	public function testSave() {
-		$this->setUpTasks(array('taskPutTable'));
+		$this->setUpTasks(array('PutTable'));
 
 		$data = array(
 			'title' => 'Post',
@@ -178,10 +186,12 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$paste = MockPaste::create($data);
 		$result = $paste->save();
+
 		$this->assertTrue($result);
 
-		$this->setUpTasks(array('taskDeleteTable'));
+		$this->setUpTasks(array('DeleteTable'));
 	}
+
 
 }
 
