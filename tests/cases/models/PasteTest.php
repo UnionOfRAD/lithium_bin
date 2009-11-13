@@ -198,7 +198,10 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::find('first', array('conditions' =>
 			array('_id' => 'abcd1')
 		));
-                            
+
+		$result = $paste->exists();
+		$this->assertTrue($result);
+
 		$document = $paste->next();
 		$data = $document->data();
 
@@ -213,8 +216,19 @@ class PasteTest extends \lithium\test\Unit {
 		$this->setUpTasks(array('DeleteTable'));
 	}
 
+	public function testReadNotFound() {
+		$this->setUpTasks(array('PutTable'));
+
+		$result = MockPaste::find('first', array('conditions' =>
+			array('_id' => 'abcd1')
+		));
+        $this->assertNull($result);
+
+		$this->setUpTasks(array('DeleteTable'));
+	}
+
 	public function methods() {
-		return array('testRead');
+		return array('testRead', 'testReadNotFound');
 	}
 }
 
