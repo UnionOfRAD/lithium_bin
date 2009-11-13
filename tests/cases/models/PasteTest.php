@@ -31,13 +31,25 @@ class MockPaste extends \app\models\Paste {
 
 class PasteTest extends \lithium\test\Unit {
 
-	public function setUp() {
-        Connections::get("test")->put('/test_pastes');
+	public function setUpTasks($setUpTasks) {
+		foreach ($setUpTasks as $task) {
+			$this->{$task}();
+		}
 	}
 
-	public function tearDown() {
+	public function tearDownTasks($tearDownTasks) {
+		foreach ($tearDownTasks as $task) {
+			$this->{$task}();
+		}
+	}
+
+	protected function taskPutTable() {
+		Connections::get("test")->put('/test_pastes');
+	}
+
+	protected function taskDeleteTable() {
         Connections::get("test")->delete(new Query(
-       	 array('model' => '\app\tests\cases\models\MockPaste')
+       		array('model' => '\app\tests\cases\models\MockPaste')
         ));
 	}
 
@@ -156,6 +168,8 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	public function testSave() {
+		$this->setUpTasks(array('taskPutTable'));
+
 		$data = array(
 			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
@@ -165,8 +179,9 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);
 		$result = $paste->save();
 		$this->assertTrue($result);
-	}
 
+		$this->setUpTasks(array('taskDeleteTable'));
+	}
 
 }
 
