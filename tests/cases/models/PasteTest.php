@@ -2,10 +2,24 @@
 
 namespace app\tests\cases\models;
 
+use \lithium\data\Connections;
+use \lithium\data\model\Query;
+
 class MockPaste extends \app\models\Paste {
 
+	/**
+	* @todo remove when Model problem with adapter is fixed in core
+	*/
+	protected $_classes = array(
+	  'query' => '\lithium\data\model\Query',
+	  'record' => '\lithium\data\model\Document',
+	  'validator' => '\lithium\util\Validator',
+	  'recordSet' => '\lithium\data\model\Document',
+	  'connections' => '\lithium\data\Connections'
+	);
+
 	protected $_meta = array(
-		'source' => 'pastes',
+		'source' => 'test_pastes',
 		'connection' => 'test'
 	);
 
@@ -18,11 +32,13 @@ class MockPaste extends \app\models\Paste {
 class PasteTest extends \lithium\test\Unit {
 
 	public function setUp() {
-		MockPaste::schema();
+        Connections::get("test")->put('/test_pastes');
 	}
 
 	public function tearDown() {
-
+        Connections::get("test")->delete(new Query(
+       	 array('model' => '\app\tests\cases\models\MockPaste')
+        ));
 	}
 
 	public function testUsesDocument() {
@@ -32,7 +48,7 @@ class PasteTest extends \lithium\test\Unit {
 	      'query' => '\lithium\data\model\Query',
 	      'record' => '\lithium\data\model\Document',
 	      'validator' => '\lithium\util\Validator',
-	      'recordSet' => '\lithium\data\model\RecordSet',
+	      'recordSet' => '\lithium\data\model\Document',
 	      'connections' => '\lithium\data\Connections'
 		);
 		$result = $paste->classes();
@@ -151,12 +167,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 	}
 
-	public function stestRead() {
-		$paste = MockPaste::find('first', array(
-			'_id' => 'dd5f119b503daccbfc07b0f2cfb549c2'
-		));
-		var_dump($paste);
-	}
 
 }
 
