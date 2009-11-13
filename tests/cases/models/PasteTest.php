@@ -192,7 +192,21 @@ class PasteTest extends \lithium\test\Unit {
 		$this->setUpTasks(array('DeleteTable'));
 	}
 
+	public function testRead() {
+		$this->setUpTasks(array('PutTable','FillTable'));
 
+		$paste = MockPaste::find('first', array('conditions' =>
+			array('_id' => 'abcd1')
+		));
+
+		var_dump($paste);
+
+		$this->setUpTasks(array('DeleteTable'));
+	}
+
+	public function methods() {
+		return array('testRead');
+	}
 }
 
 ?>
