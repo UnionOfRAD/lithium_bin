@@ -10,12 +10,14 @@ use \lithium\data\Connections;
 
 Connections::add('default', 'http', array(
 	'adapter' => 'CouchDb',
-	'host' => '127.0.0.1'
+	'host' => '127.0.0.1',
+	'port' => '5984'
 ));
 
 Connections::add('test', 'http', array(
 	'adapter' => 'CouchDb',
 	'host' => '127.0.0.1',
-	'prefix' => 'test_'
+	'prefix' => 'test_',
+	'port' => '5984'
 ));
 ?>
