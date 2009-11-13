@@ -47,7 +47,7 @@ class PasteTest extends \lithium\test\Unit {
 		Connections::get("test")->put('/test_pastes');
 	}
 
-	protected function _taskFillTable() {
+	protected function _taskFillTableSimple() {
 		Connections::get("test")->put('/test_pastes/abcd1', array(
 			'_id' => 'abcd1',
 			'author' => 'alkemann',
@@ -193,13 +193,22 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	public function testRead() {
-		$this->setUpTasks(array('PutTable','FillTable'));
+		$this->setUpTasks(array('PutTable','FillTableSimple'));
 
 		$paste = MockPaste::find('first', array('conditions' =>
 			array('_id' => 'abcd1')
 		));
+                            
+		$document = $paste->next();
+		$data = $document->data();
 
-		var_dump($paste);
+		$expected = array('_id','_rev','author','content');
+		$result = array_keys($data);
+		$this->assertEqual($expected, $result);
+
+		$expected = 'alkemann';
+		$result = $document->author;
+		$this->assertEqual($expected, $result);
 
 		$this->setUpTasks(array('DeleteTable'));
 	}
