@@ -206,11 +206,9 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	public function testRead() {
-		$this->setUpTasks(array('PutTable','FillTableSimple'));
+		$this->setUpTasks(array('PutTable','SaveOneRecord'));
 
-		$paste = MockPaste::find('first', array('conditions' =>
-			array('_id' => 'abcd1')
-		));
+		$paste = MockPaste::find('abcd1');
 
 		$result = $paste->exists();
 		$this->assertTrue($result);
@@ -218,7 +216,11 @@ class PasteTest extends \lithium\test\Unit {
 		$document = $paste->next();
 		$data = $document->data();
 
-		$expected = array('_id','_rev','author','content');
+		$expected = array(
+			'_id','_rev','title','content',
+			'author','language','parsed',
+			'permanent','remember','created'
+		);
 		$result = array_keys($data);
 		$this->assertEqual($expected, $result);
 
@@ -232,17 +234,12 @@ class PasteTest extends \lithium\test\Unit {
 	public function testReadNotFound() {
 		$this->setUpTasks(array('PutTable'));
 
-		$result = MockPaste::find('first', array('conditions' =>
-			array('_id' => 'abcd1')
-		));
+		$result = MockPaste::find('abcd1');
         $this->assertNull($result);
 
 		$this->setUpTasks(array('DeleteTable'));
 	}
 
-	public function methods() {
-		return array('testRead', 'testReadNotFound');
-	}
 }
 
 ?>
