@@ -19,6 +19,7 @@ class MockPaste extends \app\models\Paste {
 	);
 
 	protected $_meta = array(
+		'key' => '_id',
 		'source' => 'test_pastes',
 		'connection' => 'test'
 	);
@@ -59,6 +60,18 @@ class PasteTest extends \lithium\test\Unit {
         Connections::get("test")->delete(new Query(
        		array('model' => '\app\tests\cases\models\MockPaste')
         ));
+	}
+
+	protected function _taskSaveOneRecord() {
+		$data = array(
+			'_id' => 'abcd1',
+			'title' => 'Post',
+			'content' => 'Lorem Ipsum',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockPaste::create($data);
+		$paste->save();
 	}
 
 	public function testUsesDocument() {
