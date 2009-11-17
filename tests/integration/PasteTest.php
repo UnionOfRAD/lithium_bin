@@ -135,7 +135,7 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	protected function _taskPutView() {
-		$paste = MockPaste::createView()->save();
+		MockPaste::createView()->save();
 	}
 
 	public function testSave() {

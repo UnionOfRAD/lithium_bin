@@ -82,6 +82,14 @@ class Paste extends \lithium\data\Model {
 		)
 	);
 
+	/**
+	* Used to create and then save the design view 'latest' to couch, ie:
+	* {{{
+	* 	Paste::createView()->save();
+	* }}}
+	*
+	* @return Document
+	*/
 	public static function createView() {
 		return parent::create(static::$_views['latest']);
 	}
