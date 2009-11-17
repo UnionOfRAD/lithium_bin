@@ -9,6 +9,8 @@
  * @copyright     Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
+
+echo $xml->header();
+echo $content_for_layout;
+
 ?>
-<?php echo $xml->header(); ?>
-<?php echo $content_for_layout; ?>
