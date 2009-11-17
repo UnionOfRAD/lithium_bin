@@ -7,9 +7,9 @@ $this->form->config(array('templates' => array('checkbox' =>
 )));
 
 
-if (isset($paste->_id) && isset($paste->_rev)) : ?>
-	<input type="hidden" name="Paste[_id]" value="<?=$paste->_id;?>" />
-	<input type="hidden" name="Paste[_rev]" value="<?=$paste->_rev;?>" />
+if (isset($paste->id) && isset($paste->rev)) : ?>
+	<input type="hidden" name="Paste[id]" value="<?=$paste->id;?>" />
+	<input type="hidden" name="Paste[rev]" value="<?=$paste->rev;?>" />
 <?php endif;?>
 
 <?php
