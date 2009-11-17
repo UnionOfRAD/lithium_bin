@@ -82,8 +82,8 @@ class Paste extends \lithium\data\Model {
 		)
 	);
 
-	public static function createView($view) {
-		return parent::create(static::$_views[$view]);
+	public static function createView() {
+		return parent::create(static::$_views['latest']);
 	}
 
 	/**
