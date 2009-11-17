@@ -89,25 +89,25 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['_id'] = 'a8';
-		$data['created'] = '2009-01-01 01:01:10';
+		$data['created'] = '2009-01-01 01:01:13';
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['_id'] = 'a9';
 		$data['created'] = '2009-01-01 01:01:06';
 		$paste = MockPaste::create($data);
 		$paste->save();
+		$data['permanent'] = false;
 		$data['_id'] = 'a10';
 		$data['created'] = '2009-01-01 01:01:09';
 		$paste = MockPaste::create($data);
 		$paste->save();
+		$data['permanent'] = true;
 		$data['_id'] = 'a11';
-		$data['permanent'] = false;
 		$data['created'] = '2009-01-01 01:01:08';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['permanent'] = true;
 		$data['_id'] = 'a12';
-		$data['created'] = '2009-01-01 01:01:13';
+		$data['created'] = '2009-01-01 01:01:12';
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['_id'] = 'a13';
@@ -196,7 +196,8 @@ class PasteTest extends \lithium\test\Unit {
 		$latest = MockPaste::find('all', array('conditions'=> array(
 			'design' => 'latest',
 			'view' => 'all',
-			'limit' => '10'
+			'limit' => '10',
+			'descending' => 'true'
 		)));
 		$result = $latest instanceof \lithium\data\model\Document;
 
@@ -209,23 +210,31 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertEqual($expected, $result);
 
 		$first = $latest->rewind();
-		$expected = 'a13';
+		$expected = 'a8';
 		$result = $first->_id;
 		$this->assertEqual($expected, $result);
 
 		$next = $latest->next();
-		$expected = 'a2';
-		$result = $first->_id;
+		$expected = 'a12';
+		$result = $next->_id;
+		$this->assertEqual($expected, $result);
+		$next = $latest->next();
+
+		$expected = 'a7';
+		$result = $next->_id;
 		$this->assertEqual($expected, $result);
 
 		$next = $latest->next();
+		$expected = 'a1';
+		$result = $next->_id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+		$expected = 'a11';
+		$result = $next->_id;
+		$this->assertEqual($expected, $result);
 
 		$this->setUpTasks(array('DeleteTable'));
-
-	}
-
-	public function methods() {
-		return array('testLatestView');
 	}
 
 }
