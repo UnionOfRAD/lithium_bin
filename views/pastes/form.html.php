@@ -7,9 +7,9 @@ $this->form->config(array('templates' => array('checkbox' =>
 )));
 
 
-if (isset($paste->_id) && isset($paste->_rev)) : ?>
-	<input type="hidden" name="Paste[_id]" value="<?=@$paste->_id;?>" />
-	<input type="hidden" name="Paste[_rev]" value="<?=@$paste->_rev;?>" />
+if (isset($paste->id) && isset($paste->rev)) : ?>
+	<input type="hidden" name="Paste[id]" value="<?=$paste->id;?>" />
+	<input type="hidden" name="Paste[rev]" value="<?=$paste->rev;?>" />
 <?php endif;?>
 
 <?php
@@ -30,7 +30,6 @@ if (isset($paste->_id) && isset($paste->_rev)) : ?>
 	echo $this->form->label('Paste.remember', ' remember');
 ?>
 <br><br>
-
 <?php
 	echo $this->form->label('Paste.content', 'What do you have to say?', array(
 		'class' => 'required'
@@ -56,9 +55,6 @@ if (isset($paste->_id) && isset($paste->_rev)) : ?>
 		echo '<p style="color:red">'.$paste->errors['language'].'</p>';
 	}
 
-?>
-
-<?php
 	echo $this->form->checkbox('Paste[permanent]', array(
 		'id' => 'Paste.permanent'
 	));

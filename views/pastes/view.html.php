@@ -11,10 +11,10 @@
 	<p>
 		<a href="#" id="toggle">clean</a> &middot;
 		<a href="#">copy</a> &middot;
-		<?=@$this->html->link('edit', array(
+		<?php echo $this->html->link('edit', array(
 			'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->_id)
 		));?>
 	</p>
 	<div id="clean" ><pre><code><?=$paste->content;?></code></pre></div>
-	<div id="paste"><?=@$paste->parsed;?></div>
+	<div id="paste"><?php echo $paste->parsed;?></div>
 </div>

@@ -8,9 +8,16 @@
 
 use \lithium\data\Connections;
 
-Connections::add('couch', 'http', array(
-	'adapter' => 'Couch',
+Connections::add('default', 'http', array(
+	'adapter' => 'CouchDb',
 	'host' => '127.0.0.1',
-	'port' => 5984,
+	'port' => '5984'
+));
+
+Connections::add('test', 'http', array(
+	'adapter' => 'CouchDb',
+	'host' => '127.0.0.1',
+	'prefix' => 'test_',
+	'port' => '5984'
 ));
 ?>

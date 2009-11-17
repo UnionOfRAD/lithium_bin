@@ -6,13 +6,13 @@ if ($latest == null):
 endif;
 ?>
 <ul class="latest">
-	<?php foreach($latest->rows as $row): ?>
+	<?php foreach($latest as $row): ?>
 		<li>
-			<?=$row->value->author?> @
-			<?=$row->value->created?> &middot;
-			<?=$row->value->language?>
-			<?=@$this->html->link('view', '/view/' . $row->id)?>
-			<p><?=$row->value->preview?></p>
+			<?=$row->author?> @
+			<?=$row->created?> &middot;
+			<?=$row->language?>
+			<?php echo $this->html->link('view', '/view/' . $row->id)?>
+			<p><?=$row->preview?></p>
 		</li>
 	<?php endforeach;?>
 </ul>

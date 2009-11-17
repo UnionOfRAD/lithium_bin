@@ -20,9 +20,10 @@
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->script(array('jquery-1.3.2.min.js', 'ZeroClipboard.js', 'bin.js')); ?>
 	<?php
-		if (!empty($paste->language)) {
+		if (isset($paste) && $paste->language) {
 			echo $this->html->style('syntax.' . $paste->language);
-		}?>
+		}
+	?>
 </head>
 <body>
 	<div id="container">

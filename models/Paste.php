@@ -3,8 +3,8 @@
 namespace app\models;
 
 use \Geshi;
+use \lithium\data\model\Document;
 use \lithium\util\Validator;
-use \lithium\data\Connections;
 
 /**
  * Data model for access the pastebin documents.
@@ -17,7 +17,7 @@ use \lithium\data\Connections;
  * @package	lithium_bin
  * @author	alkemann
  */
-class Paste extends \lithium\core\StaticObject {
+class Paste extends \lithium\data\Model {
 
 	/**
 	 * public name of the model
@@ -39,7 +39,9 @@ class Paste extends \lithium\core\StaticObject {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected static $_meta = array('source' => 'lithium_bin');
+	protected $_meta = array(
+		'source' => 'lithium_bin'
+	);
 
 	/**
 	 *  Default values for document based db
@@ -51,16 +53,15 @@ class Paste extends \lithium\core\StaticObject {
 		'author' => null,
 		'content' => null,
 		'parsed' => null,
-		'permanent' => false,
-		'remember' => false,
-		'language' => null,
-		'created' => '1979-07-26 08:05:00'
+		'permanent' => 0,
+		'remember' => 0,
+		'language' => 'text'
 	);
 
 	/**
 	 * Views Document
 	 */
-	protected static $_views = array(
+	public static $_views = array(
 		'latest' => array(
 			'_id' => '_design/latest',
 			'language' => 'javascript',
@@ -69,7 +70,7 @@ class Paste extends \lithium\core\StaticObject {
 					'map' => 'function(doc) {
 						if (doc.permanent == "1") {
 							var preview = String.substring(doc.content, 0, 100);
-							emit(Date.parse(doc.created), {
+							emit(doc.created, {
 								author:doc.author, language:doc.language,
 								preview: preview, created: doc.created
 							});
@@ -80,136 +81,119 @@ class Paste extends \lithium\core\StaticObject {
 		)
 	);
 
+	/**
+	* Apply find and save filter
+	*/
+	public static function __init($options = array()) {
+		parent::__init($options);
+		Paste::applyFilter('find', function($self, $params, $chain) {
+				if (isset($params['options']['conditions']['design']) &&
+						  $params['options']['conditions']['design'] == 'latest') {
+					$conditions = $params['options']['conditions'];
+					$result = $chain->next($self, $params, $chain);
+					if ($result === null) {
+						Paste::createView()->save();
+						return null; //static::find('all', $conditions);
+					}
+					foreach ($result as $paste) {
+						$paste->preview = rawurldecode($paste->preview);
+					}
+					return $result;
+				} else {
+					$result = $chain->next($self, $params, $chain);
+					$result->content = rawurldecode($result->content);
+					$result->parsed = rawurldecode($result->parsed);
+					return $result;
+				}
+			});
+		Paste::applyFilter('save', function($self, $params, $chain) {
+			$document = $params['record'];
+			if ($document->language != 'text' &&
+				 in_array($document->language, Paste::$languages)) {
+				 	$document = Paste::parse($document);
+			}
+			$document->parsed = rawurlencode($document->parsed);
+			$document->content  = rawurlencode($document->content);
+			$params['record'] = $document;
+			return $chain->next($self, $params, $chain);
+		});
+	}
+
+	/**
+	* Takes a reference to a Document, and parses the content
+	*
+	* @param Document $doc
+	* @return Document
+	*/
+	public static function &parse(&$doc) {
+		if (!($doc instanceof \lithium\data\model\Document)) {
+			return null;
+		}
+
+		$geshi = new GeSHi($doc->content, $doc->language);
+		$geshi->enable_classes();
+		$geshi->enable_keyword_links(false);
+		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
+		$doc->parsed = $geshi->parse_code();
+
+		return $doc;
+	}
+
+
+	/**
+	* Used to create and then save the design view 'latest' to couch, ie:
+	* {{{
+	* 	Paste::createView()->save();
+	* }}}
+	*
+	* @return Document
+	*/
+	public static function createView() {
+		return parent::create(static::$_views['latest']);
+	}
+
+	/**
+	 *  Sets default values and calls the parent create()
+	 *
+	 * @param array $data of field values to start with
+	 * @return Document
+	 */
+	public static function create($data = array()) {
+		if (isset($data['Paste'])) {
+			$data = $data['Paste'];
+		}
+		$data += static::$_defaults;
+		if (!isset($data['created']))
+			$data['created'] = date('Y-m-d h:m:s');
+		return parent::create($data);
+	}
+
 	/*
 	* Validate the input data before saving to data
 	* Validates author, content, language, permanent
 	*
-	* @return stdClass
+	* @param $record Document instance
+	* @param $options array
+	* @return boolean
 	*/
-	public static function validate($data) {
-		if (!Validator::isAlphaNumeric($data->author)) {
-			$data->errors['author'] =
-				'This field can only be alphanumeric';
+	public function validates($record, $options = array()) {
+		$success = true; $errors = array();
+		if (!Validator::isAlphaNumeric($record->author)) {
+			$success = false;
+			$errors['author'] = 'This field can only be alphanumeric';
 		}
-		if (!Validator::isNotEmpty($data->content)) {
-			$data->errors['content'] =
-				'This field can not be left empty';
+		if (!Validator::isNotEmpty($record->content)) {
+			$success = false;
+			$errors['content'] = 'This field can not be left empty';
 		}
-		if (!in_array($data->language, static::$languages)) {
-			$data->errors['language'] =
-				'You have messed with the HTML that is not valid language';
+		if (!in_array($record->language, static::$languages)) {
+			$success = false;
+			$errors['language'] = 'You have messed with the HTML that is not valid language';
 		}
-		return $data;
+		if (!$success)
+			$record->set(array('errors' => $errors));
+		return $success;
 	}
 
-	/**
-	 * Saves the given data to the database
-	 * Will automatically validate if not given a false 2nd parameter.
-	 * If validation fails, will return with a 'validate' property set to
-	 * false and 'errors' array of 'field' => 'error message'
-	 *
-	 * @param array $data request->data
-	 * @param boolean $validate
-	 * @return stdClass
-	 */
-	public static function save($data, $validate = true) {
-		$defaults = array(
-			'validates' => true, 'errors' => array(), 'saved' => false, 'parsed' => null
-		);
-		$data = (object) ($data[static::$alias] + $defaults + static::$_defaults);
-
-		if ($validate && $data = static::validate($data)) {
-			if (!empty($data->errors)) {
-				$data->validates = false;
-				return $data;
-			}
-		}
-		$raw = $data->content;
-		$data->content  = rawurlencode($data->content);
-
-		if ($data->language != 'text' && in_array($data->language, static::$languages)) {
-			$geshi = new GeSHi($raw, $data->language);
-			$geshi->enable_classes();
-			$geshi->enable_keyword_links(false);
-			$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
-			$data->parsed = rawurlencode($geshi->parse_code());
-		}
-
-		$data->created = date('Y-m-d H:i:s');
-
-		$couch = Connections::get('couch');
-		$result = $couch->post(static::$_meta['source'], $data);
-		if (!$result->ok) {
-			return $data;
-		}
-		$data->saved = true;
-		$data->_id = $result->id;
-		$data->_rev = $result->rev;
-		return $data;
-	}
-
-	/**
-	 * Create a stdClass data object with default values
-	 * optionally include start values of your own.
-	 *
-	 * @param array $data of field values to start with
-	 * @return stdClass a dataobject
-	 */
-	public static function create($data = array()) {
-		$data += static::$_defaults;
-		$data['created'] = date('Y-m-d h:m:s');
-		$data += array('errors' => array());
-		return (object) $data;
-	}
-
-	/**
-	 * Find and return a dataobject for the given $id
-	 * will parse data unless given option 'parsed' => false
-	 *
-	 * @param string $id uuid of the document for this paste
-	 * @param array $options Valid keys are:
-	 *		- parsed: A bool that if true will return geshi parsed code
-	 * @return stdClass dataobject if found, null if
-	 */
-	public static function findFirstById($id, $options = array()) {
-		$couch = Connections::get('couch');
-		$result = $couch->get(static::$_meta['source'].'/'.$id);
-		$result->content = rawurldecode($result->content);
-		$result->parsed = rawurldecode($result->parsed);
-		if (isset($result->error)) {
-			return null;
-		}
-		return $result;
-	}
-
-	/**
-	 * Direct access to the CouchDB view called 'latest'
-	 * If the table (database to couchdb) is not present, it will create it.
-	 * If that view is not present it, it will create it
-	 *
-	 * @param string $type
-	 * @return stdClass object
-	 */
-	public static function latest($options = array()) {
-		$couch = Connections::get('couch');
-		$path = static::$_meta['source'] . '/' . static::$_views['latest']['_id'];
-		$data = $couch->get($path . '/_view/all', $options);
-
-		$isError = (
-			isset($data->error) && $data->error == 'not_found'
-		);
-		if ($isError && $data->reason == 'no_db_file')  {
-			$couch->put(static::$_meta['source']);
-			return null;
-		}
-		if ($isError && in_array($data->reason, array('missing', 'deleted')))  {
-			$create = $couch->put($path, static::$_views['latest']);
-			$data = $couch->get($path . '/_view/all', $options);
-		}
-		foreach ($data->rows as $key => $row) {
-			$data->rows[$key]->value->preview = rawurldecode($row->value->preview);
-		}
-		return $data;
-	}
 }
 ?>
