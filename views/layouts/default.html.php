@@ -17,7 +17,7 @@
 		'pastium'
 	)); ?>
 	<?php
-		if (!empty($paste->language)) {
+		if (isset($paste) && $paste->language) {
 			echo $this->html->style('syntax.' . $paste->language);
 		}
 	?>

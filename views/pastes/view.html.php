@@ -36,7 +36,7 @@
 			</a>
 		</li>
 		<li>
-			<a class="edit" href="<?=$this->_request->env('base');?>/edit/<?=$paste->_id;
+			<a class="edit" href="<?php echo $this->_request->env('base');?>/edit/<?=$paste->_id;
 			?>" id="code-edit" title="Edit paste">
 				<span>Edit</span>
 			</a>
