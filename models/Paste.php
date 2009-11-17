@@ -55,8 +55,7 @@ class Paste extends \lithium\data\Model {
 		'parsed' => null,
 		'permanent' => 0,
 		'remember' => 0,
-		'language' => 'text',
-		'created' => '1979-07-26 08:05:00'
+		'language' => 'text'
 	);
 
 	/**
@@ -152,6 +151,9 @@ class Paste extends \lithium\data\Model {
 	 * @return Document
 	 */
 	public static function create($data = array()) {
+		if (isset($data['Paste'])) {
+			$data = $data['Paste'];
+		}
 		$data += static::$_defaults;
 		if (!isset($data['created']))
 			$data['created'] = date('Y-m-d h:m:s');
