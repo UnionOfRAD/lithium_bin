@@ -31,7 +31,7 @@ class Paste extends \lithium\data\Model {
 	 *
 	 * @var array
 	 */
-	public static $languages = array('php','html','javascript','text');
+	public static $languages = array('php','html','javascript','diff','text');
 
 	/**
 	 * Metadata
