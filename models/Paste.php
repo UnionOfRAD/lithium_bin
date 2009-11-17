@@ -86,28 +86,33 @@ class Paste extends \lithium\data\Model {
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
-		static::applyFilter('find', function($self, $params, $chain) {
-				if ($params['options']['conditions']['design'] = 'latest') {
+		Paste::applyFilter('find', function($self, $params, $chain) {
+				if (isset($params['options']['conditions']['design']) &&
+						  $params['options']['conditions']['design'] == 'latest') {
 					$conditions = $params['options']['conditions'];
 					$result = $chain->next($self, $params, $chain);
 					if ($result === null) {
-						static::createView()->save();
+						Paste::createView()->save();
 						return null; //static::find('all', $conditions);
 					}
 					return $result;
 				} else {
-					return $chain->next($self, $params, $chain);
+					$result = $chain->next($self, $params, $chain);
+					$result->content = rawurldecode($result->content);
+					$result->parsed = rawurldecode($result->parsed);
+					return $result;
 				}
 			});
-		static::applyFilter('save', function($self, $params, $chain) {
+		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
 			if ($document->language != 'text' &&
-				 in_array($document->language, static::$languages)) {
-				 	$document = static::parse($document);
+				 in_array($document->language, Paste::$languages)) {
+				 	$document = Paste::parse($document);
 			}
-			$doc->parsed = rawurlencode($doc->parsed);
-			$doc->content  = rawurlencode($doc->content);
-			return $document ;
+			$document->parsed = rawurlencode($document->parsed);
+			$document->content  = rawurlencode($document->content);
+			$params['record'] = $document;
+			return $chain->next($self, $params, $chain);
 		});
 	}
 
