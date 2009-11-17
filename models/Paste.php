@@ -89,13 +89,13 @@ class Paste extends \lithium\data\Model {
 	public static function find($type = 'all', $options = array()) {
 		switch ($type) {
 			default:
-				if (static::$_views[$type]) {
+				if (isset(static::$_views[$type])) {
 					$id = '/'.static::$_views['latest']['_id'];
 					$path = '/_view/all?';
 					foreach ($options as $setting => $value) {
-						$mods .= $setting.'='. $value.'&';
+						$path .= $setting.'='. $value.'&';
 					}
-					$path = substr($mods,0,-1);
+					$path = substr($path,0,-1);
 					parent::find($id.$path);
 					return static::view($type);
 				}
