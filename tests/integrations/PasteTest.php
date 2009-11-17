@@ -193,7 +193,7 @@ class PasteTest extends \lithium\test\Unit {
 	public function testLatestView() {
 		$this->setUpTasks(array('PutTable','PutView','FillTableFull'));
 
-		$latest = MockPaste::find(\app\models\Paste::$_views['latest']['_id'].'/_view/all?limit=10&descending=true');
+		$latest = MockPaste::find('latest', array('limit' => '10','ascending' => 'true'));
 		$result = $latest instanceof \lithium\data\model\Document;
 
 		$this->assertTrue($result);
