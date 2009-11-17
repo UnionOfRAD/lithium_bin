@@ -86,23 +86,6 @@ class Paste extends \lithium\data\Model {
 		return parent::create(static::$_views[$view]);
 	}
 
-	public static function find($type = 'all', $options = array()) {
-		switch ($type) {
-			default:
-				if (isset(static::$_views[$type])) {
-					$id = '/'.static::$_views['latest']['_id'];
-					$path = '/_view/all?';
-					foreach ($options as $setting => $value) {
-						$path .= $setting.'='. $value.'&';
-					}
-					$path = substr($path,0,-1);
-					parent::find($id.$path);
-					return static::view($type);
-				}
-				return parent::find($type, $options);
-		}
-	}
-
 	/**
 	 *  Sets default values and calls the parent create()
 	 *
