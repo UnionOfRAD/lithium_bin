@@ -2,9 +2,6 @@
 
 namespace app\tests\cases\models;
 
-use \lithium\data\Connections;
-use \lithium\data\model\Query;
-
 class MockPaste extends \app\models\Paste {
 
 	/**
@@ -23,6 +20,7 @@ class MockPaste extends \app\models\Paste {
 	public function classes() {
 		return $this->_classes;
 	}
+
 }
 
 
