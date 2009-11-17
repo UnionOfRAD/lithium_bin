@@ -129,3 +129,6 @@ p.error {
 
 #clean code { border:none; }
 #clean.dark code { background:black; border:none; }
+.dark .kw1 {
+	color:#fff !important;
+}
