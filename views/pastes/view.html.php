@@ -44,5 +44,5 @@
 	</ul>
 </div>
 
-<div id="clean" class="section code" style="display:none;"><pre><code><?=$paste->content;?></code></pre></div>
-<div id="paste" class="section code"><?=$paste->parsed;?></div>
+<div id="clean" class="section code" style="display:none;"><pre><code><?php echo $paste->content;?></code></pre></div>
+<div id="paste" class="section code"><?php echo $paste->parsed;?></div>
