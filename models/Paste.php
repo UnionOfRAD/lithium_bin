@@ -71,7 +71,7 @@ class Paste extends \lithium\data\Model {
 					'map' => 'function(doc) {
 						if (doc.permanent == "1") {
 							var preview = String.substring(doc.content, 0, 100);
-							emit(Date.parse(doc.created), {
+							emit(doc.created, {
 								author:doc.author, language:doc.language,
 								preview: preview, created: doc.created
 							});
