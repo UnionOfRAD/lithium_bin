@@ -66,7 +66,8 @@ class PastesController extends \lithium\action\Controller {
 			$paste = Paste::create(compact('author', 'language'));
 		} else {
 			$paste = Paste::create($this->request->data);
-			if ($paste->save()) {
+			if ($paste->validates() && $paste->save()) {
+
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
