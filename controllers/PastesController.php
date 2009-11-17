@@ -23,7 +23,12 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::latest(array('limit' => 10, 'descending' => 'true')));
+		return array('latest' => Paste::find('all', array('conditions'=> array(
+			'design' => 'latest',
+			'view' => 'all',
+			'limit' => '10',
+			'descending' => 'true'
+		))));
 	}
 
 	/**
@@ -37,7 +42,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array variables to pass to layout and view
 	 */
 	public function view($id = null) {
-		$paste = Paste::findFirstById($id);
+		$paste = Paste::find($id);
 		if ($paste == null) {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
@@ -60,10 +65,10 @@ class PastesController extends \lithium\action\Controller {
 		if (empty($this->request->data)) {
 			$paste = Paste::create(compact('author', 'language'));
 		} else {
-			$paste = Paste::save($this->request->data);
-			if ($paste->saved) {
+			$paste = Paste::create($this->request->data);
+			if ($paste->save()) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
@@ -85,7 +90,7 @@ class PastesController extends \lithium\action\Controller {
 	 */
 	public function edit($id = null) {
 		if (empty($this->request->data)) {
-			$paste = Paste::findFirstById($id);
+			$paste = Paste::find($id);
 			if ($paste == null) {
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'add'
@@ -95,7 +100,7 @@ class PastesController extends \lithium\action\Controller {
 			$paste = Paste::save($this->request->data);
 			if ($paste->saved) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->_id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
