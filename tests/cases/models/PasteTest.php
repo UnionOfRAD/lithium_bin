@@ -119,7 +119,7 @@ class PasteTest extends \lithium\test\Unit {
 		$view = MockPaste::createView();
 
 		$expected = '_design/latest';
-		$result = $view->_id;
+		$result = $view->id;
 		$this->assertEqual($expected, $result);
 
 		$expected = 'javascript';
