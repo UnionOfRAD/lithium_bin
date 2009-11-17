@@ -95,6 +95,9 @@ class Paste extends \lithium\data\Model {
 						Paste::createView()->save();
 						return null; //static::find('all', $conditions);
 					}
+					foreach ($result as $paste) {
+						$paste->preview = rawurldecode($paste->preview);
+					}
 					return $result;
 				} else {
 					$result = $chain->next($self, $params, $chain);
