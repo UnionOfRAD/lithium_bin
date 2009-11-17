@@ -58,7 +58,7 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
 		li3.setupFooter();
-		<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(($binText) ? 'true' : 'false' ).'});' : null ; ?>
+		<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(isset($binText) ? 'true' : 'false' ).'});' : null ; ?>
 	});
 </script>
 </body>

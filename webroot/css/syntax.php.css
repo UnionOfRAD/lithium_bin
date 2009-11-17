@@ -12,8 +12,8 @@ li.li2 {
 class extends etc
 */
 span.kw1, span.kw2 {
-	color: black;
-	font-weight: bold;
+	color: black !important;
+	font-weight: bold !important;
 }
 /* linked keyword*/
 a {
