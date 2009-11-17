@@ -96,6 +96,35 @@ class PasteTest extends \lithium\test\Unit {
 
 	}
 
+	public function testCreateWithCreatedField() {
+		$data = array(
+			'title' => 'Post',
+			'content' => 'Lorem Ipsum',
+			'language' => 'text',
+			'author' => 'alkemann',
+			'created' => '2009-11-17 06:02:15'
+		);
+		$paste = MockPaste::create($data);
+
+		$expected = $data['created'];
+		$result = $paste->created;
+		$this->assertEqual($expected, $result);
+	}
+
+	public function testCreateView() {
+		$view = MockPaste::createView();
+
+		$expected = '_design/latest';
+		$result = $view->_id;
+		$this->assertEqual($expected, $result);
+
+		$expected = 'javascript';
+		$result = $view->language;
+		$this->assertEqual($expected, $result);
+
+		$this->assertTrue(is_string($view->views->all->map));
+	}
+
 	public function testValidation() {
 		$data = array(
 			'title' => 'Post',
