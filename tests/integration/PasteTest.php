@@ -1,6 +1,6 @@
 <?php
 
-namespace app\tests\integrations;
+namespace app\tests\integration;
 
 use \lithium\data\Connections;
 use \lithium\data\model\Query;
@@ -19,7 +19,7 @@ class MockPaste extends \app\models\Paste {
 	);
 
 	protected $_meta = array(
-		'key' => '_id',
+		'key' => 'id',
 		'source' => 'test_pastes',
 		'connection' => 'test'
 	);
@@ -50,7 +50,7 @@ class PasteTest extends \lithium\test\Unit {
 
 	protected function _taskFillTableFull() {
 		$data = array(
-			'_id' => 'a1',
+			'id' => 'a1',
 			'author' => 'alkemann',
 			'created' => '2009-01-01 01:01:10',
 			'language' => 'text',
@@ -62,55 +62,55 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a2';
+		$data['id'] = 'a2';
 		$data['created'] = '2009-01-01 01:01:02';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a3';
+		$data['id'] = 'a3';
 		$data['created'] = '2009-01-01 01:01:04';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a4';
+		$data['id'] = 'a4';
 		$data['created'] = '2009-01-01 01:01:03';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a5';
+		$data['id'] = 'a5';
 		$data['created'] = '2009-01-01 01:01:05';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a6';
+		$data['id'] = 'a6';
 		$data['permanent'] = false;
 		$data['created'] = '2009-01-01 01:01:07';
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['permanent'] = true;
-		$data['_id'] = 'a7';
+		$data['id'] = 'a7';
 		$data['created'] = '2009-01-01 01:01:11';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a8';
+		$data['id'] = 'a8';
 		$data['created'] = '2009-01-01 01:01:13';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a9';
+		$data['id'] = 'a9';
 		$data['created'] = '2009-01-01 01:01:06';
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['permanent'] = false;
-		$data['_id'] = 'a10';
+		$data['id'] = 'a10';
 		$data['created'] = '2009-01-01 01:01:09';
 		$paste = MockPaste::create($data);
 		$paste->save();
 		$data['permanent'] = true;
-		$data['_id'] = 'a11';
+		$data['id'] = 'a11';
 		$data['created'] = '2009-01-01 01:01:08';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a12';
+		$data['id'] = 'a12';
 		$data['created'] = '2009-01-01 01:01:12';
 		$paste = MockPaste::create($data);
 		$paste->save();
-		$data['_id'] = 'a13';
+		$data['id'] = 'a13';
 		$data['created'] = '2009-01-01 01:01:01';
 		$paste = MockPaste::create($data);
 		$paste->save();
@@ -118,13 +118,13 @@ class PasteTest extends \lithium\test\Unit {
 
 	protected function _taskDeleteTable() {
         Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\integrations\MockPaste')
+       		array('model' => '\app\tests\integration\MockPaste')
         ));
 	}
 
 	protected function _taskSaveOneRecord() {
 		$data = array(
-			'_id' => 'abcd1',
+			'id' => 'abcd1',
 			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'author' => 'alkemann',
@@ -132,10 +132,6 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$paste = MockPaste::create($data);
 		$paste->save();
-	}
-
-	protected function _taskPutView() {
-		MockPaste::createView()->save();
 	}
 
 	public function testSave() {
@@ -167,9 +163,9 @@ class PasteTest extends \lithium\test\Unit {
 		$data = $document->data();
 
 		$expected = array(
-			'_id','_rev','title','content',
+			'id','title','content',
 			'author','language','parsed',
-			'permanent','remember','created'
+			'permanent','remember','created','rev'
 		);
 		$result = array_keys($data);
 		$this->assertEqual($expected, $result);
@@ -232,27 +228,27 @@ class PasteTest extends \lithium\test\Unit {
 
 		$first = $latest->rewind();
 		$expected = 'a8';
-		$result = $first->_id;
+		$result = $first->id;
 		$this->assertEqual($expected, $result);
 
 		$next = $latest->next();
 		$expected = 'a12';
-		$result = $next->_id;
+		$result = $next->id;
 		$this->assertEqual($expected, $result);
 		$next = $latest->next();
 
 		$expected = 'a7';
-		$result = $next->_id;
+		$result = $next->id;
 		$this->assertEqual($expected, $result);
 
 		$next = $latest->next();
 		$expected = 'a1';
-		$result = $next->_id;
+		$result = $next->id;
 		$this->assertEqual($expected, $result);
 
 		$next = $latest->next();
 		$expected = 'a11';
-		$result = $next->_id;
+		$result = $next->id;
 		$this->assertEqual($expected, $result);
 
 		$this->setUpTasks(array('DeleteTable'));
