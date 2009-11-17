@@ -48,12 +48,72 @@ class PasteTest extends \lithium\test\Unit {
 		Connections::get("test")->put('/test_pastes');
 	}
 
-	protected function _taskFillTableSimple() {
-		Connections::get("test")->put('/test_pastes/abcd1', array(
-			'_id' => 'abcd1',
+	protected function _taskFillTableFull() {
+		$data = array(
+			'_id' => 'a1',
 			'author' => 'alkemann',
-			'content' => 'Lorem Ipsum'
-		));
+			'created' => '2009-01-01 01:01:10',
+			'language' => 'text',
+			'content' => 'Lorem Ipsum',
+			'parsed' => '',
+			'permanent' => true,
+			'remember' => false,
+			'saved' => false
+		);
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a2';
+		$data['created'] = '2009-01-01 01:01:02';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a3';
+		$data['created'] = '2009-01-01 01:01:04';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a4';
+		$data['created'] = '2009-01-01 01:01:03';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a5';
+		$data['created'] = '2009-01-01 01:01:05';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a6';
+		$data['permanent'] = false;
+		$data['created'] = '2009-01-01 01:01:07';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['permanent'] = true;
+		$data['_id'] = 'a7';
+		$data['created'] = '2009-01-01 01:01:11';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a8';
+		$data['created'] = '2009-01-01 01:01:10';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a9';
+		$data['created'] = '2009-01-01 01:01:06';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a10';
+		$data['created'] = '2009-01-01 01:01:09';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a11';
+		$data['permanent'] = false;
+		$data['created'] = '2009-01-01 01:01:08';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['permanent'] = true;
+		$data['_id'] = 'a12';
+		$data['created'] = '2009-01-01 01:01:13';
+		$paste = MockPaste::create($data);
+		$paste->save();
+		$data['_id'] = 'a13';
+		$data['created'] = '2009-01-01 01:01:01';
+		$paste = MockPaste::create($data);
+		$paste->save();
 	}
 
 	protected function _taskDeleteTable() {
@@ -72,6 +132,10 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$paste = MockPaste::create($data);
 		$paste->save();
+	}
+
+	protected function _taskPutView() {
+		$paste = MockPaste::createView('latest')->save();
 	}
 
 	public function testSave() {
@@ -124,6 +188,39 @@ class PasteTest extends \lithium\test\Unit {
         $this->assertNull($result);
 
 		$this->setUpTasks(array('DeleteTable'));
+	}
+
+	public function testLatestView() {
+		$this->setUpTasks(array('PutTable','PutView','FillTableFull'));
+
+		$latest = MockPaste::find(\app\models\Paste::$_views['latest']['_id'].'/_view/all?limit=10&descending=true');
+		$result = $latest instanceof \lithium\data\model\Document;
+
+		$this->assertTrue($result);
+		$this->skipIf(!$result, 'Not a document result');
+
+		$expected = 10;
+		$result = $latest->count();
+		$this->assertEqual($expected, $result);
+
+		$first = $latest->rewind();
+		$expected = 'a13';
+		$result = $first->_id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+		$expected = 'a2';
+		$result = $first->_id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+
+		$this->setUpTasks(array('DeleteTable'));
+
+	}
+
+	public function methods() {
+		return array('testLatestView');
 	}
 
 }

@@ -4,7 +4,7 @@ namespace app\models;
 
 use \Geshi;
 use \lithium\data\model\Document;
-use \lithium\util\Validator;   
+use \lithium\util\Validator;
 
 /**
  * Data model for access the pastebin documents.
@@ -81,6 +81,10 @@ class Paste extends \lithium\data\Model {
 			)
 		)
 	);
+
+	public static function createView($view) {
+		return parent::create(static::$_views[$view]);
+	}
 
 	/**
 	 *  Sets default values and calls the parent create()
