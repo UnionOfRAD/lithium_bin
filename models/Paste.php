@@ -83,6 +83,57 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
+	* Apply find and save filter
+	*/
+	public static function __init($options = array()) {
+		parent::__init($options);
+		static::applyFilter('find', function($self, $params, $chain) {
+				if ($params['options']['conditions']['design'] = 'latest') {
+					$conditions = $params['options']['conditions'];
+					$result = $chain->next($self, $params, $chain);
+					if ($result === null) {
+						static::createView()->save();
+						return null; //static::find('all', $conditions);
+					}
+					return $result;
+				} else {
+					return $chain->next($self, $params, $chain);
+				}
+			});
+		static::applyFilter('save', function($self, $params, $chain) {
+			$document = $params['record'];
+			if ($document->language != 'text' &&
+				 in_array($document->language, static::$languages)) {
+				 	$document = static::parse($document);
+			}
+			$doc->parsed = rawurlencode($doc->parsed);
+			$doc->content  = rawurlencode($doc->content);
+			return $document ;
+		});
+	}
+
+	/**
+	* Takes a reference to a Document, and parses the content
+	*
+	* @param Document $doc
+	* @return Document
+	*/
+	public static function &parse(&$doc) {
+		if (!($doc instanceof \lithium\data\model\Document)) {
+			return null;
+		}
+
+		$geshi = new GeSHi($doc->content, $doc->language);
+		$geshi->enable_classes();
+		$geshi->enable_keyword_links(false);
+		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
+		$doc->parsed = $geshi->parse_code();
+
+		return $doc;
+	}
+
+
+	/**
 	* Used to create and then save the design view 'latest' to couch, ie:
 	* {{{
 	* 	Paste::createView()->save();

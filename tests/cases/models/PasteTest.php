@@ -15,7 +15,7 @@ class MockPaste extends \app\models\Paste {
 	  'connections' => '\lithium\data\Connections'
 	);
 
-	protected $_meta = null;
+	protected $_meta = array();
 
 	public function classes() {
 		return $this->_classes;
@@ -32,7 +32,6 @@ class MockPaste extends \app\models\Paste {
 
 
 class PasteTest extends \lithium\test\Unit {
-
 	public function testUsesDocument() {
 		$paste = new MockPaste();
 
@@ -196,6 +195,30 @@ class PasteTest extends \lithium\test\Unit {
 
 		$expected = 'PARSED';
 		$this->assertEqual($expected, $result->parsed);
+	}
+
+	public function testGeShiFilter() {
+		MockPaste::applyFilter('save', function($self, $params, $chain) {
+			$document = $params['record'];
+			if ($document->language != 'text' &&
+				 in_array($document->language, MockPaste::$languages)) {
+				 	$document = \app\models\Paste::parse($document);
+			}
+			return $document ;
+		});
+
+		$data = array(
+			'content' => 'echo',
+			'author' => 'TomGood',
+			'language' => 'php'
+		);
+		$paste = MockPaste::create($data);
+		$doc = $paste->save();
+
+		$expected = '<pre class="php" style="font-family:monospace;"><ol><li class="li1"><div class="de1"><span class="kw1">echo</span></div></li></ol></pre>';
+		$result = $doc->parsed;
+		$this->assertEqual($expected, $result);
+
 	}
 
 }
