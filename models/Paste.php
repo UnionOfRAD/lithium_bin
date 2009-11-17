@@ -63,7 +63,7 @@ class Paste extends \lithium\data\Model {
 	 */
 	public static $_views = array(
 		'latest' => array(
-			'_id' => '_design/latest',
+			'id' => '_design/latest',
 			'language' => 'javascript',
 			'views' => array(
 				'all' => array(
@@ -107,14 +107,16 @@ class Paste extends \lithium\data\Model {
 				}
 			});
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, Paste::$languages)) {
-				 	$document = Paste::parse($document);
+			if ($params['record']->id != '_design/latest') {
+				$document = $params['record'];
+				if ($document->language != 'text' &&
+					 in_array($document->language, Paste::$languages)) {
+				 		$document = Paste::parse($document);
+				}
+				$document->parsed = rawurlencode($document->parsed);
+				$document->content  = rawurlencode($document->content);
+				$params['record'] = $document;
 			}
-			$document->parsed = rawurlencode($document->parsed);
-			$document->content  = rawurlencode($document->content);
-			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
 	}
