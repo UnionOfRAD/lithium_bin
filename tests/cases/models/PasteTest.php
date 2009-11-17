@@ -21,6 +21,13 @@ class MockPaste extends \app\models\Paste {
 		return $this->_classes;
 	}
 
+	public static function &mockParse(&$doc) {
+		if (!($doc instanceof \lithium\data\model\Document)) {
+			return null;
+		}
+		$doc->parsed = 'PARSED';
+		return $doc;
+	}
 }
 
 
@@ -167,6 +174,28 @@ class PasteTest extends \lithium\test\Unit {
 		);
 		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);
+	}
+
+	public function testApplyingFilter() {
+		MockPaste::applyFilter('save', function($self, $params, $chain) {
+			$document = $params['record'];
+			if ($document->language != 'text' &&
+				 in_array($document->language, MockPaste::$languages)) {
+				 	$document = MockPaste::mockParse($document);
+			}
+			return $document ;
+		});
+
+		$data = array(
+			'content' => 'echo $this->function("lol");',
+			'author' => 'TomGood',
+			'language' => 'php'
+		);
+		$paste = MockPaste::create($data);
+		$result = $paste->save();
+
+		$expected = 'PARSED';
+		$this->assertEqual($expected, $result->parsed);
 	}
 
 }
