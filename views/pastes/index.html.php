@@ -1,3 +1,7 @@
+<?php
+	if ($latest === null) {
+		echo $this->html->link('Generating view. Please refresh page.', array());
+	} else { ?>
 <table class="pastes">
 	<tr>
 		<th>Paste</th>
@@ -18,3 +22,4 @@
 	<?php endforeach;?>
 	</tbody>
 </table>
+<?php } ?>
