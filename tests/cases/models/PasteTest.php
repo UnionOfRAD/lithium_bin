@@ -175,28 +175,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertEqual($expected, $result);
 	}
 
-	public function testApplyingFilter() {
-		MockPaste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, MockPaste::$languages)) {
-				 	$document = MockPaste::mockParse($document);
-			}
-			return $document ;
-		});
-
-		$data = array(
-			'content' => 'echo $this->function("lol");',
-			'author' => 'TomGood',
-			'language' => 'php'
-		);
-		$paste = MockPaste::create($data);
-		$result = $paste->save();
-
-		$expected = 'PARSED';
-		$this->assertEqual($expected, $result->parsed);
-	}
-
 	public function testGeShiFilter() {
 		MockPaste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
