@@ -1,14 +1,8 @@
 /**
- *  CSS rules for GeSHI paste bin 
+ *  CSS rules for GeSHI paste bin
  *
  */
-li.li1 {
-	background-color: white;
-}
-li.li2 {
-	background-color: #eee;
-}
-/* keyword 2 
+/* keyword 2
 class extends etc
 */
 span.kw1, span.kw2 {
