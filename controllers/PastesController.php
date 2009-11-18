@@ -24,10 +24,7 @@ class PastesController extends \lithium\action\Controller {
 	 */
 	public function index() {
 		return array('latest' => Paste::find('all', array('conditions'=> array(
-			'design' => 'latest',
-			'view' => 'all',
-			'limit' => '10',
-			'descending' => 'true'
+			'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
 		))));
 	}
 
@@ -110,4 +107,5 @@ class PastesController extends \lithium\action\Controller {
 		$this->render('form');
 	}
 }
+
 ?>
