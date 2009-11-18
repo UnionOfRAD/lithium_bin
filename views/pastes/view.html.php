@@ -1,4 +1,4 @@
-<?php if (empty($paste->author)) { ?>
+<?php if (!$paste->author && $paste->author == '') { ?>
 	<div class="author">This <strong><?=$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
 		on <strong><?=$paste->created;?></strong>.</div>
