@@ -69,10 +69,9 @@ class Paste extends \lithium\data\Model {
 				'all' => array(
 					'map' => 'function(doc) {
 						if (doc.permanent == "1") {
-							var preview = String.substring(doc.content, 0, 100);
 							emit(doc.created, {
-								author:doc.author, language:doc.language,
-								preview: preview, created: doc.created
+								author: doc.author, language: doc.language,
+								preview: doc.preview, created: doc.created
 							});
 						}
 					}'
@@ -83,6 +82,16 @@ class Paste extends \lithium\data\Model {
 
 	/**
 	* Apply find and save filter
+	*
+	* Find filter :
+	*  1 - For design view it will create the view if it doesnt exist and give null result
+	*  2 - If the design view does exist, it will also rawurldecode the preview
+	*  3 - For a find one result, it will rawurldecode content and parsed
+	*
+	* Save filter :
+	*  1 - If the language submitted is in the valid list, it parses it with GeSHI
+	*  2 - It will also rawurlencode both 'parsed' and 'content' fields
+	*
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
@@ -101,6 +110,7 @@ class Paste extends \lithium\data\Model {
 				return $result;
 			} else {
 				$result = $chain->next($self, $params, $chain);
+				$result->preview = rawurldecode($result->preview);
 				$result->content = rawurldecode($result->content);
 				$result->parsed = rawurldecode($result->parsed);
 				return $result;
@@ -109,10 +119,10 @@ class Paste extends \lithium\data\Model {
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			if ($params['record']->id != '_design/latest') {
 				$document = $params['record'];
-				if ($document->language != 'text' &&
-					 in_array($document->language, Paste::$languages)) {
-				 		$document = Paste::parse($document);
+				if (in_array($document->language, Paste::$languages)) {
+					$document = Paste::parse($document);
 				}
+				$document->preview = rawurlencode(substr($document->content,0,100));
 				$document->parsed = rawurlencode($document->parsed);
 				$document->content  = rawurlencode($document->content);
 				$params['record'] = $document;
