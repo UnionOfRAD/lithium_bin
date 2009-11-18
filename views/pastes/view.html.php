@@ -1,5 +1,6 @@
 <div class="view">
-<?php if (empty($paste->author)) { ?>
+	<h2><?=$paste->preview;?></h2>
+<?php if (!$paste->author || $paste->author == '') { ?>
 	<h3>This <strong><?=$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
 		at <strong><?=$paste->created;?></strong></h3>
