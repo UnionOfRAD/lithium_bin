@@ -166,7 +166,7 @@ class Paste extends \lithium\data\Model {
 		}
 		$data += static::$_defaults;
 		if (!isset($data['created']))
-			$data['created'] = date('Y-m-d h:m:s');
+			$data['created'] = date('Y-m-d h:i:s');
 		return parent::create($data);
 	}
 
