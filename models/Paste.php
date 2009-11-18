@@ -87,25 +87,25 @@ class Paste extends \lithium\data\Model {
 	public static function __init($options = array()) {
 		parent::__init($options);
 		Paste::applyFilter('find', function($self, $params, $chain) {
-				if (isset($params['options']['conditions']['design']) &&
-						  $params['options']['conditions']['design'] == 'latest') {
-					$conditions = $params['options']['conditions'];
-					$result = $chain->next($self, $params, $chain);
-					if ($result === null) {
-						Paste::createView()->save();
-						return null; //static::find('all', $conditions);
-					}
-					foreach ($result as $paste) {
-						$paste->preview = rawurldecode($paste->preview);
-					}
-					return $result;
-				} else {
-					$result = $chain->next($self, $params, $chain);
-					$result->content = rawurldecode($result->content);
-					$result->parsed = rawurldecode($result->parsed);
-					return $result;
+			if (isset($params['options']['conditions']['design']) &&
+					  $params['options']['conditions']['design'] == 'latest') {
+				$conditions = $params['options']['conditions'];
+				$result = $chain->next($self, $params, $chain);
+				if ($result === null) {
+					Paste::createView()->save();
+					return null; //static::find('all', $conditions);
 				}
-			});
+				foreach ($result as $paste) {
+					$paste->preview = rawurldecode($paste->preview);
+				}
+				return $result;
+			} else {
+				$result = $chain->next($self, $params, $chain);
+				$result->content = rawurldecode($result->content);
+				$result->parsed = rawurldecode($result->parsed);
+				return $result;
+			}
+		});
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			if ($params['record']->id != '_design/latest') {
 				$document = $params['record'];
@@ -198,4 +198,5 @@ class Paste extends \lithium\data\Model {
 	}
 
 }
+
 ?>
