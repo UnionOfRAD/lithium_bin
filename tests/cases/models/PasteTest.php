@@ -88,20 +88,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertEqual($expected, $result);
 	}
 
-	public function testCreateView() {
-		$view = MockPaste::create(array('design' => 'latest'));
-
-		$expected = '_design/latest';
-		$result = $view->id;
-		$this->assertEqual($expected, $result);
-
-		$expected = 'javascript';
-		$result = $view->language;
-		$this->assertEqual($expected, $result);
-
-		$this->assertTrue(is_string($view->views->all->map));
-	}
-
 	public function testValidation() {
 		$data = array(
 			'title' => 'Post',
