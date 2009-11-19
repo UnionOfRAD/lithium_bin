@@ -70,7 +70,7 @@ class PastesController extends \lithium\action\Controller {
 				));
 			}
 		}
-		$languages = Paste::$languages;
+		$languages = Paste::languages();
 		$this->set(compact('paste', 'languages'));
 		$this->render('form');
 	}
@@ -102,7 +102,7 @@ class PastesController extends \lithium\action\Controller {
 				));
 			}
 		}
-		$languages = Paste::$languages;
+		$languages = Paste::languages();
 		$this->set(compact('paste', 'languages'));
 		$this->render('form');
 	}

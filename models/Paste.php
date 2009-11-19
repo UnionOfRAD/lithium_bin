@@ -3,6 +3,7 @@
 namespace app\models;
 
 use \Geshi;
+use \lithium\core\Libraries;
 use \lithium\data\model\Document;
 use \lithium\util\Validator;
 
@@ -31,7 +32,7 @@ class Paste extends \lithium\data\Model {
 	 *
 	 * @var array
 	 */
-	public static $languages = array('php','html','javascript','text');
+	public static $languages = null;
 
 	/**
 	 * Metadata
@@ -119,7 +120,7 @@ class Paste extends \lithium\data\Model {
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			if ($params['record']->id != '_design/latest') {
 				$document = $params['record'];
-				if (in_array($document->language, Paste::$languages)) {
+				if (in_array($document->language, Paste::languages())) {
 					$document = Paste::parse($document);
 				}
 				$document->preview = rawurlencode(substr($document->content,0,100));
@@ -151,6 +152,16 @@ class Paste extends \lithium\data\Model {
 		return $doc;
 	}
 
+	public static function languages() {
+		if (static::$languages === null) {
+			static::$languages =  Libraries::find('geshi', array(
+				'path' => '/geshi', 'filter' => false, 'format' => function($class) {
+					return basename($class, '.php');
+				}
+			));
+		}
+		return static::$languages;
+	}
 
 	/**
 	* Used to create and then save the design view 'latest' to couch, ie:
@@ -198,7 +209,7 @@ class Paste extends \lithium\data\Model {
 			$success = false;
 			$errors['content'] = 'This field can not be left empty';
 		}
-		if (!in_array($record->language, static::$languages)) {
+		if (!in_array($record->language, static::languages())) {
 			$success = false;
 			$errors['language'] = 'You have messed with the HTML that is not valid language';
 		}
