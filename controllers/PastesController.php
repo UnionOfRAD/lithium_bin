@@ -61,6 +61,7 @@ class PastesController extends \lithium\action\Controller {
 	public function add($author = null, $language = null) {
 		if (empty($this->request->data)) {
 			$paste = Paste::create(compact('author', 'language'));
+			$paste->language = 'php';
 		} else {
 			$paste = Paste::create($this->request->data);
 			if ($paste->validates() && $paste->save()) {
