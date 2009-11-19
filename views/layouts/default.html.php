@@ -15,15 +15,10 @@
 <head>
 	<?php echo $this->html->charset(); ?>
 	<title>Li3 Paste Bin</title>
-	<?php echo $this->html->style('bin'); ?>
+	<?php echo $this->html->style('bin.0.3'); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->script(array('jquery-1.3.2.min.js', 'ZeroClipboard.js', 'bin.js')); ?>
-	<?php
-		if (isset($paste) && $paste->language) {
-			echo $this->html->style('syntax.' . $paste->language);
-		}
-	?>
 </head>
 <body>
 	<div id="container">
