@@ -20,13 +20,6 @@ use \lithium\util\Validator;
 class Paste extends \lithium\data\Model {
 
 	/**
-	 * public name of the model
-	 *
-	 * @var string
-	 */
-	public static $alias = 'Paste';
-
-	/**
 	 * Available languages
 	 *
 	 * @var array
@@ -70,26 +63,6 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	 * Views Document
-	 */
-	public static $_views = array(
-		'latest' => array('id' => '_design/latest', 'language' => 'javascript',
-			'views' => array(
-				'all' => array(
-					'map' => 'function(doc) {
-						if (doc.permanent == "1") {
-							emit(doc.created, {
-								author: doc.author, language: doc.language,
-								preview: doc.preview, created: doc.created
-							});
-						}
-					}'
-				)
-			)
-		),
-	);
-
-	/**
 	* Apply find and save filter
 	*
 	* Find filter :
@@ -123,16 +96,14 @@ class Paste extends \lithium\data\Model {
 			}
 		});
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			if ($params['record']->id != '_design/latest') {
-				$document = $params['record'];
-				if (in_array($document->language, Paste::languages())) {
-					$document = Paste::parse($document);
-				}
-				$document->preview = rawurlencode(substr($document->content,0,100));
-				$document->parsed = rawurlencode($document->parsed);
-				$document->content  = rawurlencode($document->content);
-				$params['record'] = $document;
+			$document = $params['record'];
+			if (in_array($document->language, Paste::languages())) {
+				$document = Paste::parse($document);
 			}
+			$document->preview = rawurlencode(substr($document->content,0,100));
+			$document->parsed = rawurlencode($document->parsed);
+			$document->content  = rawurlencode($document->content);
+			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
 	}
@@ -173,12 +144,6 @@ class Paste extends \lithium\data\Model {
 	 * @return Document
 	 */
 	public static function create($data = array()) {
-		if (isset($data['design'])) {
-			if (!isset(static::$_views[$data['design']])) {
-				return false;
-			}
-			return parent::create(static::$_views[$data['design']]);
-		}
 		if (isset($data['Paste'])) {
 			$data = $data['Paste'];
 		}

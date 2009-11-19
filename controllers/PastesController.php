@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use \app\models\Paste;
+use \app\models\PasteView;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -27,7 +28,7 @@ class PastesController extends \lithium\action\Controller {
 			'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
 		)));
 		if ($latest === null) {
-			if (Paste::create(array('design' => 'latest'))->save()) {
+			if (PasteView::create('latest')->save()) {
 				$latest = Paste::find('all', array('conditions'=> array(
 					'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
 				)));
