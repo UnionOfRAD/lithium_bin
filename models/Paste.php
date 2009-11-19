@@ -66,9 +66,8 @@ class Paste extends \lithium\data\Model {
 	* Apply find and save filter
 	*
 	* Find filter :
-	*  1 - For design view it will create the view if it doesnt exist and give null result
-	*  2 - If the design view does exist, it will also rawurldecode the preview
-	*  3 - For a find one result, it will rawurldecode content and parsed
+	*  1 - If the design view does exist, it will also rawurldecode the preview
+	*  2 - For a find one result, it will rawurldecode content and parsed
 	*
 	* Save filter :
 	*  1 - If the language submitted is in the valid list, it parses it with GeSHI
