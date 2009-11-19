@@ -2,34 +2,7 @@
 
 namespace app\tests\cases\models;
 
-class MockPaste extends \app\models\Paste {
-
-	/**
-	* @todo remove when Model problem with adapter is fixed in core
-	*/
-	protected $_classes = array(
-	  'query' => '\lithium\data\model\Query',
-	  'record' => '\lithium\data\model\Document',
-	  'validator' => '\lithium\util\Validator',
-	  'recordSet' => '\lithium\data\model\Document',
-	  'connections' => '\lithium\data\Connections'
-	);
-
-	protected $_meta = array();
-
-	public function classes() {
-		return $this->_classes;
-	}
-
-	public static function &mockParse(&$doc) {
-		if (!($doc instanceof \lithium\data\model\Document)) {
-			return null;
-		}
-		$doc->parsed = 'PARSED';
-		return $doc;
-	}
-}
-
+use \app\tests\mocks\MockPaste;
 
 class PasteTest extends \lithium\test\Unit {
 	public function testUsesDocument() {
@@ -174,29 +147,7 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);
 	}
-	/*
-	public function testApplyingFilter() {
-		MockPaste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, MockPaste::$languages)) {
-				 	$document = MockPaste::mockParse($document);
-			}
-			return $document ;
-		});
 
-		$data = array(
-			'content' => 'echo $this->function("lol");',
-			'author' => 'TomGood',
-			'language' => 'php'
-		);
-		$paste = MockPaste::create($data);
-		$result = $paste->save();
-
-		$expected = 'PARSED';
-		$this->assertEqual($expected, $result->parsed);
-	}
-	*/
 	public function testGeShiFilter() {
 		MockPaste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];

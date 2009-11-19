@@ -188,19 +188,7 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testLatestView() {
 		$this->setUpTasks(array('PutTable','FillTableFull'));
-		MockPaste::applyFilter('find', function($self, $params, $chain) {
-			if ($params['options']['conditions']['design'] = 'latest') {
-				$conditions = $params['options']['conditions'];
-				$result = $chain->next($self, $params, $chain);
-				if ($result === null) {
-					MockPaste::create(array('design' => 'latest'))->save();
-					return null; //MockPaste::find('all', $conditions);
-				}
-				return $result;
-			} else {
-				return $chain->next($self, $params, $chain);
-			}
-		});
+
 		$latest = MockPaste::find('all', array('conditions'=> array(
 			'design' => 'latest',
 			'view' => 'all',
