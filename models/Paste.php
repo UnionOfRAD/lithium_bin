@@ -125,6 +125,13 @@ class Paste extends \lithium\data\Model {
 		return $doc;
 	}
 
+	/**
+	 * Returns a list of languages that geshi can parse.
+	 * Stored in static::$languages, but if empty will fill it by
+	 * doing a Libraries::find()
+	 *
+	 * @return array
+	 */
 	public static function languages() {
 		if (static::$languages === null) {
 			static::$languages =  Libraries::find('geshi', array(

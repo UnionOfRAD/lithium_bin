@@ -2,6 +2,23 @@
 
 namespace app\models;
 
+/**
+ * This model is used to store Couch design views to the `Paste` database
+ * It also defines it. Do not call a 'find' on this model. To view the view, use 
+ * the 'design' condition in a 'find' call on the `Paste` model, ie :
+ * {{{
+ *		$latest = Paste::find('all', array('conditions' => array(
+ *			'design' => 'latest,
+ *			'limit' => 10
+ *		)));
+ * }}}
+ *
+ * When the find call in the example above returns a NULL, that means the view does not
+ * exist in the `Paste` database. To insert it use:
+ * {{{
+ *		PasteView::create()->save();
+ * }}}
+ */
 class PasteView extends \lithium\data\Model {
 
 	/**
@@ -36,6 +53,13 @@ class PasteView extends \lithium\data\Model {
 		),
 	);
 
+	/**
+	 * Create a PasteView instance of Document
+	 * Unlike Model::create, this takes a string name of a predefined design view
+	 *
+	 * @param string $data 'lastest' is only valid and default 
+	 * @return Document
+	 */
 	public static function create($data = 'latest') {
 		if (!isset(static::$_views[$data])) {
 			return false;
