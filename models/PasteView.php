@@ -23,26 +23,25 @@ class PasteView extends \lithium\data\Model {
 			'language' => 'javascript',
 			'views' => array(
 				'all' => array(
-					'map' => 'function(doc) {
-						if (doc.permanent == "1") {
-							emit(doc.created, {
-								author: doc.author, language: doc.language,
-								preview: doc.preview, created: doc.created
-							});
-						}
-					}'
+'map' => 'function(doc) {
+	if (doc.permanent == "1") {
+		emit(doc.created, {
+			author: doc.author, language: doc.language,
+			preview: doc.preview, created: doc.created
+		});
+	}
+}'
 				)
 			)
 		),
 	);
 
 	public static function create($data = 'latest') {
-		if (is_string($data) && isset(static::$_views[$data])) {
-			return parent::create(static::$_views[$data]);
-		} elseif (is_array($data)) {
-			return  parent::create($data);
+		if (!isset(static::$_views[$data])) {
+			return false;
 		}
-		return false;
+		return parent::create(static::$_views[$data]);
+
 	}
 
 
