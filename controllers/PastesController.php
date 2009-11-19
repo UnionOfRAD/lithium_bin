@@ -23,9 +23,17 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::find('all', array('conditions'=> array(
+		$latest = Paste::find('all', array('conditions'=> array(
 			'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
-		))));
+		)));
+		if ($latest === null) {
+			if (Paste::create(array('design' => 'latest'))->save()) {
+				$latest = Paste::find('all', array('conditions'=> array(
+					'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
+				)));
+			}
+		}
+		return compact('latest');
 	}
 
 	/**

@@ -54,6 +54,9 @@ h3 {
 ul.latest, ul.latest li {
 	margin: 1em;
 }
+form {
+	margin-bottom: 40px;
+}
 input[type=text] {
 	display: block;
 	width: 70%;
@@ -96,8 +99,7 @@ a#toggle {
 	margin-left: 2em;
 }
 div#footer {
-	position: absolute;
-	padding: 30px 0 35px;
+	position: fixed;
 	text-align: center;
 	font-size: 70%;
 	bottom: 0;

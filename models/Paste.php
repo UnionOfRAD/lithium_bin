@@ -4,7 +4,6 @@ namespace app\models;
 
 use \Geshi;
 use \lithium\core\Libraries;
-use \lithium\data\model\Document;
 use \lithium\util\Validator;
 
 /**
@@ -60,12 +59,21 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
+	 * Error messages for validation
+	 *
+	 * @var array
+	 */
+	protected static $_errors = array(
+		'author' => 'You forgot your alphanumeric name?',
+		'content' => 'You seem to be missing the content.',
+		'language' => 'Invalid language.'
+	);
+
+	/**
 	 * Views Document
 	 */
 	public static $_views = array(
-		'latest' => array(
-			'id' => '_design/latest',
-			'language' => 'javascript',
+		'latest' => array('id' => '_design/latest', 'language' => 'javascript',
 			'views' => array(
 				'all' => array(
 					'map' => 'function(doc) {
@@ -78,7 +86,7 @@ class Paste extends \lithium\data\Model {
 					}'
 				)
 			)
-		)
+		),
 	);
 
 	/**
@@ -97,13 +105,10 @@ class Paste extends \lithium\data\Model {
 	public static function __init($options = array()) {
 		parent::__init($options);
 		Paste::applyFilter('find', function($self, $params, $chain) {
-			if (isset($params['options']['conditions']['design']) &&
-					  $params['options']['conditions']['design'] == 'latest') {
-				$conditions = $params['options']['conditions'];
+			if (isset($params['options']['conditions']['design'])) {
 				$result = $chain->next($self, $params, $chain);
 				if ($result === null) {
-					Paste::createView()->save();
-					return null; //static::find('all', $conditions);
+					return null;
 				}
 				foreach ($result as $paste) {
 					$paste->preview = rawurldecode($paste->preview);
@@ -142,13 +147,11 @@ class Paste extends \lithium\data\Model {
 		if (!($doc instanceof \lithium\data\model\Document)) {
 			return null;
 		}
-
 		$geshi = new GeSHi($doc->content, $doc->language);
 		$geshi->enable_classes();
 		$geshi->enable_keyword_links(false);
 		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
 		$doc->parsed = $geshi->parse_code();
-
 		return $doc;
 	}
 
@@ -164,24 +167,18 @@ class Paste extends \lithium\data\Model {
 	}
 
 	/**
-	* Used to create and then save the design view 'latest' to couch, ie:
-	* {{{
-	* 	Paste::createView()->save();
-	* }}}
-	*
-	* @return Document
-	*/
-	public static function createView() {
-		return parent::create(static::$_views['latest']);
-	}
-
-	/**
 	 *  Sets default values and calls the parent create()
 	 *
 	 * @param array $data of field values to start with
 	 * @return Document
 	 */
 	public static function create($data = array()) {
+		if (isset($data['design'])) {
+			if (!isset(static::$_views[$data['design']])) {
+				return false;
+			}
+			return parent::create(static::$_views[$data['design']]);
+		}
 		if (isset($data['Paste'])) {
 			$data = $data['Paste'];
 		}
@@ -200,22 +197,22 @@ class Paste extends \lithium\data\Model {
 	* @return boolean
 	*/
 	public function validates($record, $options = array()) {
-		$success = true; $errors = array();
-		if (!Validator::isAlphaNumeric($record->author)) {
-			$success = false;
-			$errors['author'] = 'This field can only be alphanumeric';
+		$errors = static::$_errors;
+
+		if (Validator::isAlphaNumeric($record->author)) {
+			unset($errors['author']);
 		}
-		if (!Validator::isNotEmpty($record->content)) {
-			$success = false;
-			$errors['content'] = 'This field can not be left empty';
+		if (Validator::isNotEmpty($record->content)) {
+			unset($errors['content']);
 		}
-		if (!in_array($record->language, static::languages())) {
-			$success = false;
-			$errors['language'] = 'You have messed with the HTML that is not valid language';
+		if (in_array($record->language, static::languages())) {
+			unset($errors['language']);
 		}
-		if (!$success)
-			$record->set(array('errors' => $errors));
-		return $success;
+		if (empty($errors)){
+			return true;
+		}
+		$record->set(array('errors' => $errors));
+		return false;
 	}
 
 }
