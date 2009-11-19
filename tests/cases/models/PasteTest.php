@@ -116,7 +116,7 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	public function testCreateView() {
-		$view = MockPaste::createView();
+		$view = MockPaste::create(array('design' => 'latest'));
 
 		$expected = '_design/latest';
 		$result = $view->id;
@@ -167,9 +167,9 @@ class PasteTest extends \lithium\test\Unit {
 		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
 		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
 		$expected = array(
-			'author' => 'This field can only be alphanumeric',
-			'content' => 'This field can not be left empty',
-			'language' => 'You have messed with the HTML that is not valid language'
+			'author' => 'You forgot your alphanumeric name?',
+			'content' => 'You seem to be missing the content.',
+			'language' => 'Invalid language.'
 		);
 		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);

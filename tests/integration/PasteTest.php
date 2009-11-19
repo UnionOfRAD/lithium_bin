@@ -193,7 +193,7 @@ class PasteTest extends \lithium\test\Unit {
 				$conditions = $params['options']['conditions'];
 				$result = $chain->next($self, $params, $chain);
 				if ($result === null) {
-					MockPaste::createView()->save();
+					MockPaste::create(array('design' => 'latest'))->save();
 					return null; //MockPaste::find('all', $conditions);
 				}
 				return $result;
