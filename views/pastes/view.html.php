@@ -13,7 +13,7 @@
 		<a href="#" id="toggle">clean</a> &middot;
 		<a href="#">copy</a> &middot;
 		<?php echo $this->html->link('edit', array(
-			'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->_id)
+			'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id)
 		));?>
 	</p>
 	<div id="clean" ><pre><code><?=$paste->content;?></code></pre></div>
