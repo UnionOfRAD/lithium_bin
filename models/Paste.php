@@ -65,9 +65,15 @@ class Paste extends \lithium\data\Model {
 	/**
 	* Apply find and save filter
 	*
-	* Find filter :
-	*  1 - If the design view does exist, it will also rawurldecode the preview
-	*  2 - For a find one result, it will rawurldecode content and parsed
+	* Find filter is an 'after' filter, in that first the rest of the chain
+	* (including the find it self) is called, then the result is modified and passed
+	* back up the stack. The modifications it does are:
+	*
+	*  1 - For a find all (couch design view), it will rawurldecode the preview field
+	*  2 - For a find one result, it will rawurldecode preivew, content and parsed
+	*
+	* The save filter is a 'before' filter, in that it first modifies the document,
+	* and then passes that record on through the chain to `Model`'s save logic.
 	*
 	* Save filter :
 	*  1 - If the language submitted is in the valid list, it parses it with GeSHI
@@ -77,8 +83,8 @@ class Paste extends \lithium\data\Model {
 	public static function __init($options = array()) {
 		parent::__init($options);
 		Paste::applyFilter('find', function($self, $params, $chain) {
+			$result = $chain->next($self, $params, $chain);
 			if (isset($params['options']['conditions']['design'])) {
-				$result = $chain->next($self, $params, $chain);
 				if ($result === null) {
 					return null;
 				}
@@ -87,7 +93,6 @@ class Paste extends \lithium\data\Model {
 				}
 				return $result;
 			} else {
-				$result = $chain->next($self, $params, $chain);
 				$result->preview = rawurldecode($result->preview);
 				$result->content = rawurldecode($result->content);
 				$result->parsed = rawurldecode($result->parsed);
