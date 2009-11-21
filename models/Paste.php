@@ -63,54 +63,71 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	* Apply find and save filter
-	*
-	* Find filter is an 'after' filter, in that first the rest of the chain
-	* (including the find it self) is called, then the result is modified and passed
-	* back up the stack. The modifications it does are:
-	*
-	*  1 - For a find all (couch design view), it will rawurldecode the preview field
-	*  2 - For a find one result, it will rawurldecode preview, content and parsed
-	*
-	* The save filter is a 'before' filter, in that it first modifies the document,
-	* and then passes that record on through the chain to `Model`'s save logic.
-	*
-	* Save filter :
-	*  1 - If the language submitted is in the valid list, it parses it with GeSHI
-	*  2 - It will also rawurlencode both 'parsed' and 'content' fields
+	* Php called init method for using the model statically. It applies find and save filters.
 	*
 	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
+	* @param array $options Merged with the meta property, see `Paste`::$_meta
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
-		Paste::applyFilter('find', function($self, $params, $chain) {
-			$result = $chain->next($self, $params, $chain);
-			if (isset($params['options']['conditions']['design'])) {
-				if ($result === null) {
-					return null;
+		Paste::applyFilter('find',
+			/**
+			 * Find filter is an 'after' filter, in that first the rest of the chain
+			 * (including the find it self) is called, then the result is modified and passed
+			 * back up the stack. The modifications it does are:
+			 *
+			 *  1 - For a find all (couch design view), it will rawurldecode the preview field
+			 *  2 - For a find one result, it will rawurldecode preview, content and parsed
+			 *
+			 * @param string $self fully-namespaced class name.
+			 * @param array  $params an associative array of the parameters passed to 'find'
+			 * @param Filters $chain filters in line to be executed
+			 * return Document modified Document or null if no documents found
+			 */
+			function($self, $params, $chain) {
+				$result = $chain->next($self, $params, $chain);
+				if (isset($params['options']['conditions']['design'])) {
+					if ($result === null) {
+						return null;
+					}
+					foreach ($result as $paste) {
+						$paste->preview = rawurldecode($paste->preview);
+					}
+					return $result;
+				} else {
+					$result->preview = rawurldecode($result->preview);
+					$result->content = rawurldecode($result->content);
+					$result->parsed = rawurldecode($result->parsed);
+					return $result;
 				}
-				foreach ($result as $paste) {
-					$paste->preview = rawurldecode($paste->preview);
+			}
+		);
+		Paste::applyFilter('save',
+			/**
+			 * The save filter is a 'before' filter, in that it first modifies the document,
+			 * and then passes that record on through the chain to `Model`'s save logic.
+			 *
+			 * Save filter :
+			 *  1 - If the language submitted is in the valid list, it parses it with GeSHI
+			 *  2 - It will also rawurlencode both 'parsed' and 'content' fields
+			 *
+			 * @param string $self fully-namespaced class name.
+			 * @param array  $params an associative array of the parameters passed to 'save'
+			 * @param Filters $chain filters in line to be executed
+			 * return boolean on save successful
+			 */
+			function($self, $params, $chain) {
+				$document = $params['record'];
+				if (in_array($document->language, Paste::languages())) {
+					$document = Paste::parse($document);
 				}
-				return $result;
-			} else {
-				$result->preview = rawurldecode($result->preview);
-				$result->content = rawurldecode($result->content);
-				$result->parsed = rawurldecode($result->parsed);
-				return $result;
+				$document->preview = rawurlencode(substr($document->content,0,100));
+				$document->parsed = rawurlencode($document->parsed);
+				$document->content  = rawurlencode($document->content);
+				$params['record'] = $document;
+				return $chain->next($self, $params, $chain);
 			}
-		});
-		Paste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if (in_array($document->language, Paste::languages())) {
-				$document = Paste::parse($document);
-			}
-			$document->preview = rawurlencode(substr($document->content,0,100));
-			$document->parsed = rawurlencode($document->parsed);
-			$document->content  = rawurlencode($document->content);
-			$params['record'] = $document;
-			return $chain->next($self, $params, $chain);
-		});
+		);
 	}
 
 	/**
