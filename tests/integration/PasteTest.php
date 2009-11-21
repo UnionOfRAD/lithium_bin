@@ -7,7 +7,7 @@ use \lithium\data\model\Query;
 use \app\tests\mocks\MockIntegrationPaste;
 use \app\tests\mocks\MockIntegrationPasteView;
 
-class PasteIntegration extends \lithium\test\Unit {
+class PasteTest extends \lithium\test\Unit {
 
 	public function setUpTasks($setUpTasks) {
 		foreach ($setUpTasks as $task) {
