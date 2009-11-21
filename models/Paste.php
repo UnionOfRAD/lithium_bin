@@ -85,6 +85,7 @@ class Paste extends \lithium\data\Model {
 			if (in_array($document->language, Paste::languages())) {
 				$document = Paste::parse($document);
 			}
+			$document->preview = substr($document->content,0,100);
 			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
