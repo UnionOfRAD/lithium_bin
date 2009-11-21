@@ -2,8 +2,8 @@
 
 namespace app\tests\cases\models;
 
-use \app\tests\mocks\MockPaste;
-use \app\tests\mocks\MockPasteView;
+use \app\tests\mocks\models\MockPaste;
+use \app\tests\mocks\models\MockPasteView;
 
 class PasteViewTest extends \lithium\test\Unit {
 

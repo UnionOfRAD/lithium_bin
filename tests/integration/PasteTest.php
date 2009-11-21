@@ -4,8 +4,8 @@ namespace app\tests\integration;
 
 use \lithium\data\Connections;
 use \lithium\data\model\Query;
-use \app\tests\mocks\MockIntegrationPaste;
-use \app\tests\mocks\MockIntegrationPasteView;
+use \app\tests\mocks\models\MockIntegrationPaste;
+use \app\tests\mocks\models\MockIntegrationPasteView;
 
 class PasteTest extends \lithium\test\Unit {
 
