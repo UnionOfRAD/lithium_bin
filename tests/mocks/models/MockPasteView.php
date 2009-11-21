@@ -1,8 +1,8 @@
 <?php
 
-namespace app\tests\mocks;
+namespace app\tests\models\mocks;
 
-class MockPaste extends \app\models\Paste {
+class MockPasteView extends \app\models\PasteView {
 
 	/**
 	* @todo remove when Model problem with adapter is fixed in core
@@ -21,13 +21,6 @@ class MockPaste extends \app\models\Paste {
 		return $this->_classes;
 	}
 
-	public static function &mockParse(&$doc) {
-		if (!($doc instanceof \lithium\data\model\Document)) {
-			return null;
-		}
-		$doc->parsed = 'PARSED';
-		return $doc;
-	}
 }
 
 ?>

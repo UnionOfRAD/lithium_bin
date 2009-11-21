@@ -1,8 +1,8 @@
 <?php
 
-namespace app\tests\mocks;
+namespace app\tests\models\mocks;
 
-class MockIntegrationPasteView extends \app\models\PasteView {
+class MockPaste extends \app\models\Paste {
 
 	/**
 	* @todo remove when Model problem with adapter is fixed in core
@@ -15,13 +15,19 @@ class MockIntegrationPasteView extends \app\models\PasteView {
 	  'connections' => '\lithium\data\Connections'
 	);
 
-	protected $_meta = array(
-		'source' => 'test_pastes',
-		'connection' => 'test'
-	);
+	protected $_meta = array();
 
 	public function classes() {
 		return $this->_classes;
 	}
+
+	public static function &mockParse(&$doc) {
+		if (!($doc instanceof \lithium\data\model\Document)) {
+			return null;
+		}
+		$doc->parsed = 'PARSED';
+		return $doc;
+	}
 }
+
 ?>
