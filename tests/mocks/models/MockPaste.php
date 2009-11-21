@@ -1,6 +1,6 @@
 <?php
 
-namespace app\tests\models\mocks;
+namespace app\tests\mocks\models;
 
 class MockPaste extends \app\models\Paste {
 
