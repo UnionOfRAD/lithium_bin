@@ -151,16 +151,17 @@ class PasteIntegration extends \lithium\test\Unit {
 
 		$this->setUpTasks(array('DeleteTable'));
 	}
-/* @todo Model and CouchDB adapters not compatible on not found
+
 	public function testReadNotFound() {
 		$this->setUpTasks(array('PutTable'));
 
 		$result = MockIntegrationPaste::find('abcd1');
-        $this->assertNull($result);
+
+		$this->assertFalse($result->exists());
 
 		$this->setUpTasks(array('DeleteTable'));
 	}
-*/
+
 	public function testLatestView() {
 		$this->setUpTasks(array('PutTable','FillTableFull'));
 
@@ -170,7 +171,8 @@ class PasteIntegration extends \lithium\test\Unit {
 			'limit' => '10',
 			'descending' => 'true'
 		)));
-		$this->assertNull($latest);
+		$this->assertFalse($latest->exists());
+
 
 		$viewSave = MockIntegrationPasteView::create()->save();
 		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');

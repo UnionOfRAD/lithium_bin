@@ -61,23 +61,11 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	* Init method called by `Libraries::load()`. It applies filters on find and save methods.
+	* Init method called by `Libraries::load()`. It applies filters on the save method.
 	*
 	* Filters are closure (inline functions) that are called in sequence ending with the
 	* filtered method. As such they can insert themselves both before and after the filtered
 	* method by placing logic either before or after their `$chain->next()` call.
-	*
-	* Find filter is an 'after' filter, in that first the rest of the chain
-	* (including the find it self) is called, then the result is modified and passed
-	* back up the stack. The 'find' modifications it does are:	*
-	*	- For a find all (couch design view), it will rawurldecode the preview field
-	*	- For a find one result, it will rawurldecode preview, content and parsed
-	*
-	* The save filter is a 'before' filter, in that it first modifies the document,
-	* and then passes that record on through the chain to `Model`'s save logic.
-	* The 'save' modifications it does are:
-	*	- If the language submitted is in the valid list, it parses it with GeSHI
-	*	- It will also rawurlencode both 'parsed' and 'content' fields
 	*
 	* The filter parameters are:
 	*	- `$self`	(string)	fully-namespaced class name.
@@ -86,38 +74,17 @@ class Paste extends \lithium\data\Model {
 	*
 	* The filters return the same as the method they filter would, ie
 	* 	- Find filter returns a modified Document instance
-	* 	- Save filter returns the boolean it recieves from the stack after it
 	*
 	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
 	* @param array $options Merged with the `meta` property, see `Paste::$_meta`
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
-		Paste::applyFilter('find', function($self, $params, $chain) {
-			$result = $chain->next($self, $params, $chain);
-			if (isset($params['options']['conditions']['design'])) {
-				if ($result === null) {
-					return null;
-				}
-				foreach ($result as $paste) {
-					$paste->preview = rawurldecode($paste->preview);
-				}
-				return $result;
-			} else {
-				$result->preview = rawurldecode($result->preview);
-				$result->content = rawurldecode($result->content);
-				$result->parsed = rawurldecode($result->parsed);
-				return $result;
-			}
-		});
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
 			if (in_array($document->language, Paste::languages())) {
 				$document = Paste::parse($document);
 			}
-			$document->preview = rawurlencode(substr($document->content,0,100));
-			$document->parsed = rawurlencode($document->parsed);
-			$document->content  = rawurlencode($document->content);
 			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
