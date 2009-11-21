@@ -70,7 +70,7 @@ class Paste extends \lithium\data\Model {
 	* back up the stack. The modifications it does are:
 	*
 	*  1 - For a find all (couch design view), it will rawurldecode the preview field
-	*  2 - For a find one result, it will rawurldecode preivew, content and parsed
+	*  2 - For a find one result, it will rawurldecode preview, content and parsed
 	*
 	* The save filter is a 'before' filter, in that it first modifies the document,
 	* and then passes that record on through the chain to `Model`'s save logic.
@@ -79,6 +79,7 @@ class Paste extends \lithium\data\Model {
 	*  1 - If the language submitted is in the valid list, it parses it with GeSHI
 	*  2 - It will also rawurlencode both 'parsed' and 'content' fields
 	*
+	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
