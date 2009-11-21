@@ -63,11 +63,11 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	* Php called init method for using the model statically. It applies find and save filters.
+	* Init method called by Libraries::load(). It applies find and save filters.
 	*
 	* Filters are closure (inline functions) that are called in sequence ending with the
 	* filtered method. As such they can insert themselves both before and after the filtered
-	* method by placing logic either before or after their {{{$chain->next()}}} call.
+	* method by placing logic either before or after their `$chain->next()` call.
 	*
 	* Find filter is an 'after' filter, in that first the rest of the chain
 	* (including the find it self) is called, then the result is modified and passed
@@ -85,7 +85,7 @@ class Paste extends \lithium\data\Model {
 	*
 	* The filter parameters are:
 	*	- $self   (string)	fully-namespaced class name.
-	*	- $params (array)	an associative array of the parameters passed to 'find'
+	*	- $params (array)	an associative array of the params passed to the method
 	*	- $chain  (Filters)	filters in line to be executed
 	*
 	* The filters return the same as the method they filter would, ie
@@ -93,7 +93,7 @@ class Paste extends \lithium\data\Model {
 	* 	- Save filter returns the boolean it recieves from the stack after it
 	*
 	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
-	* @param array $options Merged with the meta property, see `Paste`::$_meta
+	* @param array $options Merged with the `meta` property, see `Paste`::$_meta
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
