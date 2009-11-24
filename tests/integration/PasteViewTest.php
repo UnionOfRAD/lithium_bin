@@ -15,7 +15,7 @@ class PasteViewTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 
 		Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\mocks\MockIntegrationPaste')
+       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
         ));
 	}
 

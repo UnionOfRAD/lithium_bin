@@ -95,7 +95,7 @@ class PasteTest extends \lithium\test\Unit {
 
 	protected function _taskDeleteTable() {
         Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\mocks\MockIntegrationPaste')
+       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
         ));
 	}
 
