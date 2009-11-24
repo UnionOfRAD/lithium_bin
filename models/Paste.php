@@ -82,8 +82,8 @@ class Paste extends \lithium\data\Model {
 		parent::__init($options);
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
-			if (in_array($document->language, Paste::languages())) {
-				$document = Paste::parse($document);
+			if (in_array($document->language, $self::languages())) {
+				$document = $self::parse($document);
 			}
 			$document->preview = substr($document->content,0,100);
 			$params['record'] = $document;
