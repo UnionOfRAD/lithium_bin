@@ -30,9 +30,7 @@ class Paste extends \lithium\data\Model {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected $_meta = array(
-		'source' => 'lithium_bin'
-	);
+	protected $_meta = array('source' => 'lithium_bin');
 
 	/**
 	 *  Schema for Paste
@@ -41,34 +39,13 @@ class Paste extends \lithium\data\Model {
 	 * @var array
 	 */
 	protected $_schema = array(
-		'author' => array(
-			'default' => null,
-			'type' => 'string'
-		),
-		'content' => array(
-			'default' => null,
-			'type' => 'string'
-		),
-		'parsed' => array(
-			'default' => null,
-			'type' => 'string'
-		),
-		'permanent' => array(
-			'default' => false,
-			'type' => 'boolean'
-		),
-		'remember' => array(
-			'default' => false,
-			'type' => 'boolean'
-		),
-		'language' => array(
-			'default' => 'text',
-			'type' => 'string'
-		),
-		'created' => array(
-			'default' => '1979-01-01 01:01:01',
-			'type' => 'string'
-		)
+		'author' 	=> array('default' => null, 'type' => 'string'),
+		'content' 	=> array('default' => null, 'type' => 'string'),
+		'parsed' 	=> array('default' => null, 'type' => 'string'),
+		'permanent'	=> array('default' => false, 'type' => 'boolean'),
+		'remember' 	=> array('default' => false, 'type' => 'boolean'),
+		'language' 	=> array('default' => 'text', 'type' => 'string'),
+		'created' 	=> array('default' => '1979-01-01 01:01:01', 'type' => 'string')
 	);
 
 	/**
@@ -77,13 +54,9 @@ class Paste extends \lithium\data\Model {
 	public $validates = array(
 		'content' => 'You seem to be missing the content.',
 		'author' => array(
-			'rule' => 'isAlphaNumeric',
-			'message' => 'You forgot your alphanumeric name?'
-		),
+			'rule' => 'isAlphaNumeric', 'message' => 'You forgot your alphanumeric name?'),
 		'language' => array(
-			'rule' => 'validLanguage',
-			'message' => 'Invalid language.'
-		)
+			'rule' => 'validLanguage', 'message' => 'Invalid language.')
 	);
 
 	/**
