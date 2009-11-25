@@ -125,7 +125,7 @@ class PasteTest extends \lithium\test\Unit {
 			'Paste isnt a Document');
 		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
 		$result = $paste->errors();
-		$this->assertFalse(is_array($result));
+		$this->assertTrue(is_array($result));
 		$expected = array(
 			'author' => 'You forgot your alphanumeric name?',
 			'content' => 'You seem to be missing the content.',
