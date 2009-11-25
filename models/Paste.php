@@ -35,18 +35,40 @@ class Paste extends \lithium\data\Model {
 	);
 
 	/**
-	 *  Default values for document based db
+	 *  Schema for Paste
 	 *
 	 * @todo remove 'remember' field when cookie logic is implemented
 	 * @var array
 	 */
-	protected static $_defaults = array(
-		'author' => null,
-		'content' => null,
-		'parsed' => null,
-		'permanent' => 0,
-		'remember' => 0,
-		'language' => 'text'
+	protected $_schema = array(
+		'author' => array(
+			'default' => null,
+			'type' => 'string'
+		),
+		'content' => array(
+			'default' => null,
+			'type' => 'string'
+		),
+		'parsed' => array(
+			'default' => null,
+			'type' => 'string'
+		),
+		'permanent' => array(
+			'default' => false,
+			'type' => 'boolean'
+		),
+		'remember' => array(
+			'default' => false,
+			'type' => 'boolean'
+		),
+		'language' => array(
+			'default' => 'text',
+			'type' => 'string'
+		),
+		'created' => array(
+			'default' => '1979-01-01 01:01:01',
+			'type' => 'string'
+		)
 	);
 
 	/**
@@ -90,6 +112,7 @@ class Paste extends \lithium\data\Model {
 				$document = $self::parse($document);
 			}
 			$document->preview = substr($document->content,0,100);
+			$document->created = date('Y-m-d h:i:s');
 			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
@@ -132,22 +155,6 @@ class Paste extends \lithium\data\Model {
 			));
 		}
 		return static::$languages;
-	}
-
-	/**
-	 *  Sets default values and calls the parent create()
-	 *
-	 * @param array $data of field values to start with
-	 * @return Document
-	 */
-	public static function create($data = array()) {
-		if (isset($data['Paste'])) {
-			$data = $data['Paste'];
-		}
-		$data += static::$_defaults;
-		if (!isset($data['created']))
-			$data['created'] = date('Y-m-d h:i:s');
-		return parent::create($data);
 	}
 
 }
