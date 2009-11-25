@@ -122,6 +122,19 @@ class PasteTest extends \lithium\test\Unit {
 			'language' => 'Invalid language.'
 		);
 		$this->assertEqual($expected, $result);
+
+		$data = array(
+			'author' => 'alpha',
+			'content' => 'Lorem',
+			'language' => 'notalanguage'
+		);
+		$paste = MockPaste::create($data);
+		$result = $paste->validates();
+		$this->assertFalse($result);
+
+		$expected = array('language' => 'Invalid language.');
+		$result = $paste->errors();
+		$this->assertEqual($expected, $result);
 	}
 
 	public function testGeShiFilter() {
