@@ -115,7 +115,7 @@ class PasteTest extends \lithium\test\Unit {
 			'title' => 'Post',
 			'content' => '',
 			'author' => 'Tom Good',
-			'language' => 'nose'
+			'language' => ''
 		);
 		$paste = MockPaste::create($data);
 		$result = $paste->validates();
@@ -124,13 +124,13 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertTrue(is_a($paste, '\lithium\data\model\Document'),
 			'Paste isnt a Document');
 		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
-		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
+		$result = $paste->errors();
+		$this->assertFalse(is_array($result));
 		$expected = array(
 			'author' => 'You forgot your alphanumeric name?',
 			'content' => 'You seem to be missing the content.',
 			'language' => 'Invalid language.'
 		);
-		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);
 	}
 

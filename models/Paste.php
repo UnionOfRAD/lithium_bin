@@ -49,16 +49,22 @@ class Paste extends \lithium\data\Model {
 		'language' => 'text'
 	);
 
-	/**
-	 * Error messages for validation
-	 *
-	 * @var array
-	 */
-	protected static $_errors = array(
-		'author' => 'You forgot your alphanumeric name?',
+
+	public $validates = array(
 		'content' => 'You seem to be missing the content.',
-		'language' => 'Invalid language.'
+		'author' => array(
+			'rule' => 'isAlphaNumeric',
+			'message' => 'You forgot your alphanumeric name?'
+		),
+		'language' => array(
+			'rule' => 'notEmpty', // 'validLanguage',
+			'message' => 'Invalid language.'
+		)
 	);
+
+	public function validLanguage($data, $options = array()) {
+		return (in_array($data->language, static::languages()));
+	}
 
 	/**
 	* Init method called by `Libraries::load()`. It applies filters on the save method.
@@ -141,33 +147,6 @@ class Paste extends \lithium\data\Model {
 		if (!isset($data['created']))
 			$data['created'] = date('Y-m-d h:i:s');
 		return parent::create($data);
-	}
-
-	/*
-	* Validate the input data before saving to data
-	* Validates author, content, language, permanent
-	*
-	* @param $record Document instance
-	* @param $options array
-	* @return boolean
-	*/
-	public function validates($record, $options = array()) {
-		$errors = static::$_errors;
-
-		if (Validator::isAlphaNumeric($record->author)) {
-			unset($errors['author']);
-		}
-		if (Validator::isNotEmpty($record->content)) {
-			unset($errors['content']);
-		}
-		if (in_array($record->language, static::languages())) {
-			unset($errors['language']);
-		}
-		if (empty($errors)){
-			return true;
-		}
-		$record->set(array('errors' => $errors));
-		return false;
 	}
 
 }
