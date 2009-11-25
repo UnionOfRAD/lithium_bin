@@ -49,7 +49,9 @@ class Paste extends \lithium\data\Model {
 		'language' => 'text'
 	);
 
-
+	/**
+	* Validation rules for Paste fields
+	*/
 	public $validates = array(
 		'content' => 'You seem to be missing the content.',
 		'author' => array(
@@ -57,14 +59,10 @@ class Paste extends \lithium\data\Model {
 			'message' => 'You forgot your alphanumeric name?'
 		),
 		'language' => array(
-			'rule' => 'notEmpty', // 'validLanguage',
+			'rule' => 'validLanguage',
 			'message' => 'Invalid language.'
 		)
 	);
-
-	public function validLanguage($data, $options = array()) {
-		return (in_array($data->language, static::languages()));
-	}
 
 	/**
 	* Init method called by `Libraries::load()`. It applies filters on the save method.
@@ -94,6 +92,9 @@ class Paste extends \lithium\data\Model {
 			$document->preview = substr($document->content,0,100);
 			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
+		});
+		Validator::add('validLanguage', function ($value, $format, $options) {
+			return (in_array($value, Paste::languages()));
 		});
 	}
 
