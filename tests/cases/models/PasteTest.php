@@ -24,7 +24,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCreate() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'language' => 'text',
 			'author' => 'alkemann'
@@ -35,7 +34,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertFalse($result);
 
 		$expected = array(
-			'title',
 			'content',
 			'language',
 			'author',
@@ -45,10 +43,6 @@ class PasteTest extends \lithium\test\Unit {
 			'created',
 		);
 		$result = array_keys($paste->data());
-		$this->assertEqual($expected, $result);
-
-		$expected = 'Post';
-		$result = $paste->title;
 		$this->assertEqual($expected, $result);
 
 		$expected = 'Lorem Ipsum';
@@ -75,7 +69,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCreateWithCreatedField() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'language' => 'text',
 			'author' => 'alkemann',
@@ -90,7 +83,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testValidation() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -100,7 +92,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 
 		$data = array(
-			'title' => 'Post',
 			'content' => '',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -112,7 +103,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testValidationErrors() {
 		$data = array(
-			'title' => 'Post',
 			'content' => '',
 			'author' => 'Tom Good',
 			'language' => ''
