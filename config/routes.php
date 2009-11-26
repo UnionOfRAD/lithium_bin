@@ -14,6 +14,9 @@ use \lithium\http\Router;
  */
 // Router::namespace('/admin', array('admin' => true));
 
+Router::connect('/test/{:args}', array('controller' => '\lithium\test\Controller'));
+Router::connect('/test', array('controller' => '\lithium\test\Controller'));
+
 Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
@@ -31,5 +34,4 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'view'));
 Router::connect('/{:controller}/{:action}/{:id:[0-9]+}.{:type}', array('id' => null));
 Router::connect('/{:controller}/{:action}/{:id:[0-9]+}');
 Router::connect('/{:controller}/{:action}/{:args}');
-
 ?>
