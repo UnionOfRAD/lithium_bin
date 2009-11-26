@@ -82,7 +82,7 @@ class Paste extends \lithium\data\Model {
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
 			if (in_array($document->language, $self::languages())) {
-				$document = $self::parse($document);
+				$document->parse($document);
 			}
 			$document->preview = substr($document->content,0,100);
 			$document->created = date('Y-m-d h:i:s');
@@ -98,9 +98,8 @@ class Paste extends \lithium\data\Model {
 	* Takes a reference to a Document, and parses the content
 	*
 	* @param Document $doc
-	* @return Document
 	*/
-	public static function &parse(&$doc) {
+	public function parse($doc) {
 		if (!($doc instanceof \lithium\data\model\Document)) {
 			return null;
 		}
@@ -109,7 +108,6 @@ class Paste extends \lithium\data\Model {
 		$geshi->enable_keyword_links(false);
 		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
 		$doc->parsed = $geshi->parse_code();
-		return $doc;
 	}
 
 	/**

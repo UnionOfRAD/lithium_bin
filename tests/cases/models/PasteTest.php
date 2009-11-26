@@ -142,7 +142,7 @@ class PasteTest extends \lithium\test\Unit {
 			$document = $params['record'];
 			if ($document->language != 'text' &&
 				 in_array($document->language, MockPaste::$languages)) {
-				 	$document = \app\models\Paste::parse($document);
+				 	$document->parse($document);
 			}
 			return $document ;
 		});
