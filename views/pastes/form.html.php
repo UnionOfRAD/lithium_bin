@@ -1,6 +1,8 @@
 <form method="POST">
 
 <?php
+$errors = $paste->errors();
+
 $this->form->config(array('templates' => array('checkbox' =>
 	'<input type="hidden" name="{:name}" value="0" />
 	 <input type="checkbox" value="1" name="{:name}"{:options} />'
@@ -20,8 +22,8 @@ if (isset($paste->id) && isset($paste->rev)) : ?>
 		'id' => 'Paste.author',
 		'value' => $paste->author
 	));
-	if (isset($paste->errors['author'])) {
-		echo '<p style="color:red">'.$paste->errors['author'].'</p>';
+	if (isset($errors['author'])) {
+		echo '<p style="color:red">'.$errors['author'].'</p>';
 	}
 	echo $this->form->checkbox('Paste[remember]', array(
 		'id' => 'Paste.remember',
@@ -39,8 +41,8 @@ if (isset($paste->id) && isset($paste->rev)) : ?>
 		'rows' => '20',
 		'value' => $paste->content
 	));
-	if (isset($paste->errors['content'])) {
-		echo '<p style="color:red">'.$paste->errors['content'].'</p>';
+	if (isset($errors['content'])) {
+		echo '<p style="color:red">'.$errors['content'].'</p>';
 	}
 ?>
 <br>
@@ -51,8 +53,8 @@ if (isset($paste->id) && isset($paste->rev)) : ?>
 		'id' => 'Paste.language',
 		'value' => $paste->language
 	));
-	if (isset($paste->errors['language'])) {
-		echo '<p style="color:red">'.$paste->errors['language'].'</p>';
+	if (isset($errors['language'])) {
+		echo '<p style="color:red">'.$errors['language'].'</p>';
 	}
 
 	echo $this->form->checkbox('Paste[permanent]', array(
