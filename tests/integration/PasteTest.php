@@ -102,7 +102,6 @@ class PasteTest extends \lithium\test\Unit {
 	protected function _taskSaveOneRecord() {
 		$data = array(
 			'id' => 'abcd1',
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -111,11 +110,11 @@ class PasteTest extends \lithium\test\Unit {
 		$paste->save();
 	}
 
+
 	public function testSave() {
 		$this->setUpTasks(array('PutTable'));
 
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -124,6 +123,28 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->save();
 
 		$this->assertTrue($result);
+
+		$this->setUpTasks(array('DeleteTable'));
+	}
+
+	public function testSaveUpdate() {
+		$this->setUpTasks(array('PutTable','SaveOneRecord'));
+
+		$paste = MockIntegrationPaste::find('abcd1');
+		$data = $paste->data();
+
+		$data['content'] = 'EDIT';
+
+		$paste2 = MockIntegrationPaste::create($data);
+
+		$result = $paste2->save();
+		$this->assertTrue($result);
+
+		$paste3 = MockIntegrationPaste::find('abcd1');
+
+		$expected = 'EDIT';
+		$result = $paste3->content;
+		$this->assertEqual($expected, $result);
 
 		$this->setUpTasks(array('DeleteTable'));
 	}
@@ -138,7 +159,7 @@ class PasteTest extends \lithium\test\Unit {
 		$data = $paste->data();
 
 		$expected = array(
-			'id','title','content',
+			'id','content',
 			'author','language','parsed',
 			'permanent','remember','created','rev'
 		);
