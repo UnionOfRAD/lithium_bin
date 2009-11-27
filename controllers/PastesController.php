@@ -72,7 +72,7 @@ class PastesController extends \lithium\action\Controller {
 			$paste->language = 'php';
 		} else {
 			$paste = Paste::create($this->request->data);
-			if ($paste->validates() && $paste->save()) {
+			if ($paste->save()) {
 
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
@@ -105,7 +105,7 @@ class PastesController extends \lithium\action\Controller {
 			}
 		} else {
 			$paste = Paste::create($this->request->data);
-			if ($paste->validates() && $paste->save()) {
+			if ($paste->save()) {
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
