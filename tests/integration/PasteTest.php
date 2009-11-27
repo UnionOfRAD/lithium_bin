@@ -9,14 +9,142 @@ use \app\tests\mocks\models\MockIntegrationPasteView;
 
 class PasteTest extends \lithium\test\Unit {
 
-	public function setUpTasks($setUpTasks) {
-		foreach ($setUpTasks as $task) {
-			$this->{'_task'.$task}();
-		}
+
+	public function testSave() {
+		$this->_tasks(array('PutTable'));
+
+		$data = array(
+			'content' => 'Lorem Ipsum',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockIntegrationPaste::create($data);
+		$result = $paste->save();
+
+		$this->assertTrue($result);
+
+		$this->_tasks(array('DeleteTable'));
 	}
 
-	public function tearDownTasks($tearDownTasks) {
-		foreach ($tearDownTasks as $task) {
+	public function testSaveUpdate() {
+		$this->_tasks(array('PutTable','SaveOneRecord'));
+
+		$paste = MockIntegrationPaste::find('abcd1');
+		$data = $paste->data();
+
+		$data['content'] = 'EDIT';
+
+		$paste2 = MockIntegrationPaste::create($data);
+
+		$result = $paste2->save();
+		$this->assertTrue($result);
+
+		$paste3 = MockIntegrationPaste::find('abcd1');
+
+		$expected = 'EDIT';
+		$result = $paste3->content;
+		$this->assertEqual($expected, $result);
+
+		$this->_tasks(array('DeleteTable'));
+	}
+
+	public function testRead() {
+		$this->_tasks(array('PutTable','SaveOneRecord'));
+
+		$paste = MockIntegrationPaste::find('abcd1');
+		$result = $paste->exists();
+		$this->assertTrue($result);
+
+		$data = $paste->data();
+
+		$expected = array(
+			'id','content',
+			'author','language','parsed',
+			'permanent','remember','created','rev'
+		);
+		$result = array_keys($data);
+		$this->assertEqual($expected, $result);
+
+		$expected = 'alkemann';
+		$result = $paste->author;
+		$this->assertEqual($expected, $result);
+
+		$this->_tasks(array('DeleteTable'));
+	}
+
+	public function testReadNotFound() {
+		$this->_tasks(array('PutTable'));
+
+		$result = MockIntegrationPaste::find('abcd1');
+
+		$this->assertFalse($result->exists());
+
+		$this->_tasks(array('DeleteTable'));
+	}
+
+	public function testLatestView() {
+		$this->_tasks(array('PutTable','FillTableFull'));
+
+		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
+			'design' => 'latest',
+			'view' => 'all',
+			'limit' => '10',
+			'descending' => 'true'
+		)));
+		$this->assertFalse($latest->exists());
+
+
+		$viewSave = MockIntegrationPasteView::create()->save();
+		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');
+
+		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
+			'design' => 'latest',
+			'view' => 'all',
+			'limit' => '10',
+			'descending' => 'true'
+		)));
+		$result = $latest instanceof \lithium\data\model\Document;
+
+		$this->assertTrue($result);
+		$this->skipIf(!$result, 'Not a document result');
+
+
+		$expected = 10;
+		$result = sizeof($latest->data());
+		$this->assertEqual($expected, $result);
+
+		$first = $latest->rewind();
+		$expected = 'a8';
+		$result = $first->id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+		$expected = 'a12';
+		$result = $next->id;
+		$this->assertEqual($expected, $result);
+		$next = $latest->next();
+
+		$expected = 'a7';
+		$result = $next->id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+		$expected = 'a1';
+		$result = $next->id;
+		$this->assertEqual($expected, $result);
+
+		$next = $latest->next();
+		$expected = 'a11';
+		$result = $next->id;
+		$this->assertEqual($expected, $result);
+
+		$this->_tasks(array('DeleteTable'));
+	}
+
+	/** TEST SETUPS **/
+
+	protected function _tasks($tasks) {
+		foreach ($tasks as $task) {
 			$this->{'_task'.$task}();
 		}
 	}
@@ -25,6 +153,22 @@ class PasteTest extends \lithium\test\Unit {
 		Connections::get("test")->put('/test_pastes');
 	}
 
+	protected function _taskDeleteTable() {
+        Connections::get("test")->delete(new Query(
+       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
+        ));
+	}
+
+	protected function _taskSaveOneRecord() {
+		$data = array(
+			'id' => 'abcd1',
+			'content' => 'Lorem Ipsum',
+			'author' => 'alkemann',
+			'language' => 'text'
+		);
+		$paste = MockIntegrationPaste::create($data);
+		$paste->save();
+	}
 	protected function _taskFillTableFull() {
 		$data = array(
 			'id' => 'a1',
@@ -91,155 +235,6 @@ class PasteTest extends \lithium\test\Unit {
 		$data['created'] = '2009-01-01 01:01:01';
 		$paste = MockIntegrationPaste::create($data);
 		$paste->save();
-	}
-
-	protected function _taskDeleteTable() {
-        Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
-        ));
-	}
-
-	protected function _taskSaveOneRecord() {
-		$data = array(
-			'id' => 'abcd1',
-			'content' => 'Lorem Ipsum',
-			'author' => 'alkemann',
-			'language' => 'text'
-		);
-		$paste = MockIntegrationPaste::create($data);
-		$paste->save();
-	}
-
-
-	public function testSave() {
-		$this->setUpTasks(array('PutTable'));
-
-		$data = array(
-			'content' => 'Lorem Ipsum',
-			'author' => 'alkemann',
-			'language' => 'text'
-		);
-		$paste = MockIntegrationPaste::create($data);
-		$result = $paste->save();
-
-		$this->assertTrue($result);
-
-		$this->setUpTasks(array('DeleteTable'));
-	}
-
-	public function testSaveUpdate() {
-		$this->setUpTasks(array('PutTable','SaveOneRecord'));
-
-		$paste = MockIntegrationPaste::find('abcd1');
-		$data = $paste->data();
-
-		$data['content'] = 'EDIT';
-
-		$paste2 = MockIntegrationPaste::create($data);
-
-		$result = $paste2->save();
-		$this->assertTrue($result);
-
-		$paste3 = MockIntegrationPaste::find('abcd1');
-
-		$expected = 'EDIT';
-		$result = $paste3->content;
-		$this->assertEqual($expected, $result);
-
-		$this->setUpTasks(array('DeleteTable'));
-	}
-
-	public function testRead() {
-		$this->setUpTasks(array('PutTable','SaveOneRecord'));
-
-		$paste = MockIntegrationPaste::find('abcd1');
-		$result = $paste->exists();
-		$this->assertTrue($result);
-
-		$data = $paste->data();
-
-		$expected = array(
-			'id','content',
-			'author','language','parsed',
-			'permanent','remember','created','rev'
-		);
-		$result = array_keys($data);
-		$this->assertEqual($expected, $result);
-
-		$expected = 'alkemann';
-		$result = $paste->author;
-		$this->assertEqual($expected, $result);
-
-		$this->setUpTasks(array('DeleteTable'));
-	}
-
-	public function testReadNotFound() {
-		$this->setUpTasks(array('PutTable'));
-
-		$result = MockIntegrationPaste::find('abcd1');
-
-		$this->assertFalse($result->exists());
-
-		$this->setUpTasks(array('DeleteTable'));
-	}
-
-	public function testLatestView() {
-		$this->setUpTasks(array('PutTable','FillTableFull'));
-
-		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
-			'design' => 'latest',
-			'view' => 'all',
-			'limit' => '10',
-			'descending' => 'true'
-		)));
-		$this->assertFalse($latest->exists());
-
-
-		$viewSave = MockIntegrationPasteView::create()->save();
-		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');
-
-		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
-			'design' => 'latest',
-			'view' => 'all',
-			'limit' => '10',
-			'descending' => 'true'
-		)));
-		$result = $latest instanceof \lithium\data\model\Document;
-
-		$this->assertTrue($result);
-		$this->skipIf(!$result, 'Not a document result');
-
-
-		$expected = 10;
-		$result = sizeof($latest->data());
-		$this->assertEqual($expected, $result);
-
-		$first = $latest->rewind();
-		$expected = 'a8';
-		$result = $first->id;
-		$this->assertEqual($expected, $result);
-
-		$next = $latest->next();
-		$expected = 'a12';
-		$result = $next->id;
-		$this->assertEqual($expected, $result);
-		$next = $latest->next();
-
-		$expected = 'a7';
-		$result = $next->id;
-		$this->assertEqual($expected, $result);
-
-		$next = $latest->next();
-		$expected = 'a1';
-		$result = $next->id;
-		$this->assertEqual($expected, $result);
-
-		$next = $latest->next();
-		$expected = 'a11';
-		$result = $next->id;
-		$this->assertEqual($expected, $result);
-
-		$this->setUpTasks(array('DeleteTable'));
 	}
 
 }
