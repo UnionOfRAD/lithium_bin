@@ -19,9 +19,7 @@ class PasteTest extends \lithium\test\Unit {
 			'language' => 'text'
 		);
 		$paste = MockIntegrationPaste::create($data);
-		$result = $paste->save();
-
-		$this->assertTrue($result);
+		$this->assertTrue($paste->save());
 
 		$this->_tasks(array('DeleteTable'));
 	}
@@ -33,14 +31,10 @@ class PasteTest extends \lithium\test\Unit {
 		$data = $paste->data();
 
 		$data['content'] = 'EDIT';
-
 		$paste2 = MockIntegrationPaste::create($data);
-
-		$result = $paste2->save();
-		$this->assertTrue($result);
+		$this->assertTrue($paste2->save());
 
 		$paste3 = MockIntegrationPaste::find('abcd1');
-
 		$expected = 'EDIT';
 		$result = $paste3->content;
 		$this->assertEqual($expected, $result);
@@ -52,17 +46,14 @@ class PasteTest extends \lithium\test\Unit {
 		$this->_tasks(array('PutTable','SaveOneRecord'));
 
 		$paste = MockIntegrationPaste::find('abcd1');
-		$result = $paste->exists();
-		$this->assertTrue($result);
-
-		$data = $paste->data();
+		$this->assertTrue($paste->exists());
 
 		$expected = array(
 			'id','content',
 			'author','language','parsed',
 			'permanent','remember','created','rev'
 		);
-		$result = array_keys($data);
+		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);
 
 		$expected = 'alkemann';
@@ -93,7 +84,6 @@ class PasteTest extends \lithium\test\Unit {
 		)));
 		$this->assertFalse($latest->exists());
 
-
 		$viewSave = MockIntegrationPasteView::create()->save();
 		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');
 
@@ -107,7 +97,6 @@ class PasteTest extends \lithium\test\Unit {
 
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a document result');
-
 
 		$expected = 10;
 		$result = sizeof($latest->data());
