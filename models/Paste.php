@@ -80,13 +80,17 @@ class Paste extends \lithium\data\Model {
 	public static function __init($options = array()) {
 		parent::__init($options);
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if (in_array($document->language, $self::languages())) {
-				$document->parse($document);
+			if (empty($params['data'])) {
+				$document = $params['record'];
+				$document->parsed = $document->parse($document->content, $document->language);
+				$document->preview = substr($document->content,0,100);
+				$document->created = date('Y-m-d h:i:s');
+				$params['record'] = $document;
+			} else {			
+				$params['data']['preview'] = substr($params['data']['content'],0,100);
+				$params['data']['parsed'] = Paste::parse($params['data']['content'], $params['data']['language']);
+				$params['data']['modified'] = date('Y-m-d h:i:s');
 			}
-			$document->preview = substr($document->content,0,100);
-			$document->created = date('Y-m-d h:i:s');
-			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
 		Validator::add('validLanguage', function ($value, $format, $options) {
@@ -100,17 +104,21 @@ class Paste extends \lithium\data\Model {
 	* used through the `Document` instance. It is the `__call` method in
 	* `Document` that makes this possible.
 	*
-	* @param Document $doc
+	* @param string $content
+	* @param string $langauge
 	*/
-	public function parse($doc) {
-		if (!($doc instanceof \lithium\data\model\Document)) {
-			return null;
-		}
-		$geshi = new GeSHi($doc->content, $doc->language);
+	public static function parse($content, $language) {
+		if (!in_array($language, static::languages())) {
+			if (!in_array('text', static::languages())) {
+				return $content;
+			}
+			$language = 'text';
+		} 
+		$geshi = new GeSHi($content, $language);
 		$geshi->enable_classes();
 		$geshi->enable_keyword_links(false);
 		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
-		$doc->parsed = $geshi->parse_code();
+		return $geshi->parse_code();
 	}
 
 	/**

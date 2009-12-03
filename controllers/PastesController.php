@@ -104,10 +104,10 @@ class PastesController extends \lithium\action\Controller {
 				));
 			}
 		} else {
-			$paste = Paste::create($this->request->data);
-			if ($paste->save()) {
+			$paste = Paste::find($this->request->data['id']);
+			if ($paste && $paste->save($this->request->data)) {
 				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
+					'controller' => 'pastes', 'action' => 'view', 'args' => array($this->request->data['id'])
 				));
 			}
 		}
