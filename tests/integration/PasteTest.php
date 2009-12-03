@@ -30,9 +30,10 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockIntegrationPaste::find('abcd1');
 		$data = $paste->data();
 
+		$paste2 = MockIntegrationPaste::find('abcd1');
+		$data = $paste2->data();
 		$data['content'] = 'EDIT';
-		$paste2 = MockIntegrationPaste::create($data);
-		$this->assertTrue($paste2->save());
+		$this->assertTrue($paste2->save($data));
 
 		$paste3 = MockIntegrationPaste::find('abcd1');
 		$expected = 'EDIT';
