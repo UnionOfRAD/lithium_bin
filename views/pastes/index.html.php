@@ -5,7 +5,7 @@ if ($latest == null):
 	return;
 endif;
 
-$total = $latest->total() - 1; // -1 for the design view
+$total = $latest->total(); 
 
 ?>
 <ul class="latest">
@@ -29,7 +29,7 @@ $total = $latest->total() - 1; // -1 for the design view
 	</li>
 	<?php 
 	
-	$p = 0; $count = $total - $limit;
+	$p = 0; $count = $total;
 	while ($count > 0) {
 		$p++; $count -= $limit;
 		echo '<li>';

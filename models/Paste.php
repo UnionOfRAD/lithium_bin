@@ -82,7 +82,7 @@ class Paste extends \lithium\data\Model {
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			if (empty($params['data'])) {
 				$document = $params['record'];
-				$document->parsed = $document->parse($document->content, $document->language);
+				$document->parsed = Paste::parse($document->content, $document->language);
 				$document->preview = substr($document->content,0,100);
 				$document->created = date('Y-m-d h:i:s');
 				$params['record'] = $document;
