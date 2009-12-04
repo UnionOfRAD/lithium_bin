@@ -24,6 +24,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
+	//	PasteView::create()->save();die();
 		$options = array(
 			'design' => 'latest', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
 		);

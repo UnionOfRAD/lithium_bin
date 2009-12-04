@@ -34,12 +34,11 @@ class PasteView extends \lithium\data\Model {
 	/**
 	 * Predefined views. Only used to store in db if not already there.
 	 */
-	protected static $_views = array(
-		'latest' => array(
-			'id' => '_design/latest',
-			'language' => 'javascript',
-			'views' => array(
-				'all' => array(
+	protected $_schema = array(
+		'id' =>  array('default' => '_design/latest'),
+		'language' =>  array('default' => 'javascript'),
+		'views' =>  array('default' => array(
+			'all' => array(
 'map' => 'function(doc) {
 	if (doc.permanent == "1") {
 		emit(doc.created, {
@@ -48,25 +47,9 @@ class PasteView extends \lithium\data\Model {
 		});
 	}
 }'
-				)
 			)
-		),
+		))
 	);
-
-	/**
-	 * Create a PasteView instance of Document
-	 * Unlike Model::create, this takes a string name of a predefined design view
-	 *
-	 * @param string $data 'lastest' is only valid and default 
-	 * @return Document
-	 */
-	public static function create($data = 'latest') {
-		if (!isset(static::$_views[$data])) {
-			return false;
-		}
-		return parent::create(static::$_views[$data]);
-
-	}
 
 
 }
