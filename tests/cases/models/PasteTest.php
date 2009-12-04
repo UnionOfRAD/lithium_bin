@@ -140,10 +140,7 @@ class PasteTest extends \lithium\test\Unit {
 	public function testGeShiFilter() {
 		MockPaste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, MockPaste::$languages)) {
-				 	$document->parse($document);
-			}
+			$document->parsed = MockPaste::parse($document->content, $document->language);
 			return $document ;
 		});
 

@@ -25,7 +25,7 @@ class PasteViewTest extends \lithium\test\Unit {
 	}
 
 	public function testCreateLatest() {
-		$view = MockPasteView::create('latest');
+		$view = MockPasteView::create();
 
 		$result = $view instanceof \lithium\data\model\Document;
 		$this->assertTrue($result);
