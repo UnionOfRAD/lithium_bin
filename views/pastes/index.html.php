@@ -20,9 +20,12 @@ endif;
 <ul id="actions">
 	<li><?php 
 		if ($total <= $limit || $page == 1) {
-			echo '<<-First';
+			echo '<<-First</li><li><-Previous';
 		} else {
 			echo $this->html->link('<<-First', array('action' => 'index', 'args' => array('page:1','limit:'.$limit)));
+			echo '</li><li>';
+			echo $this->html->link('<-Previous', array('action' => 'index', 'args' => array('page:'.($page-1),'limit:'.$limit)));
+		
 		} ?>
 	</li>
 	<?php 
@@ -41,8 +44,10 @@ endif;
 	?>	
 	<li><?php 
 		if ($total <= $limit || $page == $p) {
-			echo 'Last->>';
+			echo 'Next-></li><li>Last->>';
 		} else {
+			echo $this->html->link('Next->', array('action' => 'index', 'args' => array('page:'.($page+1),'limit:'.$limit))); 
+			echo '</li><li>';
 			echo $this->html->link('Last->>', array('action' => 'index', 'args' => array('page:'.$p,'limit:'.$limit))); 
 		}?>
 	</li>
