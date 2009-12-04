@@ -38,8 +38,7 @@ class PastesController extends \lithium\action\Controller {
 		}
 		$limit = $options['limit'];
 		$latest = Paste::find('all',array('conditions' => $options));	
-		$total = Paste::count();
-		return compact('latest','total','limit','page');
+		return compact('latest','limit','page');
 	}
 
 	/**

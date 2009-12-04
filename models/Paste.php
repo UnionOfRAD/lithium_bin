@@ -139,14 +139,6 @@ class Paste extends \lithium\data\Model {
 		return static::$languages;
 	}
 
-	/**
-	 * Returns a count of documents (-1 for the latest view itself)
-	 * 
-	 * @return int
-	 */
-	public static function count() {
-		 return \lithium\data\Connections::get('default')->describe(static::meta('source'))->doc_count-1;
-	}
 }
 
 ?>

@@ -4,6 +4,9 @@ if ($latest == null):
 	echo 'NO PASTES';
 	return;
 endif;
+
+$total = $latest->total() - 1; // -1 for the design view
+
 ?>
 <ul class="latest">
 	<?php foreach($latest as $row): ?>
