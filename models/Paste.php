@@ -58,7 +58,7 @@ class Paste extends \lithium\data\Model {
 		'language' => array(
 			'rule' => 'validLanguage', 'message' => 'Invalid language.')
 	);
-
+	
 	/**
 	* Init method called by `Libraries::load()`. It applies filters on the save method.
 	*
@@ -79,6 +79,15 @@ class Paste extends \lithium\data\Model {
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
+		$self = static::_instance();
+		$self->_finders['count'] = function($self, $params, $chain) {
+			$http = new \lithium\data\source\Http(array(
+				'host' => '127.0.0.1',
+				'port' => '5984'
+			));			
+			$result = json_decode($http->get('/'.Paste::meta('source').'/_design/paste/_view/count'));
+			return $result->total_rows; 
+		};
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			if (empty($params['data'])) {
 				$document = $params['record'];

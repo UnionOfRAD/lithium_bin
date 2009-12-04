@@ -24,9 +24,8 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		
 		$options = array(
-			'design' => 'latest', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
+			'design' => 'paste', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
 		);
 
 		$page = 1;

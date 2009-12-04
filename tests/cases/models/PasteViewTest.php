@@ -16,7 +16,7 @@ class PasteViewTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a Document result');
 
-		$expected = '_design/latest';
+		$expected = '_design/paste';
 		$result = $view->id;
 		$this->assertEqual($expected, $result);
 
@@ -31,7 +31,7 @@ class PasteViewTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a Document result');
 
-		$expected = '_design/latest';
+		$expected = '_design/paste';
 		$result = $view->id;
 		$this->assertEqual($expected, $result);
 
@@ -39,7 +39,8 @@ class PasteViewTest extends \lithium\test\Unit {
 		$result = $view->language;
 		$this->assertEqual($expected, $result);
 
-		$expected = array('all' => array(
+		$expected = array(
+			'all' => array(
 'map' => 'function(doc) {
 	if (doc.permanent == "1") {
 		emit(doc.created, {
@@ -47,8 +48,14 @@ class PasteViewTest extends \lithium\test\Unit {
 			preview: doc.preview, created: doc.created
 		});
 	}
-}'
-		));
+}'),
+			'count' => array(
+'map' => 'function(doc) {
+	if (doc.permanent == "1") {
+		emit(doc._id, null);
+	}
+}'),
+		);
 		$result = $view->views->data();
 		$this->assertEqual($expected, $result);
 	}

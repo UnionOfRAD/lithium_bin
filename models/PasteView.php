@@ -35,7 +35,7 @@ class PasteView extends \lithium\data\Model {
 	 * Predefined views. Only used to store in db if not already there.
 	 */
 	protected $_schema = array(
-		'id' =>  array('default' => '_design/latest'),
+		'id' =>  array('default' => '_design/paste'),
 		'language' =>  array('default' => 'javascript'),
 		'views' =>  array('default' => array(
 			'all' => array(
@@ -46,8 +46,13 @@ class PasteView extends \lithium\data\Model {
 			preview: doc.preview, created: doc.created
 		});
 	}
-}'
-			)
+}'),
+			'count' => array(
+'map' => 'function(doc) {
+	if (doc.permanent == "1") {
+		emit(doc._id, null);
+	}
+}'),
 		))
 	);
 

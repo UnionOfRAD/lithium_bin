@@ -78,7 +78,7 @@ class PasteTest extends \lithium\test\Unit {
 		$this->_tasks(array('PutTable','FillTableFull'));
 
 		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
-			'design' => 'latest',
+			'design' => 'paste',
 			'view' => 'all',
 			'limit' => '10',
 			'descending' => 'true'
@@ -89,7 +89,7 @@ class PasteTest extends \lithium\test\Unit {
 		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');
 
 		$latest = MockIntegrationPaste::find('all', array('conditions'=> array(
-			'design' => 'latest',
+			'design' => 'paste',
 			'view' => 'all',
 			'limit' => '10',
 			'descending' => 'true'
@@ -131,6 +131,16 @@ class PasteTest extends \lithium\test\Unit {
 		$this->_tasks(array('DeleteTable'));
 	}
 
+	public function testCount() {
+		$this->_tasks(array('PutTable','FillTableFull'));
+		
+		$expected = 9;
+		$result = MockIntegrationPaste::find('count');
+		$this->assertEqual($expected, $result);		
+		
+		$this->_tasks(array('DeleteTable'));
+	}
+	
 	/** TEST SETUPS **/
 
 	protected function _tasks($tasks) {

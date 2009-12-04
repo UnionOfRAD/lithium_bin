@@ -5,8 +5,6 @@ if ($latest == null):
 	return;
 endif;
 
-$total = $latest->total(); 
-
 ?>
 <ul class="latest">
 	<?php foreach($latest as $row): ?>
