@@ -19,9 +19,14 @@ Router::connect('/test', array('controller' => '\lithium\test\Controller'));
 
 Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
+Router::connect('/pastes/index/page:{:page:[0-9]+}', array('controller' => 'pastes', 'action' => 'index'), array('page' => 1));
+Router::connect('/pastes/index/page:{:page:[0-9]+}/limit:{:limit:[0-9]+}', array('controller' => 'pastes', 'action' => 'index'), array('page' => 1, 'limit' => 10));
+
+
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
 Router::connect('/view/{:args}', array('controller' => 'pastes', 'action' => 'view'));
+
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

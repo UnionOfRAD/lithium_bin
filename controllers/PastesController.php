@@ -24,16 +24,22 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		$conditions = array('conditions'=> array(
-			'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
-		));
-		$latest = Paste::find('all', $conditions);
-		if ($latest === null) {
-			if (PasteView::create()->save()) {
-				$latest = Paste::find('all', $conditions);
-			}
+		$options = array(
+			'design' => 'latest', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
+		);
+
+		$page = 1;
+		if (isset($this->request->params['page'])) {
+			if (isset($this->request->params['limit'])) {
+				$options['limit'] = $this->request->params['limit'];
+			}			
+			$options['skip'] = ($this->request->params['page']-1) * $options['limit'];
+			$page = $this->request->params['page'];
 		}
-		return compact('latest');
+		$limit = $options['limit'];
+		$latest = Paste::find('all',array('conditions' => $options));	
+		$total = Paste::count();
+		return compact('latest','total','limit','page');
 	}
 
 	/**

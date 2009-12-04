@@ -54,6 +54,19 @@ h3 {
 ul.latest, ul.latest li {
 	margin: 1em;
 }
+/** action ul */
+ul#actions {
+	margin: 10px 0 0;
+	color: grey;	
+}
+#actions li {
+	list-style: none;	
+	display: inline;
+	padding: 0 5px;	
+}
+#actions a, #sidebar a, #list a {
+	color: blue;
+}
 form {
 	margin-bottom: 40px;
 }
