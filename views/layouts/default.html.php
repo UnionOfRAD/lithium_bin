@@ -13,7 +13,9 @@
 	<title>Pastium <?=$this->title(); ?></title>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
-		'http://li3.rad-dev.org/css/li3.css',
+		'base',
+		'http://lithium_main/css/li3.css',
+		//'http://li3.rad-dev.org/css/li3.css',
 		'pastium'
 	)); ?>
 	<?php
@@ -23,10 +25,10 @@
 	?>
 	<?php echo $this->scripts(); ?>
 </head>
-<body class="pastebin">
-<div id="container">
-	<div class="width-constraint">
-		<div class="article">
+<body class="bin">
+<div id="wrapper">
+	<div id="container">
+		<div id="header">
 			<h1>Pastium</h1>
 			<div class="nav tabs right">
 				<ul>
@@ -41,12 +43,14 @@
 				</ul>
 			</div>
 			<h2>Let there be paste!</h2>
-			<?php echo $this->content();?>
+		</div>
+		<div id="content">
+			<?php echo $this->content; ?>
 		</div>
 	</div>
 	<div id="footer-spacer"></div>
 </div>
-<div class="footer" id="site-footer">
+<div id="footer">
 	<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
 </div>
 <?php echo $this->html->script(array(

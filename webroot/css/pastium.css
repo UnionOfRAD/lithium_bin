@@ -1,43 +1,71 @@
-.article > h1:before {
-	content: url(../img/pastium-logo.png);
+/*-------------------------------------------------------------------------------------------------
+   Lithium: the most rad php framework
+
+   @copyright     Copyright 2009, Union of RAD (http://union-of-rad.org)
+   @license       http://opensource.org/licenses/bsd-license.php The BSD License
+-------------------------------------------------------------------------------------------------*/
+
+/*--- This is the stylesheet for Pastium. ---*/
+
+/*--- Basics ---*/
+#header h1 {
+	margin: .1em 0;
+	font-size: 35px;
+}
+#header h1:before {
+	content: url("../img/pastium-logo.png");
 	display: block;
 	float: left;
 	margin: -10px .7em 1em 0;
 }
-.pastebin .nav.tabs {
+#header h2 {
+	margin: .5em .5em 2em 0;
+	color: #666;
+	font-size: 22px;
+	line-height: 28px;
+	width: 70%;
 }
-.pastebin .section {
+
+.section {
 	display: block;
 }
-
-.pastebin .section.paste-content {
+.paste-content {
+	border:2px solid #F0F0F0;
 	display:block;
-	width: 670px;
+	width: 646px;
 	float: left;
 }
-.pastebin .section.paste-meta {
+.paste-meta {
+	border:2px solid #F0F0F0;
 	width: 200px;
 	float: left;
-	padding: 1em 0 1em 20px;
+	padding: 1em 20px 1em 20px;
 	background: #f0f0f0;
 }
-
-.pastebin .section.paste-meta input[type=text] {
+.paste-meta input[type=text] {
 	width:11.5em;
 }
-.pastebin .section.submit {
+#paste, #clean {
 	clear: both;
 }
-.pastebin .notice {
+#paste li, #clean li{
+	margin: 0;
+}
+#paste li div, #clean li div {
+	padding-left: 10px;
+}
+
+.section.submit {
+	clear: both;
+}
+.notice {
 	display: block;
 	clear: both;
 	text-align: left;
-
 }
 .notice small {
 	color: #454545;
 }
-
 p.error {
 	background: #ffe5e5;
 	border: 1px solid #ffb1b1;
@@ -48,14 +76,15 @@ p.error {
 
 .author {
 	margin-bottom: 2em;
-	clear: both; 
+	clear: both;
 }
 
-.pastebin .textarea textarea {
+.textarea textarea {
 	width: 630px;
 	margin:0;
 }
 
+/*--- Pastes ---*/
 .pastes {
 	list-style: none;
 	padding: 0;
@@ -92,8 +121,6 @@ p.error {
 	font-family: Monaco,'Courier New', Courier, monospace;
 }
 
-/* Navigation */
-
 .nav .paste:before {
 	content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png);
 	margin: 0 .55em 0 0;
@@ -122,7 +149,6 @@ p.error {
 	content: url(http://li3.rad-dev.org/img/icons/silk/pencil.png);
 	z-index: 10;
 }
-
 .nav .color span, .nav .contrast span, .nav .smaller span, .nav .bigger span, .nav .copy span, .nav .edit span {
 	display: none;
 }
