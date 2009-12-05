@@ -84,6 +84,10 @@ p.error {
 	margin:0;
 }
 
+code, pre {
+	font-family: Monaco, Courier, monospace !important;
+}
+
 /*--- Pastes ---*/
 .pastes {
 	list-style: none;
