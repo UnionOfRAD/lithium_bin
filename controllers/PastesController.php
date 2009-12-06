@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use \app\models\Paste;
 use \app\models\PasteView;
+use \lithium\storage\Session;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -76,14 +77,29 @@ class PastesController extends \lithium\action\Controller {
 	 * @param string $author
 	 * @param string $language
 	 */
-	public function add($author = null, $language = null) {
+	public function add($author = null, $language = 'php') {
 		if (empty($this->request->data)) {
-			$paste = Paste::create(compact('author', 'language'));
-			$paste->language = 'php';
+			if ($saved = Session::read('paste')) {
+				$data = (array) json_decode($saved);
+			} else {
+				$data = compact('author', 'language');
+			}			
+			$paste = Paste::create($data);
 		} else {
 			$paste = Paste::create($this->request->data);
+			$remember = $paste->remember;
+			unset($paste->remember);
 			if ($paste->save()) {
-
+				if ($remember) {
+				Session::write('paste', json_encode(array(
+					'author' => $paste->author,
+					'permanent' => ($paste->permanent == "1"),
+					'remember' => true,
+					'language' => $paste->language				
+				)));
+				} else {
+					Session::write('paste', null);
+				}
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
@@ -115,7 +131,19 @@ class PastesController extends \lithium\action\Controller {
 			}
 		} else {
 			$paste = Paste::find($this->request->data['id']);
+			$remember = $paste->remember;
+			unset($paste->remember);
 			if ($paste && $paste->save($this->request->data)) {
+				if ($remember) {
+				Session::write('paste', json_encode(array(
+					'author' => $paste->author,
+					'permanent' => ($paste->permanent == "1"),
+					'remember' => true,
+					'language' => $paste->language				
+				)));
+				} else {
+					Session::write('paste', null);
+				}
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
