@@ -14,8 +14,7 @@
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
 		'base',
-		'http://lithium_main/css/li3.css',
-		//'http://li3.rad-dev.org/css/li3.css',
+		'http://li3.rad-dev.org/css/li3.css',
 		'pastium'
 	)); ?>
 	<?php
