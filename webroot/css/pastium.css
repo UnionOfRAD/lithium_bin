@@ -45,6 +45,10 @@
 .paste-meta input[type=text] {
 	width:11.5em;
 }
+.paste-meta input[type=submit] {
+	margin: 1em auto;
+}
+
 #paste, #clean {
 	clear: both;
 }
