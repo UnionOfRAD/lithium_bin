@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use \app\models\Paste;
+use \app\models\PasteView;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -23,9 +24,26 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		return array('latest' => Paste::find('all', array('conditions'=> array(
-			'design' => 'latest', 'view' => 'all', 'limit' => '10', 'descending' => 'true'
-		))));
+		$options = array(
+			'design' => 'paste', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
+		);
+
+		$page = 1;
+		if (isset($this->request->params['page'])) {
+			if (isset($this->request->params['limit'])) {
+				$options['limit'] = $this->request->params['limit'];
+			}			
+			$options['skip'] = ($this->request->params['page']-1) * $options['limit'];
+			$page = $this->request->params['page'];
+		}
+		$limit = $options['limit'];
+		$latest = Paste::find('all',array('conditions' => $options));	
+		if (!$latest->exists()) {
+			PasteView::create()->save();
+			$latest = Paste::find('all',array('conditions' => $options));	
+		}
+		$total = Paste::find('count');
+		return compact('latest','limit','page','total');
 	}
 
 	/**
@@ -61,16 +79,17 @@ class PastesController extends \lithium\action\Controller {
 	public function add($author = null, $language = null) {
 		if (empty($this->request->data)) {
 			$paste = Paste::create(compact('author', 'language'));
+			$paste->language = 'php';
 		} else {
 			$paste = Paste::create($this->request->data);
-			if ($paste->validates() && $paste->save()) {
+			if ($paste->save()) {
 
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
-		$languages = Paste::$languages;
+		$languages = Paste::languages();
 		$this->set(compact('paste', 'languages'));
 		$this->render('form');
 	}
@@ -95,14 +114,14 @@ class PastesController extends \lithium\action\Controller {
 				));
 			}
 		} else {
-			$paste = Paste::save($this->request->data);
-			if ($paste->saved) {
+			$paste = Paste::find($this->request->data['id']);
+			if ($paste && $paste->save($this->request->data)) {
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
-		$languages = Paste::$languages;
+		$languages = Paste::languages();
 		$this->set(compact('paste', 'languages'));
 		$this->render('form');
 	}

@@ -1,0 +1,43 @@
+#Models
+
+Even though the application only deals with one CouchDB table/database, for convience,
+interacting with the datasource is split into the following two models:
+
+##Paste
+Data model for access the pastebin documents.
+In this instance it works as an inbetween of the controller
+and the CouchDB adapter. The goal being that the controller
+can ask for data in a very generic way. Now in 0.3 version,
+no special considerations are needed when interacting with it.
+###To find:
+{{{
+	$document = Paste::find('uuid1234');
+}}}
+
+###To save:
+{{{
+	$document = Paste::create($data);
+	if ($document->validates())
+		$document->save();
+}}}
+
+
+
+##PasteView
+This model is used to store Couch design views to the `Paste` database
+It also defines it. Do not call a 'find' on this model. To view the view, use
+the 'design' condition in a 'find' call on the `Paste` model, ie :
+###Index page data is found with :
+{{{
+ 		$latest = Paste::find('all', array('conditions' => array(
+ 			'design' => 'latest,
+ 			'limit' => 10
+ 		)));
+}}}
+
+When the find call in the example above returns a NULL, that means the view does not
+exist in the `Paste` database.
+###To create and save the latest view:
+{{{
+ 		PasteView::create()->save();
+}}}

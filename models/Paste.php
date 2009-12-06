@@ -3,7 +3,7 @@
 namespace app\models;
 
 use \Geshi;
-use \lithium\data\model\Document;
+use \lithium\core\Libraries;
 use \lithium\util\Validator;
 
 /**
@@ -14,24 +14,15 @@ use \lithium\util\Validator;
  *
  *
  * @link	http://rad-dev.org/lithium_bin
- * @package	lithium_bin
- * @author	alkemann
  */
 class Paste extends \lithium\data\Model {
-
-	/**
-	 * public name of the model
-	 *
-	 * @var string
-	 */
-	public static $alias = 'Paste';
 
 	/**
 	 * Available languages
 	 *
 	 * @var array
 	 */
-	public static $languages = array('php','html','javascript','diff','text');
+	public static $languages = null;
 
 	/**
 	 * Metadata
@@ -39,163 +30,124 @@ class Paste extends \lithium\data\Model {
 	 * @var array array of meta data to link the model with the couchdb datasource
 	 *		- source : the name of the table (called database in couchdb)
 	 */
-	protected $_meta = array(
-		'source' => 'lithium_bin'
-	);
+	protected $_meta = array('source' => 'lithium_bin');
 
 	/**
-	 *  Default values for document based db
+	 *  Schema for Paste
 	 *
 	 * @todo remove 'remember' field when cookie logic is implemented
 	 * @var array
 	 */
-	protected static $_defaults = array(
-		'author' => null,
-		'content' => null,
-		'parsed' => null,
-		'permanent' => 0,
-		'remember' => 0,
-		'language' => 'text'
+	protected $_schema = array(
+		'author' 	=> array('default' => null, 'type' => 'string'),
+		'content' 	=> array('default' => null, 'type' => 'string'),
+		'parsed' 	=> array('default' => null, 'type' => 'string'),
+		'permanent'	=> array('default' => false, 'type' => 'boolean'),
+		'remember' 	=> array('default' => false, 'type' => 'boolean'),
+		'language' 	=> array('default' => 'text', 'type' => 'string'),
+		'created' 	=> array('default' => '1979-01-01 01:01:01', 'type' => 'string')
 	);
 
 	/**
-	 * Views Document
-	 */
-	public static $_views = array(
-		'latest' => array(
-			'id' => '_design/latest',
-			'language' => 'javascript',
-			'views' => array(
-				'all' => array(
-					'map' => 'function(doc) {
-						if (doc.permanent == "1") {
-							var preview = String.substring(doc.content, 0, 100);
-							emit(doc.created, {
-								author:doc.author, language:doc.language,
-								preview: preview, created: doc.created
-							});
-						}
-					}'
-				)
-			)
-		)
+	* Validation rules for Paste fields
+	*/
+	public $validates = array(
+		'content' => 'You seem to be missing the content.',
+		'author' => array(
+			'rule' => 'isAlphaNumeric', 'message' => 'You forgot your alphanumeric name?'),
+		'language' => array(
+			'rule' => 'validLanguage', 'message' => 'Invalid language.')
 	);
-
+	
 	/**
-	* Apply find and save filter
+	* Init method called by `Libraries::load()`. It applies filters on the save method.
+	*
+	* Filters are closure (inline functions) that are called in sequence ending with the
+	* filtered method. As such they can insert themselves both before and after the filtered
+	* method by placing logic either before or after their `$chain->next()` call.
+	*
+	* The filter parameters are:
+	*	- `$self`	(string)	fully-namespaced class name.
+	*	- `$params` (array)		an associative array of the params passed to the method
+	*	- `$chain`  (Filters)	filters in line to be executed
+	*
+	* The filters return the same as the method they filter would, ie
+	* 	- Find filter returns a modified Document instance
+	*
+	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
+	* @param array $options Merged with the `meta` property, see `Paste::$_meta`
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
-		Paste::applyFilter('find', function($self, $params, $chain) {
-			if (isset($params['options']['conditions']['design']) &&
-					  $params['options']['conditions']['design'] == 'latest') {
-				$conditions = $params['options']['conditions'];
-				$result = $chain->next($self, $params, $chain);
-				if ($result === null) {
-					Paste::createView()->save();
-					return null; //static::find('all', $conditions);
-				}
-				foreach ($result as $paste) {
-					$paste->preview = rawurldecode($paste->preview);
-				}
-				return $result;
-			} else {
-				$result = $chain->next($self, $params, $chain);
-				$result->content = rawurldecode($result->content);
-				$result->parsed = rawurldecode($result->parsed);
-				return $result;
-			}
-		});
+		$self = static::_instance();
+		$self->_finders['count'] = function($self, $params, $chain) {
+			$http = new \lithium\data\source\Http(array(
+				'host' => '127.0.0.1',
+				'port' => '5984'
+			));			
+			$result = json_decode($http->get('/'.Paste::meta('source').'/_design/paste/_view/count'));
+			return $result->total_rows; 
+		};
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			if ($params['record']->id != '_design/latest') {
+			if (empty($params['data'])) {
 				$document = $params['record'];
-				if ($document->language != 'text' &&
-					 in_array($document->language, Paste::$languages)) {
-				 		$document = Paste::parse($document);
-				}
-				$document->parsed = rawurlencode($document->parsed);
-				$document->content  = rawurlencode($document->content);
+				$document->parsed = Paste::parse($document->content, $document->language);
+				$document->preview = substr($document->content,0,100);
+				$document->created = date('Y-m-d h:i:s');
 				$params['record'] = $document;
+			} else {			
+				$params['data']['preview'] = substr($params['data']['content'],0,100);
+				$params['data']['parsed'] = Paste::parse($params['data']['content'], $params['data']['language']);
+				$params['data']['modified'] = date('Y-m-d h:i:s');
 			}
 			return $chain->next($self, $params, $chain);
 		});
+		Validator::add('validLanguage', function ($value, $format, $options) {
+			return (in_array($value, Paste::languages()));
+		});
 	}
 
 	/**
-	* Takes a reference to a Document, and parses the content
+	* Takes a reference to a `Document`, and parses the content
+	* While it is defined as a non-static method in the Paste model, it is
+	* used through the `Document` instance. It is the `__call` method in
+	* `Document` that makes this possible.
 	*
-	* @param Document $doc
-	* @return Document
+	* @param string $content
+	* @param string $langauge
 	*/
-	public static function &parse(&$doc) {
-		if (!($doc instanceof \lithium\data\model\Document)) {
-			return null;
-		}
-
-		$geshi = new GeSHi($doc->content, $doc->language);
+	public static function parse($content, $language) {
+		if (!in_array($language, static::languages())) {
+			if (!in_array('text', static::languages())) {
+				return $content;
+			}
+			$language = 'text';
+		} 
+		$geshi = new GeSHi($content, $language);
 		$geshi->enable_classes();
 		$geshi->enable_keyword_links(false);
 		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,2);
-		$doc->parsed = $geshi->parse_code();
-
-		return $doc;
-	}
-
-
-	/**
-	* Used to create and then save the design view 'latest' to couch, ie:
-	* {{{
-	* 	Paste::createView()->save();
-	* }}}
-	*
-	* @return Document
-	*/
-	public static function createView() {
-		return parent::create(static::$_views['latest']);
+		return $geshi->parse_code();
 	}
 
 	/**
-	 *  Sets default values and calls the parent create()
+	 * Returns a list of languages that geshi can parse.
+	 * Stored in static::$languages, but if empty will fill it by
+	 * doing a Libraries::find()
 	 *
-	 * @param array $data of field values to start with
-	 * @return Document
+	 * @return array
 	 */
-	public static function create($data = array()) {
-		if (isset($data['Paste'])) {
-			$data = $data['Paste'];
+	public static function languages() {
+		if (static::$languages === null) {
+			static::$languages =  Libraries::find('geshi', array(
+				'path' => '/geshi', 'filter' => false, 'format' => function($class) {
+					return basename($class, '.php');
+				}
+			));
 		}
-		$data += static::$_defaults;
-		if (!isset($data['created']))
-			$data['created'] = date('Y-m-d h:i:s');
-		return parent::create($data);
-	}
-
-	/*
-	* Validate the input data before saving to data
-	* Validates author, content, language, permanent
-	*
-	* @param $record Document instance
-	* @param $options array
-	* @return boolean
-	*/
-	public function validates($record, $options = array()) {
-		$success = true; $errors = array();
-		if (!Validator::isAlphaNumeric($record->author)) {
-			$success = false;
-			$errors['author'] = 'This field can only be alphanumeric';
-		}
-		if (!Validator::isNotEmpty($record->content)) {
-			$success = false;
-			$errors['content'] = 'This field can not be left empty';
-		}
-		if (!in_array($record->language, static::$languages)) {
-			$success = false;
-			$errors['language'] = 'You have messed with the HTML that is not valid language';
-		}
-		if (!$success)
-			$record->set(array('errors' => $errors));
-		return $success;
+		return static::$languages;
 	}
 
 }
+
 ?>

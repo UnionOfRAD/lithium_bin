@@ -17,7 +17,6 @@ Connections::add('default', 'http', array(
 Connections::add('test', 'http', array(
 	'adapter' => 'CouchDb',
 	'host' => '127.0.0.1',
-	'prefix' => 'test_',
 	'port' => '5984'
 ));
 ?>

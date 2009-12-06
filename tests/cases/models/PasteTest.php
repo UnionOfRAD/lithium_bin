@@ -2,34 +2,7 @@
 
 namespace app\tests\cases\models;
 
-class MockPaste extends \app\models\Paste {
-
-	/**
-	* @todo remove when Model problem with adapter is fixed in core
-	*/
-	protected $_classes = array(
-	  'query' => '\lithium\data\model\Query',
-	  'record' => '\lithium\data\model\Document',
-	  'validator' => '\lithium\util\Validator',
-	  'recordSet' => '\lithium\data\model\Document',
-	  'connections' => '\lithium\data\Connections'
-	);
-
-	protected $_meta = array();
-
-	public function classes() {
-		return $this->_classes;
-	}
-
-	public static function &mockParse(&$doc) {
-		if (!($doc instanceof \lithium\data\model\Document)) {
-			return null;
-		}
-		$doc->parsed = 'PARSED';
-		return $doc;
-	}
-}
-
+use \app\tests\mocks\models\MockPaste;
 
 class PasteTest extends \lithium\test\Unit {
 	public function testUsesDocument() {
@@ -51,7 +24,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCreate() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'language' => 'text',
 			'author' => 'alkemann'
@@ -62,7 +34,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertFalse($result);
 
 		$expected = array(
-			'title',
 			'content',
 			'language',
 			'author',
@@ -72,10 +43,6 @@ class PasteTest extends \lithium\test\Unit {
 			'created',
 		);
 		$result = array_keys($paste->data());
-		$this->assertEqual($expected, $result);
-
-		$expected = 'Post';
-		$result = $paste->title;
 		$this->assertEqual($expected, $result);
 
 		$expected = 'Lorem Ipsum';
@@ -102,7 +69,6 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCreateWithCreatedField() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'language' => 'text',
 			'author' => 'alkemann',
@@ -115,23 +81,8 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertEqual($expected, $result);
 	}
 
-	public function testCreateView() {
-		$view = MockPaste::createView();
-
-		$expected = '_design/latest';
-		$result = $view->id;
-		$this->assertEqual($expected, $result);
-
-		$expected = 'javascript';
-		$result = $view->language;
-		$this->assertEqual($expected, $result);
-
-		$this->assertTrue(is_string($view->views->all->map));
-	}
-
 	public function testValidation() {
 		$data = array(
-			'title' => 'Post',
 			'content' => 'Lorem Ipsum',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -141,7 +92,6 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 
 		$data = array(
-			'title' => 'Post',
 			'content' => '',
 			'author' => 'alkemann',
 			'language' => 'text'
@@ -153,10 +103,9 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testValidationErrors() {
 		$data = array(
-			'title' => 'Post',
 			'content' => '',
 			'author' => 'Tom Good',
-			'language' => 'nose'
+			'language' => ''
 		);
 		$paste = MockPaste::create($data);
 		$result = $paste->validates();
@@ -165,45 +114,33 @@ class PasteTest extends \lithium\test\Unit {
 		$this->assertTrue(is_a($paste, '\lithium\data\model\Document'),
 			'Paste isnt a Document');
 		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
-		$this->assertTrue(is_a($paste->errors, '\lithium\data\model\Document'));
+		$result = $paste->errors();
+		$this->assertTrue(is_array($result));
 		$expected = array(
-			'author' => 'This field can only be alphanumeric',
-			'content' => 'This field can not be left empty',
-			'language' => 'You have messed with the HTML that is not valid language'
+			'author' => 'You forgot your alphanumeric name?',
+			'content' => 'You seem to be missing the content.',
+			'language' => 'Invalid language.'
 		);
-		$result = $paste->errors->data();
 		$this->assertEqual($expected, $result);
-	}
-	/*
-	public function testApplyingFilter() {
-		MockPaste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, MockPaste::$languages)) {
-				 	$document = MockPaste::mockParse($document);
-			}
-			return $document ;
-		});
 
 		$data = array(
-			'content' => 'echo $this->function("lol");',
-			'author' => 'TomGood',
-			'language' => 'php'
+			'author' => 'alpha',
+			'content' => 'Lorem',
+			'language' => 'notalanguage'
 		);
 		$paste = MockPaste::create($data);
-		$result = $paste->save();
+		$result = $paste->validates();
+		$this->assertFalse($result);
 
-		$expected = 'PARSED';
-		$this->assertEqual($expected, $result->parsed);
+		$expected = array('language' => 'Invalid language.');
+		$result = $paste->errors();
+		$this->assertEqual($expected, $result);
 	}
-	*/
+
 	public function testGeShiFilter() {
 		MockPaste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
-			if ($document->language != 'text' &&
-				 in_array($document->language, MockPaste::$languages)) {
-				 	$document = \app\models\Paste::parse($document);
-			}
+			$document->parsed = MockPaste::parse($document->content, $document->language);
 			return $document ;
 		});
 
