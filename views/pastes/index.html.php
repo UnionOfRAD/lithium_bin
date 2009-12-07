@@ -1,6 +1,6 @@
 <h2>Latest</h2>
 <?php
-if ($latest == null):
+if ($latest->count() == 0):
 	echo 'NO PASTES';
 	return;
 endif;
