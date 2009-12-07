@@ -52,7 +52,7 @@ class PasteTest extends \lithium\test\Unit {
 		$expected = array(
 			'id','content',
 			'author','language','parsed',
-			'permanent','remember','created','rev'
+			'permanent','created','rev'
 		);
 		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);
@@ -178,7 +178,6 @@ class PasteTest extends \lithium\test\Unit {
 			'content' => 'Lorem Ipsum',
 			'parsed' => '',
 			'permanent' => true,
-			'remember' => false,
 			'saved' => false
 		);
 		$paste = MockIntegrationPaste::create($data);
