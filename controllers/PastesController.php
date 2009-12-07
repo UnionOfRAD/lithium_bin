@@ -28,7 +28,6 @@ class PastesController extends \lithium\action\Controller {
 		$options = array(
 			'design' => 'paste', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
 		);
-
 		$page = 1;
 		if (isset($this->request->params['page'])) {
 			if (isset($this->request->params['limit'])) {
@@ -39,10 +38,6 @@ class PastesController extends \lithium\action\Controller {
 		}
 		$limit = $options['limit'];
 		$latest = Paste::find('all',array('conditions' => $options));	
-		if (!$latest->exists()) {
-			PasteView::create()->save();
-			$latest = Paste::find('all',array('conditions' => $options));	
-		}
 		$total = Paste::find('count');
 		return compact('latest','limit','page','total');
 	}
