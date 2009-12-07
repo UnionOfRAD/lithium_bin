@@ -83,7 +83,7 @@ class Paste extends \lithium\data\Model {
 				'host' => '127.0.0.1',
 				'port' => '5984'
 			));			
-			$result = json_decode($http->get('/'.Paste::meta('source').'/_design/paste/_view/count'));
+			$result = json_decode($http->get('/'.$self::meta('source').'/_design/paste/_view/count'));
 			return $result->total_rows; 
 		};
 		Paste::applyFilter('save', function($self, $params, $chain) {
