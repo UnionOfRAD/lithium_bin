@@ -11,7 +11,6 @@ namespace lithium;
 use \lithium\core\Environment;
 use \lithium\core\Libraries;
 use \lithium\storage\Session;
-use \lithium\storage\session\adapter\Cookie;
 
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
@@ -76,14 +75,12 @@ require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Renderer.php';
  */
 Libraries::add('app');
 
-
 Libraries::add('geshi', array(
 	'path' => LITHIUM_APP_PATH. '/libraries/geshi',
 	'prefix' => 'Geshi',
 	'bootstrap' => 'geshi.php'
 ));
 
-Session::config(array(
-	'default' => array('adapter' => new Cookie())
-));
+Session::config(array('default' => array('adapter' => 'Cookie')));
+
 ?>
