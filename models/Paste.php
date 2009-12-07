@@ -35,7 +35,6 @@ class Paste extends \lithium\data\Model {
 	/**
 	 *  Schema for Paste
 	 *
-	 * @todo remove 'remember' field when cookie logic is implemented
 	 * @var array
 	 */
 	protected $_schema = array(
@@ -43,7 +42,6 @@ class Paste extends \lithium\data\Model {
 		'content' 	=> array('default' => null, 'type' => 'string'),
 		'parsed' 	=> array('default' => null, 'type' => 'string'),
 		'permanent'	=> array('default' => false, 'type' => 'boolean'),
-		'remember' 	=> array('default' => false, 'type' => 'boolean'),
 		'language' 	=> array('default' => 'text', 'type' => 'string'),
 		'created' 	=> array('default' => '1979-01-01 01:01:01', 'type' => 'string')
 	);
