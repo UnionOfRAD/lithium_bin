@@ -16,9 +16,11 @@ you can also find the code to make sure you are up to date.
 
 Once you have set up the requirements above, go to
 
-htpp:/localhost/[path to app]/latest
+htpp:/localhost/[path to app]/pastes/install
 
-The "latest" view includes logic to create the database and couch view.
+This action should be run once (or until green OK message is recieved) to create
+database and design views.
+
 If you have set up the application to know where to find Lithium
 
 app/config/bootstrap.php  -> LITHIUM_LIBRARY_PATH
@@ -30,3 +32,5 @@ This should make the app working with the following urls:
  - domain.com/view/[paste id]
  - domain.com/add/[author]
  - domain.com/add/[author]/[language]
+
+ - domain.com/pastes/install

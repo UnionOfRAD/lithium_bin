@@ -5,6 +5,7 @@ namespace app\controllers;
 use \app\models\Paste;
 use \app\models\PasteView;
 use \lithium\storage\Session;
+use \lithium\data\Connections;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -18,6 +19,18 @@ use \lithium\storage\Session;
  */
 class PastesController extends \lithium\action\Controller {
 
+	/**
+	 * Run once (or until get OK message) to setup database)
+	 * 
+	 * @return array
+	 */
+	public function install() {
+		Connections::get('default')->put('/'.Paste::meta('source'));
+		PasteView::create()->save();
+		$view = PasteView::find('_design/paste');
+		return compact('view');
+	}
+	
 	/**
 	 * Asks the model for the data to be rendered at /latest
 	 * showing the 10 latest pastes made.
