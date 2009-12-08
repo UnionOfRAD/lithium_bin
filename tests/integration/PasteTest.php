@@ -174,7 +174,6 @@ class PasteTest extends \lithium\test\Unit {
 	protected function _taskFillTableFull() {
 		$data = array(
 			'id' => 'a1',
-			'rev' => '1-1',
 			'author' => 'alkemann',
 			'created' => '2009-01-01 01:01:10',
 			'language' => 'text',

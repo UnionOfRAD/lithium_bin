@@ -82,8 +82,8 @@ class Paste extends \lithium\data\Model {
 		parent::__init($options);
 		$self = static::_instance();
 		$self->_finders['count'] = function($self, $params, $chain) {
-			$result = Connections::get('default')->get(
-				Paste::meta('source') . '/_design/paste/_view/count'
+			$result = Connections::get($self::meta('connection'))->get(
+				$self::meta('source') . '/_design/paste/_view/count'
 			);
 			if (empty($result->total_rows)) {
 				return 0;
