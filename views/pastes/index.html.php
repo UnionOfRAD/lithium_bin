@@ -29,53 +29,38 @@ endif;
 	</tbody>
 </table>
 
-<ul id="actions">
-	<li><?php
-		if ($total <= $limit || $page == 1) {
-			echo '<<-First</li><li><-Previous';
-		} else {
-			echo $this->html->link('<<-First', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => 1, 'limit' => $limit
-			));
-			echo '</li><li>';
-			echo $this->html->link('<-Previous', array(
-				'controller' => 'pastes', 'action' => 'index',
-				 'page' => $page - 1, 'limit' => $limit
-			));
-
-		} ?>
-	</li>
-	<?php
-
+<div class="paging">
+<?php
+	if ($total <= $limit || $page == 1) {
+		echo $this->html->tag('span', 'Previous', array('class' => 'prev'));
+	} else {
+		echo $this->html->link('Previous', array(
+			'controller' => 'pastes', 'action' => 'index',
+			'page' => $page - 1, 'limit' => $limit
+		), array('class' => 'prev'));
+	}
 	$p = 0; $count = $total;
+
 	while ($count > 0) {
 		$p++; $count -= $limit;
-		echo '<li>';
+
 		if ($p == $page) {
-			echo '['.$p.']';
+			echo $this->html->tag('span', $p, array('class' => 'current'));
 		} else {
-			echo $this->html->link('['.$p.']', array(
+			echo $this->html->link($p, array(
 				'controller' => 'pastes', 'action' => 'index',
 				'page' => $p, 'limit' => $limit
 			));
 		}
-		echo '</li>';
 	}
-	?>
-	<li><?php
-		if ($total <= $limit || $page == $p) {
-			echo 'Next-></li><li>Last->>';
-		} else {
-			echo $this->html->link('Next->', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => $page + 1, 'limit' => $limit
-			));
-			echo '</li><li>';
-			echo $this->html->link('Last->>', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => $total, 'limit' => $limit
-			));
-		}?>
-	</li>
-</ul>
+
+	if ($total <= $limit || $page == $p) {
+		echo $this->html->tag('span', 'Next', array('class' => 'next'));
+	} else {
+		echo $this->html->link('Next', array(
+			'controller' => 'pastes', 'action' => 'index',
+			'page' => $page + 1, 'limit' => $limit
+		), array('class' => 'next'));
+	}
+?>
+</div>
