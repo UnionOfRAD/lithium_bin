@@ -14,11 +14,12 @@ you can also find the code to make sure you are up to date.
 
 ##INSTALLATION
 
-Once you have set up the requirements above, go to
+Once you have set up the requirements above, in console use the provided 
+installation command like so:
 
-htpp:/localhost/[path to app]/pastes/install
+{{{lithium_bin> li3 bin install}}}
 
-This action should be run once (or until green OK message is recieved) to create
+This action should be run once (or until OK message is recieved) to create
 database and design views.
 
 If you have set up the application to know where to find Lithium
@@ -32,5 +33,4 @@ This should make the app working with the following urls:
  - domain.com/view/[paste id]
  - domain.com/add/[author]
  - domain.com/add/[author]/[language]
-
- - domain.com/pastes/install
+ 
