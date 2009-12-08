@@ -133,14 +133,14 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCount() {
 		$this->_tasks(array('PutTable','FillTableFull'));
-		
+
 		$expected = 11;
 		$result = MockIntegrationPaste::find('count');
-		$this->assertEqual($expected, $result);		
-		
+		$this->assertEqual($expected, $result);
+
 		$this->_tasks(array('DeleteTable'));
 	}
-	
+
 	/** TEST SETUPS **/
 
 	protected function _tasks($tasks) {
@@ -150,7 +150,7 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	protected function _taskPutTable() {
-		Connections::get("test")->put('/test_pastes');
+		Connections::get("test")->put('test_pastes');
 		MockIntegrationPasteView::create()->save();
 	}
 
@@ -170,10 +170,11 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockIntegrationPaste::create($data);
 		$paste->save();
 	}
-	
+
 	protected function _taskFillTableFull() {
 		$data = array(
 			'id' => 'a1',
+			'rev' => '1-1',
 			'author' => 'alkemann',
 			'created' => '2009-01-01 01:01:10',
 			'language' => 'text',

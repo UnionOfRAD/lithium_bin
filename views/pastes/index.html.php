@@ -12,24 +12,32 @@ endif;
 			<?=$row->author?> @
 			<?=$row->created?> &middot;
 			<?=$row->language?>
-			<?php echo $this->html->link('view', '/view/' . $row->id)?>
+			<?php echo $this->html->link('view', array(
+				'controller' => 'pastes', 'action' => 'view', 'args' => array($row->id)
+			));?>
 			<p><?=$row->preview?></p>
 		</li>
 	<?php endforeach;?>
 </ul>
 <ul id="actions">
-	<li><?php 
+	<li><?php
 		if ($total <= $limit || $page == 1) {
 			echo '<<-First</li><li><-Previous';
 		} else {
-			echo $this->html->link('<<-First', array('action' => 'index', 'args' => array('page:1','limit:'.$limit)));
+			echo $this->html->link('<<-First', array(
+				'controller' => 'pastes', 'action' => 'index',
+				'page' => 1, 'limit' => $limit
+			));
 			echo '</li><li>';
-			echo $this->html->link('<-Previous', array('action' => 'index', 'args' => array('page:'.($page-1),'limit:'.$limit)));
-		
+			echo $this->html->link('<-Previous', array(
+				'controller' => 'pastes', 'action' => 'index',
+				 'page' => $page - 1, 'limit' => $limit
+			));
+
 		} ?>
 	</li>
-	<?php 
-	
+	<?php
+
 	$p = 0; $count = $total;
 	while ($count > 0) {
 		$p++; $count -= $limit;
@@ -37,18 +45,27 @@ endif;
 		if ($p == $page) {
 			echo '['.$p.']';
 		} else {
-			echo $this->html->link('['.$p.']', array('action' => 'index', 'args' => array('page:'.$p,'limit:'.$limit)));
+			echo $this->html->link('['.$p.']', array(
+				'controller' => 'pastes', 'action' => 'index',
+				'page' => $p, 'limit' => $limit
+			));
 		}
 		echo '</li>';
 	}
-	?>	
-	<li><?php 
+	?>
+	<li><?php
 		if ($total <= $limit || $page == $p) {
 			echo 'Next-></li><li>Last->>';
 		} else {
-			echo $this->html->link('Next->', array('action' => 'index', 'args' => array('page:'.($page+1),'limit:'.$limit))); 
+			echo $this->html->link('Next->', array(
+				'controller' => 'pastes', 'action' => 'index',
+				'page' => $page + 1, 'limit' => $limit
+			));
 			echo '</li><li>';
-			echo $this->html->link('Last->>', array('action' => 'index', 'args' => array('page:'.$p,'limit:'.$limit))); 
+			echo $this->html->link('Last->>', array(
+				'controller' => 'pastes', 'action' => 'index',
+				'page' => $total, 'limit' => $limit
+			));
 		}?>
 	</li>
 </ul>

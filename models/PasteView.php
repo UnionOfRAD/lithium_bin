@@ -4,7 +4,7 @@ namespace app\models;
 
 /**
  * This model is used to store Couch design views to the `Paste` database
- * It also defines it. Do not call a 'find' on this model. To view the view, use 
+ * It also defines it. Do not call a 'find' on this model. To view the view, use
  * the 'design' condition in a 'find' call on the `Paste` model, ie :
  * {{{
  *		$latest = Paste::find('all', array('conditions' => array(
@@ -46,13 +46,16 @@ class PasteView extends \lithium\data\Model {
 			preview: doc.preview, created: doc.created
 		});
 	}
-}'),
+}'
+			),
 			'count' => array(
 'map' => 'function(doc) {
 	if (doc.permanent == "1") {
 		emit(doc._id, null);
 	}
-}'),
+}'
+			),
+
 		))
 	);
 

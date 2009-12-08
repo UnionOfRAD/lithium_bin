@@ -5,6 +5,7 @@ namespace app\models;
 use \Geshi;
 use \lithium\core\Libraries;
 use \lithium\util\Validator;
+use \lithium\data\Connections;
 
 /**
  * Data model for access the pastebin documents.
@@ -52,11 +53,13 @@ class Paste extends \lithium\data\Model {
 	public $validates = array(
 		'content' => 'You seem to be missing the content.',
 		'author' => array(
-			'rule' => 'isAlphaNumeric', 'message' => 'You forgot your alphanumeric name?'),
+			'rule' => 'isAlphaNumeric', 'message' => 'You forgot your alphanumeric name?'
+		),
 		'language' => array(
-			'rule' => 'validLanguage', 'message' => 'Invalid language.')
+			'rule' => 'validLanguage', 'message' => 'Invalid language.'
+		)
 	);
-	
+
 	/**
 	* Init method called by `Libraries::load()`. It applies filters on the save method.
 	*
@@ -79,25 +82,26 @@ class Paste extends \lithium\data\Model {
 		parent::__init($options);
 		$self = static::_instance();
 		$self->_finders['count'] = function($self, $params, $chain) {
-			$http = new \lithium\data\source\Http(array(
-				'host' => '127.0.0.1',
-				'port' => '5984'
-			));			
-			$result = json_decode($http->get('/'.$self::meta('source').'/_design/paste/_view/count'));
-			return $result->total_rows; 
+			$result = Connections::get('default')->get(
+				Paste::meta('source') . '/_design/paste/_view/count'
+			);
+			if (empty($result->total_rows)) {
+				return 0;
+			}
+			return $result->total_rows;
 		};
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			if (empty($params['data'])) {
-				$document = $params['record'];
-				$document->parsed = Paste::parse($document->content, $document->language);
-				$document->preview = substr($document->content,0,100);
+			$document = $params['record'];
+			if (!$document->id) {
 				$document->created = date('Y-m-d h:i:s');
-				$params['record'] = $document;
-			} else {			
-				$params['data']['preview'] = substr($params['data']['content'],0,100);
-				$params['data']['parsed'] = Paste::parse($params['data']['content'], $params['data']['language']);
-				$params['data']['modified'] = date('Y-m-d h:i:s');
 			}
+			if (!empty($params['data'])) {
+				$document->set($params['data']);
+			}
+			$document->parsed = Paste::parse($document->content, $document->language);
+			$document->preview = substr($document->content, 0, 100);
+			$document->modified = date('Y-m-d h:i:s');
+			$params['record'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
 		Validator::add('validLanguage', function ($value, $format, $options) {
@@ -120,7 +124,7 @@ class Paste extends \lithium\data\Model {
 				return $content;
 			}
 			$language = 'text';
-		} 
+		}
 		$geshi = new GeSHi($content, $language);
 		$geshi->enable_classes();
 		$geshi->enable_keyword_links(false);
@@ -146,6 +150,14 @@ class Paste extends \lithium\data\Model {
 		return static::$languages;
 	}
 
+	/**
+	 * Creates a new database
+	 *
+	 * @return void
+	 */
+	public static function install() {
+		return Connections::get('default')->put(static::meta('source'));
+	}
 }
 
 ?>
