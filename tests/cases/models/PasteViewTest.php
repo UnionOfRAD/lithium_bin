@@ -7,8 +7,6 @@ use \app\tests\mocks\models\MockPasteView;
 
 class PasteViewTest extends \lithium\test\Unit {
 
-	
-
 	public function testCreate() {
 		$view = MockPasteView::create();
 

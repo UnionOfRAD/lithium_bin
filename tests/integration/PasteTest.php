@@ -52,7 +52,7 @@ class PasteTest extends \lithium\test\Unit {
 		$expected = array(
 			'id','content',
 			'author','language','parsed',
-			'permanent','remember','created','rev'
+			'permanent','created','rev'
 		);
 		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);
@@ -133,14 +133,14 @@ class PasteTest extends \lithium\test\Unit {
 
 	public function testCount() {
 		$this->_tasks(array('PutTable','FillTableFull'));
-		
-		$expected = 9;
+
+		$expected = 11;
 		$result = MockIntegrationPaste::find('count');
-		$this->assertEqual($expected, $result);		
-		
+		$this->assertEqual($expected, $result);
+
 		$this->_tasks(array('DeleteTable'));
 	}
-	
+
 	/** TEST SETUPS **/
 
 	protected function _tasks($tasks) {
@@ -150,7 +150,8 @@ class PasteTest extends \lithium\test\Unit {
 	}
 
 	protected function _taskPutTable() {
-		Connections::get("test")->put('/test_pastes');
+		Connections::get("test")->put('test_pastes');
+		MockIntegrationPasteView::create()->save();
 	}
 
 	protected function _taskDeleteTable() {
@@ -169,6 +170,7 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = MockIntegrationPaste::create($data);
 		$paste->save();
 	}
+
 	protected function _taskFillTableFull() {
 		$data = array(
 			'id' => 'a1',
@@ -178,7 +180,6 @@ class PasteTest extends \lithium\test\Unit {
 			'content' => 'Lorem Ipsum',
 			'parsed' => '',
 			'permanent' => true,
-			'remember' => false,
 			'saved' => false
 		);
 		$paste = MockIntegrationPaste::create($data);

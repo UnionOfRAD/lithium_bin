@@ -10,6 +10,7 @@ namespace lithium;
 
 use \lithium\core\Environment;
 use \lithium\core\Libraries;
+use \lithium\storage\Session;
 
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
@@ -79,4 +80,7 @@ Libraries::add('geshi', array(
 	'prefix' => 'Geshi',
 	'bootstrap' => 'geshi.php'
 ));
+
+Session::config(array('default' => array('adapter' => 'Cookie')));
+
 ?>

@@ -15,20 +15,20 @@
 			<input type="hidden" name="id" value="<?=$paste->id;?>" />
 			<input type="hidden" name="rev" value="<?=$paste->rev;?>" />
 		<?php endif; ?>
-		<label for="Paste.author">Name/Nick</label>
-		<input type="text" name="author" id="Paste.author" value="<?=$paste->author;?>" />
+		<label for="author">Name/Nick</label>
+		<input type="text" name="author" id="author" value="<?=$paste->author;?>" />
 		<?php echo (isset($paste->errors['author'])) ?
 			'<p class="error">'.$paste->errors['author'].'</p>' : null;
 		?>
 		<div class="checkbox">
 		<input type="hidden" name="remember" value="0" />
-		<input type="checkbox" id="Paste.remember" value="1"
+		<input type="checkbox" id="remember" value="1"
 			<?=($paste->remember) ? 'checked=checked' : null;?> name="remember" /> &nbsp;
-		<label for="Paste.remember">Remember me</label>
+		<label for="remember">Remember me</label>
 		</div>
 
-		<label for="Paste.language">Language</label>
-		<select id="Paste.language" name="language" value="">
+		<label for="language">Language</label>
+		<select id="language" name="language" value="">
 		<?php
 			foreach ($languages as $lang) {
 				if ($lang == $paste->language) {
@@ -44,9 +44,9 @@
 		?>
 		<div class="checkbox">
 		<input type="hidden" name="permanent" value="0" />
-		<input type="checkbox" id="Paste.permanent" value="1"
+		<input type="checkbox" id="permanent" value="1"
 			<?=($paste->permanent) ? 'checked=checked' : null;?> name="permanent" /> &nbsp;
-		<label for="Paste.permanent">Save this paste</label>
+		<label for="permanent">Save this paste</label>
 		</div>
 		<?php echo $this->form->submit('Paste this');?>
 	</div>

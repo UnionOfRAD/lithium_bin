@@ -5,6 +5,7 @@ namespace app\tests\cases\models;
 use \app\tests\mocks\models\MockPaste;
 
 class PasteTest extends \lithium\test\Unit {
+
 	public function testUsesDocument() {
 		$paste = new MockPaste();
 
@@ -39,8 +40,7 @@ class PasteTest extends \lithium\test\Unit {
 			'author',
 			'parsed',
 			'permanent',
-			'remember',
-			'created',
+			'created'
 		);
 		$result = array_keys($paste->data());
 		$this->assertEqual($expected, $result);
@@ -59,7 +59,6 @@ class PasteTest extends \lithium\test\Unit {
 
 		$this->assertNull($paste->parsed);
 		$this->assertFalse($paste->permanent);
-		$this->assertFalse($paste->remember);
 
 		$expected = '(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})';
 		$result = $paste->created;

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use \app\models\Paste;
 use \app\models\PasteView;
+use \lithium\storage\Session;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -24,26 +25,19 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		$options = array(
-			'design' => 'paste', 'view' => 'all', 'limit' => 4, 'descending' => 'true'
-		);
-
 		$page = 1;
+		$limit = 10;
+		$order = array('descending' => 'true');
 		if (isset($this->request->params['page'])) {
-			if (isset($this->request->params['limit'])) {
-				$options['limit'] = $this->request->params['limit'];
-			}			
-			$options['skip'] = ($this->request->params['page']-1) * $options['limit'];
 			$page = $this->request->params['page'];
+			if (!empty($this->request->params['limit'])) {
+				$limit = $this->request->params['limit'];
+			}
 		}
-		$limit = $options['limit'];
-		$latest = Paste::find('all',array('conditions' => $options));	
-		if (!$latest->exists()) {
-			PasteView::create()->save();
-			$latest = Paste::find('all',array('conditions' => $options));	
-		}
+		$conditions = array('design' => 'paste', 'view' => 'all', 'skip' => ($page - 1) * $limit);
 		$total = Paste::find('count');
-		return compact('latest','limit','page','total');
+		$latest = Paste::find('all', compact('conditions', 'limit', 'order'));
+		return compact('latest', 'limit', 'page', 'total');
 	}
 
 	/**
@@ -61,8 +55,7 @@ class PastesController extends \lithium\action\Controller {
 		if ($paste == null) {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
-		$binJs = true;
-		return compact('paste','binJs');
+		return compact('paste');
 	}
 
 	/**
@@ -76,21 +69,26 @@ class PastesController extends \lithium\action\Controller {
 	 * @param string $author
 	 * @param string $language
 	 */
-	public function add($author = null, $language = null) {
+	public function add($author = null, $language = 'php') {
 		if (empty($this->request->data)) {
-			$paste = Paste::create(compact('author', 'language'));
-			$paste->language = 'php';
+			if ($saved = Session::read('paste')) {
+				$data = (array) json_decode($saved);
+			} else {
+				$data = compact('author', 'language');
+			}
+			$paste = Paste::create($data);
 		} else {
 			$paste = Paste::create($this->request->data);
 			if ($paste->save()) {
-
+				$this->_remember($paste);
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
 		$languages = Paste::languages();
-		$this->set(compact('paste', 'languages'));
+		$url = array('controller' => 'pastes', 'action' => 'add');
+		$this->set(compact('url', 'paste', 'languages'));
 		$this->render('form');
 	}
 
@@ -109,21 +107,37 @@ class PastesController extends \lithium\action\Controller {
 		if (empty($this->request->data)) {
 			$paste = Paste::find($id);
 			if ($paste == null) {
-				$this->redirect(array(
-					'controller' => 'pastes', 'action' => 'add'
-				));
+				$this->redirect(array('controller' => 'pastes', 'action' => 'add'));
 			}
 		} else {
 			$paste = Paste::find($this->request->data['id']);
 			if ($paste && $paste->save($this->request->data)) {
+				$this->_remember($paste);
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
 		$languages = Paste::languages();
-		$this->set(compact('paste', 'languages'));
+		$url = array('controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id));
+		$this->set(compact('url', 'paste', 'languages'));
 		$this->render('form');
+	}
+
+	/**
+	 * Remember the current user of the paste
+	 *
+	 * @param object $paste
+	 * @return void
+	 */
+	protected function _remember($paste) {
+		if (!empty($this->request->data['remember'])) {
+			Session::write('paste', json_encode(array(
+				'author' => $paste->author, 'remember' => true, 'language' => $paste->language
+			)));
+			return;
+		}
+		Session::write('paste', null);
 	}
 }
 
