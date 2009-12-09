@@ -20,6 +20,19 @@ class Bin extends \lithium\console\Command {
 		$this->header('Lithium Bin');
 		$result = Paste::install();
 		PasteView::create()->save();
+		return $this->checkView();
+	}
+	
+	public function update() {		
+		$view = PasteView::find('_design/paste');
+		if ($view && !isset($view->error)) {
+			$view->delete();
+		}
+		PasteView::create()->save();	
+		return $this->checkView();	
+	}
+	
+	protected function checkView() {
 		$view = PasteView::find('_design/paste');
 		if (!empty($view->reason)) {
 			switch($view->reason) {
