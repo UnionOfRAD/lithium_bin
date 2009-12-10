@@ -29,26 +29,71 @@
 .section {
 	display: block;
 }
+.section.submit {
+	clear: both;
+}
+
+/*--- Add/Edit --- */
+form {
+	background-color: #f0f0f0;
+}
+.paste-content textarea {
+	font-size: 11px;
+	margin: 0;
+}
 .paste-content {
-	border:2px solid #F0F0F0;
-	display:block;
-	width: 646px;
+	border: 2px solid #F0F0F0;
+	display: block;
+	width: 705px;
 	float: left;
 }
 .paste-meta {
-	border:2px solid #F0F0F0;
-	width: 200px;
+	border: 2px solid #F0F0F0;
+	width: 140px;
 	float: left;
 	padding: 1em 20px 1em 20px;
 	background: #f0f0f0;
 }
 .paste-meta input[type=text] {
-	width:11.5em;
 }
 .paste-meta input[type=submit] {
 	margin: 1em auto;
 }
 
+.notice {
+	display: block;
+	clear: both;
+	text-align: left;
+}
+.notice small {
+	font-size: 14px;
+	color: #454545;
+	font-style: italic;
+}
+p.error {
+	background: #ffe5e5;
+	border: 1px solid #ffb1b1;
+	border-width: 1px 0 0 0;
+	padding: .5em 1em;
+	font-style: italic;
+}
+
+/*--- View ---*/
+.author {
+	margin-bottom: 2em;
+	clear: both;
+}
+code, pre {
+	font-family: Monaco, Courier, monospace !important;
+}
+#copied-notification {
+	clear: both;
+	color: #00bf2d;
+	padding: 0.5em 1.5em;
+	margin-bottom: 0.5em;
+	background-color: #95fdad;
+	border: 3px solid #cbfad6;
+}
 #paste, #clean {
 	clear: both;
 }
@@ -59,40 +104,7 @@
 	padding-left: 10px;
 }
 
-.section.submit {
-	clear: both;
-}
-.notice {
-	display: block;
-	clear: both;
-	text-align: left;
-}
-.notice small {
-	color: #454545;
-}
-p.error {
-	background: #ffe5e5;
-	border: 1px solid #ffb1b1;
-	border-width: 1px 0 0 0;
-	padding: .5em 1em;
-	font-style: italic;
-}
-
-.author {
-	margin-bottom: 2em;
-	clear: both;
-}
-
-.textarea textarea {
-	width: 620px;
-	margin:0;
-}
-
-code, pre {
-	font-family: Monaco, Courier, monospace !important;
-}
-
-/*--- Pastes ---*/
+/*--- Index ---*/
 .pastes {
 	list-style: none;
 	padding: 0;
@@ -123,12 +135,15 @@ code, pre {
 .pastes .javascript a {
 	background-image: url(http://li3.rad-dev.org/img/icons/silk/page_white_cup.png);
 }
-.pastes .preview {
-	font-style: italic;
-	font-size: 12px;
-	font-family: Monaco,'Courier New', Courier, monospace;
+.pastes .preview, .pastes tr > td a {
+	font-size: 10px;
+	font-family: Monaco, Courier, monospace;
 }
+ .pastes tr > td a {
+	font-size: 12px;
+	font-family: Monaco, Courier, monospace;
 
+ }
 .nav .paste:before {
 	content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png);
 	margin: 0 .55em 0 0;
@@ -161,8 +176,3 @@ code, pre {
 	display: none;
 }
 
-#clean code { border:none; }
-#clean.dark code { background:black; border:none; }
-.dark .kw1 {
-	color:#fff !important;
-}
