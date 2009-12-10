@@ -14,7 +14,7 @@
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
 		'base',
-		'http://lithium_main/css/li3.css',
+		'http://li3.rad-dev.org/css/li3.css',
 		'pastium'
 	)); ?>
 	<?php echo $this->scripts(); ?>
@@ -50,13 +50,13 @@
 <?php echo $this->html->script(array(
 	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
 	'http://li3.rad-dev.org/js/li3.js',
-	'http://li3.rad-dev.org/libraries/ZeroClipboard/ZeroClipboard.js',
+	'http://li3.rad-dev.org/js/libraries/ZeroClipboard/ZeroClipboard.js',
 	'bin'
 )); ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
 		li3.setupFooter();
-		<?php echo !empty($binJs) ? 'li3Bin.setup({ text: '.(isset($binText) ? 'true' : 'false' ).'});' : null ; ?>
+		<?php echo 'li3Bin.setup({ text: '. (isset($binText) ? 'true' : 'false') . '});' ?>
 	});
 </script>
 </body>

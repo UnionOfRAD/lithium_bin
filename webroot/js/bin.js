@@ -25,10 +25,10 @@ var li3Bin = {
 	
 	setupContrast: function() {
 		$('#toggle-contrast').click(function() {
-			if ($('#clean, #paste').hasClass('dark')) {
-				$('#clean, #paste').removeClass('dark');
+			if ($('#clean, #paste').hasClass('light')) {
+				$('#clean, #paste').removeClass('light');
 			} else {
-				$('#clean, #paste').addClass('dark');
+				$('#clean, #paste').addClass('light');
 			}
 		});
 	},
@@ -50,7 +50,7 @@ var li3Bin = {
 			clip.setText($('#clean').text());
 			clip.glue($('#copy-to-clipboard')[0]);
 			clip.addEventListener('complete', function(client, text) {
-                $('.article').prepend('<div id="copied-notification">...copied!</div>');
+                $('#content').prepend('<div id="copied-notification">...copied!</div>');
                 $('#copied-notification').animate({
 					height: 'show',
 					opacity: 'show'
