@@ -14,14 +14,9 @@
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
 		'base',
-		'http://li3.rad-dev.org/css/li3.css',
+		'http://lithium_main/css/li3.css',
 		'pastium'
 	)); ?>
-	<?php
-		if (isset($paste) && $paste->language) {
-			echo $this->html->style('syntax.' . $paste->language);
-		}
-	?>
 	<?php echo $this->scripts(); ?>
 </head>
 <body class="bin">
