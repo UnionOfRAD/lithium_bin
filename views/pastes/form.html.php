@@ -1,11 +1,14 @@
-<form method="POST">
+<?php 
+echo $this->form->create($paste, array('url' => $url, 'method' => 'POST'));
 
+$errors = $paste->errors();
+?>
 	<div class="section paste-content">
 		<div class="input textarea">
 			<textarea name="content" rows="25"><?=$paste->content;?></textarea>
 		</div>
-		<?php echo (isset($paste->errors['content'])) ?
-			'<p class="error">'.$paste->errors['content'].'</p>' : null;
+		<?php echo (isset($errors['content'])) ?
+			'<p class="error">' . implode($errors['content'], '<br>') . '</p>' : null;
 		?>
 	</div>
 
@@ -17,8 +20,8 @@
 		<?php endif; ?>
 		<label for="author">Name/Nick</label>
 		<input type="text" name="author" id="author" value="<?=$paste->author;?>" />
-		<?php echo (isset($paste->errors['author'])) ?
-			'<p class="error">'.$paste->errors['author'].'</p>' : null;
+		<?php echo (isset($errors['author'])) ?
+			'<p class="error">' . implode($errors['author'], '<br>') . '</p>' : null;
 		?>
 		<div class="checkbox">
 		<input type="hidden" name="remember" value="0" />
@@ -39,8 +42,8 @@
 			}
 		?>
 		</select>
-		<?php echo (isset($paste->errors['language'])) ?
-			'<p class="error">'.$paste->errors['language'].'</p>' : null;
+		<?php echo (isset($errors['language'])) ?
+			'<p class="error">' . implode($errors['language'], "<br>") .'</p>' : null;
 		?>
 		<div class="checkbox">
 		<input type="hidden" name="permanent" value="0" />
