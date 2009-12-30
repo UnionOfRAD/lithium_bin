@@ -7,11 +7,13 @@ namespace app\models;
  * It also defines it. Do not call a 'find' on this model. To view the view, use
  * the 'design' condition in a 'find' call on the `Paste` model, ie :
  * {{{
- *		$latest = Paste::find('all', array('conditions' => array(
- *			'design' => 'latest',
-			'view' => 'all',
+ *		$latest = Paste::find('all', array(
+			'conditions' => array(
+	 *			'design' => 'latest',
+				'view' => 'all'
+			),
  *			'limit' => 10
- *		)));
+ *		));
  * }}}
  *
  * When the find call in the example above returns a NULL, that means the view does not
