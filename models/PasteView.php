@@ -8,7 +8,8 @@ namespace app\models;
  * the 'design' condition in a 'find' call on the `Paste` model, ie :
  * {{{
  *		$latest = Paste::find('all', array('conditions' => array(
- *			'design' => 'latest,
+ *			'design' => 'latest',
+			'view' => 'all',
  *			'limit' => 10
  *		)));
  * }}}
