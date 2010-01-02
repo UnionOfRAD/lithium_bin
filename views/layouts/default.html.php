@@ -10,7 +10,7 @@
 <html>
 <head>
 	<?php echo $this->html->charset(); ?>
-	<title>Pastium <?=$this->title(); ?></title>
+	<title>Pastium <?=$this->title; ?></title>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
 		'base',
@@ -49,13 +49,11 @@
 </div>
 <?php echo $this->html->script(array(
 	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
-	'http://li3.rad-dev.org/js/li3.js',
 	'http://li3.rad-dev.org/js/libraries/ZeroClipboard/ZeroClipboard.js',
 	'bin'
 )); ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
-		li3.setupFooter();
 		<?php echo 'li3Bin.setup({ text: '. (isset($binText) ? 'true' : 'false') . '});' ?>
 	});
 </script>
