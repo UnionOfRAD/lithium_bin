@@ -116,9 +116,9 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->errors();
 		$this->assertTrue(is_array($result));
 		$expected = array(
-			'author' => 'You forgot your alphanumeric name?',
-			'content' => 'You seem to be missing the content.',
-			'language' => 'Invalid language.'
+			'author' => array('You forgot your alphanumeric name?'),
+			'content' => array('You seem to be missing the content.'),
+			'language' => array('Invalid language.')
 		);
 		$this->assertEqual($expected, $result);
 
@@ -131,7 +131,7 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->validates();
 		$this->assertFalse($result);
 
-		$expected = array('language' => 'Invalid language.');
+		$expected = array('language' => array('Invalid language.'));
 		$result = $paste->errors();
 		$this->assertEqual($expected, $result);
 	}
