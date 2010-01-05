@@ -52,7 +52,7 @@ class PastesController extends \lithium\action\Controller {
 	 */
 	public function view($id = null) {
 		$paste = Paste::find($id);
-		if ($paste == null) {
+		if ($paste->rewind() == 'not_found') {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
 		return compact('paste');

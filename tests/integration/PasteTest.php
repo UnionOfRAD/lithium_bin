@@ -69,7 +69,7 @@ class PasteTest extends \lithium\test\Unit {
 
 		$result = MockIntegrationPaste::find('abcd1');
 
-		$this->assertFalse($result->exists());
+		$this->assertTrue($result->rewind() == 'not_found');
 
 		$this->_tasks(array('DeleteTable'));
 	}
@@ -83,7 +83,7 @@ class PasteTest extends \lithium\test\Unit {
 			'limit' => '10',
 			'descending' => 'true'
 		)));
-		$this->assertFalse($latest->exists());
+		$this->assertFalse($latest->rewind() == 'not_found');
 
 		$viewSave = MockIntegrationPasteView::create()->save();
 		$this->skipIf(!$viewSave, 'Failed to save view. Tests skipped');
