@@ -18,7 +18,7 @@ $assetHost = 'http://li3.rad-dev.org';
 	<?php echo $this->html->style(array(
 		$assetHost . '/css/base.css',
 		$assetHost . '/css/li3.css',
-		$assetHost . '/css/pastium.css'
+		'pastium'
 	)); ?>
 	<?php echo $this->scripts(); ?>
 </head>
@@ -53,7 +53,7 @@ $assetHost = 'http://li3.rad-dev.org';
 <?php echo $this->html->script(array(
 	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
 	$assetHost . '/js/libraries/ZeroClipboard/ZeroClipboard.js',
-	$assetHost . '/js/bin.js'
+	'bin'
 )); ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
