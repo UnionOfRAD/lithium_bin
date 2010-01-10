@@ -10,7 +10,6 @@ var li3Bin = {
 			$('#clean').hide();
 		}
 		this.setupColor();
-		this.setupContrast();
 		this.setupCodeSizers();
 		this.setupCopy();
 	},
@@ -20,16 +19,6 @@ var li3Bin = {
 			$('#clean, #paste').animate({
 				opacity : 'toggle'
 			},'fast');
-		});
-	},
-	
-	setupContrast: function() {
-		$('#toggle-contrast').click(function() {
-			if ($('#clean, #paste').hasClass('light')) {
-				$('#clean, #paste').removeClass('light');
-			} else {
-				$('#clean, #paste').addClass('light');
-			}
 		});
 	},
 	

@@ -155,9 +155,6 @@ code, pre {
 .nav .color:before {
 	content: url(http://li3.rad-dev.org/img/icons/silk/color_wheel.png);
 }
-.nav .contrast:before {
-	content: url(http://li3.rad-dev.org/img/icons/silk/contrast.png);
-}
 .nav .bigger:before {
 	content: url(http://li3.rad-dev.org/img/icons/silk/magnifier_zoom_in.png);
 }
