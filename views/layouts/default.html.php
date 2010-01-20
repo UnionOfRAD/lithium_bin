@@ -1,10 +1,6 @@
 <?php
 /**
  * Lithium: the most rad php framework
- * Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
- *
- * Licensed under The BSD License
- * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
@@ -14,29 +10,52 @@
 <html>
 <head>
 	<?php echo $this->html->charset(); ?>
-	<title>Li3 Paste Bin</title>
-	<?php echo $this->html->style('bin.0.3'); ?>
-	<?php echo $this->scripts(); ?>
+	<title>Pastium <?=$this->title; ?></title>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
-	<?php echo $this->html->script(array('jquery-1.3.2.min.js', 'ZeroClipboard.js', 'bin.js')); ?>
+	<?php echo $this->html->style(array(
+		'base',
+		'http://li3.rad-dev.org/css/li3.css',
+		'pastium'
+	)); ?>
+	<?php echo $this->scripts(); ?>
 </head>
-<body>
+<body class="bin">
+<div id="wrapper">
 	<div id="container">
 		<div id="header">
-			<?php echo $this->html->image('lithium-logo.png');?>
-			<div id="menu">
-				<ul >
-					<li><?php echo $this->html->link('Add new', array('controller'=>'pastes', 'action' => 'add'));?></li>
-					<li><?php echo $this->html->link('Latest', array('controller'=>'pastes', 'action' => 'index'));?></li>
+			<h1>Pastium</h1>
+			<div class="nav tabs right">
+				<ul>
+					<li><?php echo $this->html->link('Latest', array(
+						'controller' => 'pastes',
+						'action' => 'index'
+					), array('class' => 'index'));?></li>
+					<li><?php echo $this->html->link('New', array(
+						'controller' => 'pastes',
+						'action' => 'add'
+					), array('class'=> 'paste'));?></li>
 				</ul>
 			</div>
+			<h2>Let there be paste!</h2>
 		</div>
 		<div id="content">
 			<?php echo $this->content; ?>
 		</div>
-		<div id="footer">
-			@2009 Union of Rad
-		</div>
 	</div>
+	<div id="footer-spacer"></div>
+</div>
+<div id="footer">
+	<p class="copyright">Pretty much everything is © 2009 and beyond, the Union of Rad</p>
+</div>
+<?php echo $this->html->script(array(
+	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
+	'http://li3.rad-dev.org/js/libraries/ZeroClipboard/ZeroClipboard.js',
+	'bin'
+)); ?>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function () {
+		<?php echo 'li3Bin.setup({ text: '. (isset($binText) ? 'true' : 'false') . '});' ?>
+	});
+</script>
 </body>
 </html>

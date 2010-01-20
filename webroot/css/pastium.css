@@ -1,0 +1,183 @@
+/*-------------------------------------------------------------------------------------------------
+   Lithium: the most rad php framework
+
+   @copyright     Copyright 2009, Union of RAD (http://union-of-rad.org)
+   @license       http://opensource.org/licenses/bsd-license.php The BSD License
+-------------------------------------------------------------------------------------------------*/
+
+/*--- This is the stylesheet for Pastium. ---*/
+
+/*--- Basics ---*/
+#header h1 {
+	margin: .1em 0;
+	font-size: 35px;
+}
+#header h1:before {
+	content: url("../img/pastium-logo.png");
+	display: block;
+	float: left;
+	margin: -10px .7em 1em 0;
+}
+#header h2 {
+	margin: .5em .5em 2em 0;
+	color: #666;
+	font-size: 22px;
+	line-height: 28px;
+	width: 70%;
+}
+
+.section {
+	display: block;
+}
+.section.submit {
+	clear: both;
+}
+
+/*--- Add/Edit --- */
+form {
+	background-color: #f0f0f0;
+}
+.paste-content textarea {
+	font-size: 11px;
+	margin: 0;
+}
+.paste-content {
+	border: 2px solid #F0F0F0;
+	display: block;
+	width: 705px;
+	float: left;
+}
+.paste-meta {
+	border: 2px solid #F0F0F0;
+	width: 140px;
+	float: left;
+	padding: 1em 20px 1em 20px;
+	background: #f0f0f0;
+}
+.paste-meta input[type=text] {
+}
+.paste-meta input[type=submit] {
+	margin: 1em auto;
+}
+
+.notice {
+	display: block;
+	clear: both;
+	text-align: left;
+}
+.notice small {
+	font-size: 14px;
+	color: #454545;
+	font-style: italic;
+}
+p.error {
+	background: #ffe5e5;
+	border: 1px solid #ffb1b1;
+	border-width: 1px 0 0 0;
+	padding: .5em 1em;
+	font-style: italic;
+}
+
+/*--- View ---*/
+.author {
+	margin-bottom: 2em;
+	clear: both;
+}
+code, pre {
+	font-family: Monaco, Courier, monospace !important;
+}
+#copied-notification {
+	clear: both;
+	color: #00bf2d;
+	padding: 0.5em 1.5em;
+	margin-bottom: 0.5em;
+	background-color: #95fdad;
+	border: 3px solid #cbfad6;
+}
+#paste, #clean {
+	clear: both;
+}
+#paste li, #clean li{
+	margin: 0;
+}
+#paste li div, #clean li div {
+	padding-left: 10px;
+}
+
+/*--- Index ---*/
+.pastes {
+	list-style: none;
+	padding: 0;
+	width: 100%;
+	background: #f0f0f0;
+	clear: both;
+}
+.pastes th {
+	padding: .5em;
+}
+.pastes td {
+	padding: .5em;
+}
+.pastes .del1 td {
+	background: #fafafa;
+}
+.pastes .del2 td {
+	background: white;
+}
+.pastes a {
+	padding: 0 .5em 0 24px;
+	background: url(http://li3.rad-dev.org/img/icons/silk/page_white_text.png) no-repeat center left;
+}
+.pastes .php a {
+	background-image: url(http://li3.rad-dev.org/img/icons/silk/page_white_php.png);
+}
+.pastes .html a,
+.pastes .javascript a {
+	background-image: url(http://li3.rad-dev.org/img/icons/silk/page_white_cup.png);
+}
+.pastes .preview, .pastes tr > td a {
+	font-size: 10px;
+	font-family: Monaco, Courier, monospace;
+}
+ .pastes tr > td a {
+	font-size: 12px;
+	font-family: Monaco, Courier, monospace;
+
+ }
+.nav .paste:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/page_white_add.png);
+	margin: 0 .55em 0 0;
+}
+.nav .index:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/page_white_stack.png);
+	margin: 0 .55em 0 0;
+}
+.nav .color:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/color_wheel.png);
+}
+.nav .contrast:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/contrast.png);
+}
+.nav .bigger:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/magnifier_zoom_in.png);
+}
+.nav .smaller:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/magifier_zoom_out.png);
+}
+.nav .copy:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/cut.png);
+	z-index: 10;
+}
+.nav .edit:before {
+	content: url(http://li3.rad-dev.org/img/icons/silk/pencil.png);
+	z-index: 10;
+}
+.nav .color span, .nav .contrast span, .nav .smaller span, .nav .bigger span, .nav .copy span, .nav .edit span {
+	display: none;
+}
+.re8 {
+	background-color: #263D2B;
+}
+.re7 {
+	background-color: #512B51;
+}

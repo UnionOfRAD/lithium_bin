@@ -1,21 +1,48 @@
-<div class="view">
-	<h2><?=$paste->preview;?></h2>
-<?php if (!$paste->author || $paste->author == '') { ?>
-	<h3>This <strong><?=$paste->language;?></strong> paste was created
+<?php if (!$paste->author && $paste->author == '') { ?>
+	<div class="author">This <strong><?=$paste->language;?></strong> paste was created
 		<strong>anonymously</strong>
-		at <strong><?=$paste->created;?></strong></h3>
+		on <strong><?=$paste->created;?></strong>.</div>
 <?php } else  { ?>
-	<h3>This <strong><?=$paste->language;?></strong> paste was created by
-		<strong><?=$paste->author;?></strong> at
-		<strong><?=$paste->created;?></strong></h3>
+	<div class="author">This <strong><?=$paste->language;?></strong> paste was created by
+		<strong><?=$paste->author;?></strong> on
+		<strong><?=$paste->created;?></strong>.</div>
 <?php } ?>
-	<p>
-		<a href="#" id="toggle">clean</a> &middot;
-		<a href="#">copy</a> &middot;
-		<?php echo $this->html->link('edit', array(
-			'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id)
-		));?>
-	</p>
-	<div id="clean" ><pre><code><?=$paste->content;?></code></pre></div>
-	<div id="paste"><?php echo $paste->parsed;?></div>
+
+<div class="nav tabs light">
+	<ul>
+		<li>
+			<a class="color" href="#" id="toggle-color" title="Toggle Color">
+				<span>Color</span>
+			</a>
+		</li>
+		<li>
+			<a class="contrast" href="#" id="toggle-contrast" title="Toggle Contrast">
+				<span>Contrast</span>
+			</a>
+		</li>
+		<li>
+			<a class="bigger" href="#" id="code-bigger" title="Larger code">
+				<span>Larger</span>
+			</a>
+		</li>
+		<li>
+			<a class="smaller" href="#" id="code-smaller" title="Smaller code">
+				<span>Smaller</span>
+			</a>
+		</li>
+		<li>
+			<a class="copy" href="#" id="copy-to-clipboard" title="Copy to clipboard">
+				<span>Copy</span>
+			</a>
+		</li>
+		<li>
+			<a class="edit" href="<?php echo $this->_request->env('base');?>/edit/<?=$paste->id;
+			?>" id="code-edit" title="Edit paste">
+				<span>Edit</span>
+			</a>
+		</li>
+	</ul>
 </div>
+
+<div id="clean" class="section code" style="display:none;"><pre><code><?php echo $paste->content;?></code></pre></div>
+<div id="paste" class="section code"><?php echo $paste->parsed;?></div>

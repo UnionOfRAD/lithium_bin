@@ -1,4 +1,3 @@
-<h2>Latest</h2>
 <?php
 if ($latest->count() == 0):
 	echo 'NO PASTES';
@@ -6,66 +5,62 @@ if ($latest->count() == 0):
 endif;
 
 ?>
-<ul class="latest">
-	<?php foreach($latest as $row): ?>
-		<li>
-			<?=$row->author?> @
-			<?=$row->created?> &middot;
-			<?=$row->language?>
-			<?php echo $this->html->link('view', array(
-				'controller' => 'pastes', 'action' => 'view', 'args' => array($row->id)
-			));?>
-			<p><?=$row->preview?></p>
-		</li>
+
+<table class="pastes">
+	<tr>
+		<th>Paste</th>
+		<th>Preview</th>
+		<th>Author</th>
+		<th>Date</th>
+	</tr>
+	<tbody>
+	<?php foreach ($latest as $key => $row): ?>
+		<tr class="<?=($key % 2) ? 'del1' : 'del2'; ?>">
+			<td class="<?=$row->language; ?>" title="<?=$row->language; ?>">
+				<?php echo $this->html->link(
+					substr($row->id, 0, 12) . '...', '/view/' . $row->id);
+				?>
+			</td>
+			<td class="preview"><?=$row->preview; ?></td>
+			<td><?=$row->author; ?></td>
+			<td><?php echo date('Y-m-d H:i', strtotime($row->created)); ?></td>
+		</tr>
 	<?php endforeach;?>
-</ul>
-<ul id="actions">
-	<li><?php
-		if ($total <= $limit || $page == 1) {
-			echo '<<-First</li><li><-Previous';
-		} else {
-			echo $this->html->link('<<-First', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => 1, 'limit' => $limit
-			));
-			echo '</li><li>';
-			echo $this->html->link('<-Previous', array(
-				'controller' => 'pastes', 'action' => 'index',
-				 'page' => $page - 1, 'limit' => $limit
-			));
+	</tbody>
+</table>
 
-		} ?>
-	</li>
-	<?php
-
+<div class="paging">
+<?php
+	if ($total <= $limit || $page == 1) {
+		echo $this->html->tag('span', 'Previous', array('class' => 'prev'));
+	} else {
+		echo $this->html->link('Previous', array(
+			'controller' => 'pastes', 'action' => 'index',
+			'page' => $page - 1, 'limit' => $limit
+		), array('class' => 'prev'));
+	}
 	$p = 0; $count = $total;
+
 	while ($count > 0) {
 		$p++; $count -= $limit;
-		echo '<li>';
+
 		if ($p == $page) {
-			echo '['.$p.']';
+			echo $this->html->tag('span', $p, array('class' => 'current'));
 		} else {
-			echo $this->html->link('['.$p.']', array(
+			echo $this->html->link($p, array(
 				'controller' => 'pastes', 'action' => 'index',
 				'page' => $p, 'limit' => $limit
 			));
 		}
-		echo '</li>';
 	}
-	?>
-	<li><?php
-		if ($total <= $limit || $page == $p) {
-			echo 'Next-></li><li>Last->>';
-		} else {
-			echo $this->html->link('Next->', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => $page + 1, 'limit' => $limit
-			));
-			echo '</li><li>';
-			echo $this->html->link('Last->>', array(
-				'controller' => 'pastes', 'action' => 'index',
-				'page' => $total, 'limit' => $limit
-			));
-		}?>
-	</li>
-</ul>
+
+	if ($total <= $limit || $page == $p) {
+		echo $this->html->tag('span', 'Next', array('class' => 'next'));
+	} else {
+		echo $this->html->link('Next', array(
+			'controller' => 'pastes', 'action' => 'index',
+			'page' => $page + 1, 'limit' => $limit
+		), array('class' => 'next'));
+	}
+?>
+</div>

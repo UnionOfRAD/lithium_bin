@@ -2,51 +2,58 @@
 echo $this->form->create($paste, array('url' => $url, 'method' => 'POST'));
 
 $errors = $paste->errors();
-
-$this->form->config(array('templates' => array('checkbox' =>
-	'<input type="hidden" name="{:name}" value="0" />
-	 <input type="checkbox" value="1" name="{:name}"{:options} />'
-)));
-
-if (isset($paste->id) && isset($paste->rev)) {
-		echo $this->form->hidden('id');
-		echo $this->form->hidden('rev');
-}
-
-echo $this->form->label('Paste.author', 'Who are you?', array('class' => 'required'));
-echo $this->form->text('author', array('id' => 'Paste.author'));
-if (isset($errors['author'])) {
-	echo '<p style="color:red">'.implode($errors['author'], "<br>").'</p>';
-}
-
-echo $this->form->checkbox('remember', array('id' => 'Paste.remember'));
-echo $this->form->label('Paste.remember', ' remember');
 ?>
-<br><br>
-<?php
+	<div class="section paste-content">
+		<div class="input textarea">
+			<textarea name="content" rows="25"><?=$paste->content;?></textarea>
+		</div>
+		<?php echo (isset($errors['content'])) ?
+			'<p class="error">' . implode($errors['content'], '<br>') . '</p>' : null;
+		?>
+	</div>
 
-echo $this->form->label('Paste.content', 'Paste content', array('class' => 'required'));
-echo $this->form->textarea('content', array('id' => 'Paste.content', 'rows' => '20'));
-if (isset($errors['content'])) {
-	echo '<p style="color:red">'.implode($errors['content'], "<br>").'</p>';
-}
+	<div class="section paste-meta">
 
-?>
-<br>
-<?php
+		<?php if (isset($paste->id) && isset($paste->rev)) : ?>
+			<input type="hidden" name="id" value="<?=$paste->id;?>" />
+			<input type="hidden" name="rev" value="<?=$paste->rev;?>" />
+		<?php endif; ?>
+		<label for="author">Name/Nick</label>
+		<input type="text" name="author" id="author" value="<?=$paste->author;?>" />
+		<?php echo (isset($errors['author'])) ?
+			'<p class="error">' . implode($errors['author'], '<br>') . '</p>' : null;
+		?>
+		<div class="checkbox">
+		<input type="hidden" name="remember" value="0" />
+		<input type="checkbox" id="remember" value="1"
+			<?=($paste->remember) ? 'checked=checked' : null;?> name="remember" /> &nbsp;
+		<label for="remember">Remember me</label>
+		</div>
 
-echo $this->form->label('Paste.language', 'language');
-echo $this->form->select('language', array_combine($languages, $languages), array(
-	'id' => 'Paste.language'
-));
-if (isset($errors['language'])) {
-	echo '<p style="color:red">'.implode($errors['language'], "<br>").'</p>';
-}
-
-echo $this->form->checkbox('permanent', array('id' => 'Paste.permanent'));
-echo $this->form->label('Paste.permanent', " permanent");
-
-?>
-<br><br>
-<?php echo $this->form->submit('save');?>
+		<label for="language">Language</label>
+		<select id="language" name="language" value="">
+		<?php
+			foreach ($languages as $lang) {
+				if ($lang == $paste->language) {
+					echo "<option selected='selected' value='{$lang}'>{$lang}</option>";
+				} else {
+					echo "<option value='{$lang}'>{$lang}</option>";
+				}
+			}
+		?>
+		</select>
+		<?php echo (isset($errors['language'])) ?
+			'<p class="error">' . implode($errors['language'], "<br>") .'</p>' : null;
+		?>
+		<div class="checkbox">
+		<input type="hidden" name="permanent" value="0" />
+		<input type="checkbox" id="permanent" value="1"
+			<?=($paste->permanent) ? 'checked=checked' : null;?> name="permanent" /> &nbsp;
+		<label for="permanent">Save this paste</label>
+		</div>
+		<?php echo $this->form->submit('Paste this');?>
+	</div>
+	<div class="notice">
+		<small>Pastes are publicly viewable. Paste wisely.</small>
+	</div>
 </form>
