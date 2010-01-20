@@ -16,11 +16,6 @@
 			</a>
 		</li>
 		<li>
-			<a class="contrast" href="#" id="toggle-contrast" title="Toggle Contrast">
-				<span>Contrast</span>
-			</a>
-		</li>
-		<li>
 			<a class="bigger" href="#" id="code-bigger" title="Larger code">
 				<span>Larger</span>
 			</a>
