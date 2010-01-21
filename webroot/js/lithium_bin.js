@@ -1,4 +1,4 @@
-var li3Bin = {
+var LithiumBin = {
 	_config: {},
 	
 	setup: function(options) {
@@ -11,7 +11,13 @@ var li3Bin = {
 		}
 		this.setupColor();
 		this.setupCodeSizers();
-		this.setupCopy();
+		this.loadJs();
+	},
+
+	loadJs: function() {
+		$.getScript(this._config.assetBase + "/js/libraries/ZeroClipboard/ZeroClipboard.js", function() {
+			LithiumBin.setupCopy();
+		});
 	},
 	
 	setupColor: function(options) {
