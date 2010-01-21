@@ -7,18 +7,19 @@
  */
 ?>
 <?php
-$assetHost = 'http://li3.rad-dev.org';
+$assetHost = 'li3.rad-dev.org';
+$assetBase = "http://{$assetHost}";
 ?>
 <!doctype html>
 <html>
 <head>
 	<?php echo $this->html->charset(); ?>
 	<title>Pastium <?=$this->title; ?></title>
-	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
+	<?php echo $this->html->link('Icon', "{$assetBase}/favicon.ico", array('type' => 'icon')); ?>
 	<?php echo $this->html->style(array(
-		$assetHost . '/css/base.css',
-		$assetHost . '/css/li3.css',
-		$assetHost . '/css/pastium.css'
+		"{$assetBase}/css/base.css",
+		"{$assetBase}/css/u1m.css",
+		"{$assetBase}/css/lithium_bin.css"
 	)); ?>
 	<?php echo $this->scripts(); ?>
 </head>
@@ -52,12 +53,14 @@ $assetHost = 'http://li3.rad-dev.org';
 </div>
 <?php echo $this->html->script(array(
 	'http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js',
-	$assetHost . '/js/libraries/ZeroClipboard/ZeroClipboard.js',
-	$assetHost . '/js/bin.js'
+	"{$assetBase}/js/lithium_bin.js"
 )); ?>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function () {
-		<?php echo 'li3Bin.setup({ text: '. (isset($binText) ? 'true' : 'false') . '});' ?>
+		LithiumBin.setup({
+			text: <?php echo isset($binText) ? 'true' : 'false'; ?>,
+			assetBase: '<?php echo $assetBase; ?>'
+		});
 	});
 </script>
 </body>
