@@ -162,7 +162,7 @@ td.preview {
 	content: url("../img/icons/silk/magnifier_zoom_in.png");
 }
 .nav .smaller:before {
-	content: url("../img/icons/silk/magnifier_zoom_out.png");
+	content: url("../img/icons/silk/magifier_zoom_out.png");
 }
 .nav .copy:before {
 	content: url("../img/icons/silk/cut.png");
