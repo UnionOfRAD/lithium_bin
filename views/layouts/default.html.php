@@ -28,7 +28,7 @@ $assetBase = "http://{$assetHost}";
 	<div id="container">
 		<div id="header">
 			<h1>Pastium</h1>
-			<div class="nav tabs right">
+			<div class="nav capsule">
 				<ul>
 					<li><?php echo $this->html->link('Latest', array(
 						'controller' => 'pastes',
