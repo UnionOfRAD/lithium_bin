@@ -115,12 +115,6 @@ pre code {
 	background: #f0f0f0;
 	clear: both;
 }
-.pastes th {
-	padding: .5em;
-}
-.pastes td {
-	padding: .5em;
-}
 .pastes .del1 td {
 	background: #fafafa;
 }
@@ -139,10 +133,16 @@ pre code {
 	background-image: url("../img/icons/silk/page_white_cup.png");
 }
 .pastes .preview, .pastes tr > td a {
-	font-size: 10px;
+	font-size: 12px;
 	font-family: Monaco, Courier, monospace;
 }
- .pastes tr > td a {
+td.preview {
+	width: 430px;
+	color: #666;
+	overflow: hidden;
+}
+
+.pastes tr > td a {
 	font-size: 12px;
 	font-family: Monaco, Courier, monospace;
 
