@@ -86,6 +86,9 @@ p.error {
 code, pre {
 	font-family: Monaco, Courier, monospace !important;
 }
+pre code {
+	border: none;
+}
 #copied-notification {
 	clear: both;
 	color: #00bf2d;
