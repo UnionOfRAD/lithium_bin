@@ -2,15 +2,9 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2009, Union of Rad, Inc. (http://union-of-rad.org)
+ * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
-
-namespace lithium;
-
-use \lithium\core\Environment;
-use \lithium\core\Libraries;
-use \lithium\storage\Session;
 
 /**
  * This is the path to the class libraries used by your application, and must contain a copy of the
@@ -39,48 +33,61 @@ if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
 }
 
 /**
- * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You
- * generally should not need to override any settings.
+ * This file contains the loading instructions for all class libraries used in the application,
+ * including the Lithium core, and the application itself. These instructions include library names,
+ * paths to files, and any applicable class-loading rules. Also includes any statically-loaded
+ * classes to improve bootstrap performance.
  */
-Libraries::add('lithium');
+require __DIR__ . '/bootstrap/libraries.php';
 
 /**
- * Optimize default request cycle by loading common classes.  If you're implementing custom
- * request/response or dispatch classes, you can safely remove these.  Actually, you can safely
- * remove them anyway, they're just there to give slightly you better out-of-the-box performance.
+ * This file contains configurations for connecting to external caching resources, as well as
+ * default caching rules for various systems within your application
  */
-require LITHIUM_LIBRARY_PATH . '/lithium/core/Object.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/StaticObject.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/Collection.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/collection/Filters.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/Inflector.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/Set.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/String.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/Environment.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/http/Base.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/http/Media.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/http/Request.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/http/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/http/Route.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Controller.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Dispatcher.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Request.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/View.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Renderer.php';
+// require __DIR__ . '/bootstrap/cache.php';
 
 /**
- * Add the application.  You can pass a `'path'` key here if this bootstrap file is outside of
- * your main application, but generally you should not need to change any settings.
+ * This file contains your application's globalization rules, including inflections,
+ * transliterations, localized validation, and how localized text should be loaded. Uncomment this
+ * line if you plan to globalize your site.
  */
-Libraries::add('app');
+// require __DIR__ . '/bootstrap/g11n.php';
 
-Libraries::add('geshi', array(
-	'path' => LITHIUM_APP_PATH. '/libraries/geshi',
-	'prefix' => 'Geshi',
-	'bootstrap' => 'geshi.php'
+/**
+ * This file configures console filters and settings, specifically output behavior and coloring.
+ */
+// require __DIR__ . '/bootstrap/console.php';
+
+/**
+ * This configures your session storage. The Cookie storage adapter must be connected first, since
+ * it intercepts any writes where the `'expires'` key is set in the options array.  When creating a
+ * new application, it is suggested that you change the value of `'key'` below.
+ */
+use \lithium\storage\Session;
+
+Session::config(array(
+	'default' => array('adapter' => 'Cookie')
 ));
 
-Session::config(array('default' => array('adapter' => 'Cookie')));
+
+/**
+ * The `Collection` class, which serves as the base class for some of Lithium's data objects
+ * (`RecordSet` and `Document`) provides a way to manage data collections in a very flexible and
+ * intuitive way, using closures and SPL interfaces. The `to()` method allows a `Collection` (or
+ * subclass) to be converted to another format, such as an array. The `Collection` class also allows
+ * other classes to be connected as handlers to convert `Collection` objects to other formats.
+ *
+ * The following connects the `Media` class as a format handler, which allows `Collection`s to be
+ * exported to any format with a handler provided by `Media`, i.e. JSON. This enables things like
+ * the following:
+ * {{{
+ * $posts = Post::find('all');
+ * return $posts->to('json');
+ * }}}
+ */
+// use \lithium\util\Collection;
+//
+// Collection::formats('\lithium\net\http\Media');
+
 
 ?>

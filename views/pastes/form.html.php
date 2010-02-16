@@ -1,4 +1,4 @@
-<?php 
+<?php
 echo $this->form->create($paste, array('url' => $url, 'method' => 'POST'));
 
 $errors = $paste->errors();
