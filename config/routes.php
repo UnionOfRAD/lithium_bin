@@ -20,6 +20,8 @@ Router::connect('/latest/page:{:page}/limit:{:limit}', array(
 
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
+
+Router::connect('/view/{:args}.{:type}', array('controller' => 'pastes', 'action' => 'view'));
 Router::connect('/view/{:args}', array('controller' => 'pastes', 'action' => 'view'));
 
 Router::connect('/test/{:args}', array('controller' => '\lithium\test\Controller'));

@@ -61,6 +61,13 @@ class PastesController extends \lithium\action\Controller {
 		if ($paste->rewind() == 'not_found') {
 			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
 		}
+
+		if ($this->request->type === 'json') {
+			return $paste->to('json');
+		}
+		if ($this->request->type === 'txt') {
+			return $paste->content;
+		}
 		return compact('paste');
 	}
 

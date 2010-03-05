@@ -85,9 +85,14 @@ Session::config(array(
  * return $posts->to('json');
  * }}}
  */
-// use \lithium\util\Collection;
-//
-// Collection::formats('\lithium\net\http\Media');
+use \lithium\util\Collection;
+
+Collection::formats('\lithium\net\http\Media');
+
+/**
+ * Include Media handling of addtional render types.
+ */
+require __DIR__ . '/bootstrap/media.php';
 
 
 ?>
