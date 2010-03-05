@@ -1,9 +1,9 @@
 <paste>
 	<id><?=$paste->id; ?></id>
 <?php if ($paste->author): ?>
-	<author><?=$paste->author; ?></author>
+	<author><![CDATA[<?php echo$paste->author; ?>]]></author>
 <?php endif; ?>
-	<created><?=$paste->created; ?></created>
-	<language><?=$paste->language; ?></language>
-	<content><?=$paste->content; ?></content>
+	<created><?php echo $paste->created; ?></created>
+	<language><![CDATA[<?php echo $paste->language; ?>]]></language>
+	<content><![CDATA[<?=$paste->content; ?>]]></content>
 </paste>
