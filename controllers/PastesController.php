@@ -65,7 +65,7 @@ class PastesController extends \lithium\action\Controller {
 		if ($this->request->type === 'json') {
 			return $paste->to('json');
 		}
-		if ($this->request->type === 'txt') {
+		if ($this->request->type === 'txt' || $this->request->type === 'text') {
 			return $paste->content;
 		}
 		return compact('paste');
