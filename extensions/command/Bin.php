@@ -2,8 +2,8 @@
 
 namespace app\extensions\command;
 
-use \app\models\Paste;
 use \app\models\PasteView;
+use \lithium\data\Connections;
 
 /**
  * Command to assist in setup and management of Lithium Bin
@@ -18,20 +18,21 @@ class Bin extends \lithium\console\Command {
 	 */
 	public function install() {
 		$this->header('Lithium Bin');
-		$result = Paste::install();
+		$config = Connections::get('default', array('config' => true));
+		Connections::get('default')->put($config['database']);
 		PasteView::create()->save();
 		return $this->checkView();
 	}
-	
-	public function update() {		
+
+	public function update() {
 		$view = PasteView::find('_design/paste');
 		if ($view && !isset($view->error)) {
 			$view->delete();
 		}
-		PasteView::create()->save();	
-		return $this->checkView();	
+		PasteView::create()->save();
+		return $this->checkView();
 	}
-	
+
 	protected function checkView() {
 		$view = PasteView::find('_design/paste');
 		if (!empty($view->reason)) {

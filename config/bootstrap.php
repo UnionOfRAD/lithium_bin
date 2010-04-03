@@ -41,10 +41,22 @@ if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
 require __DIR__ . '/bootstrap/libraries.php';
 
 /**
+ * Include this file if your application uses a database connection.
+ */
+require __DIR__ . '/connections.php';
+
+/**
+ * This file defines bindings between classes which are triggered during the request cycle, and
+ * allow the framework to automatically configure its environmental settings. You can add your own
+ * behavior and modify the dispatch cycle to suit your needs.
+ */
+require __DIR__ . '/bootstrap/action.php';
+
+/**
  * This file contains configurations for connecting to external caching resources, as well as
  * default caching rules for various systems within your application
  */
-// require __DIR__ . '/bootstrap/cache.php';
+require __DIR__ . '/bootstrap/cache.php';
 
 /**
  * This file contains your application's globalization rules, including inflections,
@@ -54,45 +66,25 @@ require __DIR__ . '/bootstrap/libraries.php';
 // require __DIR__ . '/bootstrap/g11n.php';
 
 /**
+ * This file contains configurations for handling different content types within the framework,
+ * including converting data to and from different formats, and handling static media assets.
+ */
+// require __DIR__ . '/bootstrap/media.php';
+
+/**
  * This file configures console filters and settings, specifically output behavior and coloring.
  */
 // require __DIR__ . '/bootstrap/console.php';
 
 /**
  * This configures your session storage. The Cookie storage adapter must be connected first, since
- * it intercepts any writes where the `'expires'` key is set in the options array.  When creating a
- * new application, it is suggested that you change the value of `'key'` below.
+ * it intercepts any writes where the `'expires'` key is set in the options array.
  */
 use \lithium\storage\Session;
 
 Session::config(array(
-	'default' => array('adapter' => 'Cookie')
+	'cookie' => array('adapter' => 'Cookie', 'expire' => '+10 days'),
+	'default' => array('adapter' => 'Php')
 ));
-
-
-/**
- * The `Collection` class, which serves as the base class for some of Lithium's data objects
- * (`RecordSet` and `Document`) provides a way to manage data collections in a very flexible and
- * intuitive way, using closures and SPL interfaces. The `to()` method allows a `Collection` (or
- * subclass) to be converted to another format, such as an array. The `Collection` class also allows
- * other classes to be connected as handlers to convert `Collection` objects to other formats.
- *
- * The following connects the `Media` class as a format handler, which allows `Collection`s to be
- * exported to any format with a handler provided by `Media`, i.e. JSON. This enables things like
- * the following:
- * {{{
- * $posts = Post::find('all');
- * return $posts->to('json');
- * }}}
- */
-use \lithium\util\Collection;
-
-Collection::formats('\lithium\net\http\Media');
-
-/**
- * Include Media handling of addtional render types.
- */
-require __DIR__ . '/bootstrap/media.php';
-
 
 ?>

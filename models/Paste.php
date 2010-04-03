@@ -26,14 +26,6 @@ class Paste extends \lithium\data\Model {
 	public static $languages = null;
 
 	/**
-	 * Metadata
-	 *
-	 * @var array array of meta data to link the model with the couchdb datasource
-	 *		- source : the name of the table (called database in couchdb)
-	 */
-	protected $_meta = array('source' => 'lithium_bin');
-
-	/**
 	 *  Schema for Paste
 	 *
 	 * @var array
@@ -144,15 +136,6 @@ class Paste extends \lithium\data\Model {
 			));
 		}
 		return static::$languages;
-	}
-
-	/**
-	 * Creates a new database
-	 *
-	 * @return void
-	 */
-	public static function install() {
-		return Connections::get('default')->put(static::meta('source'));
 	}
 }
 

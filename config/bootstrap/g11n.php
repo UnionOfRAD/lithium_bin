@@ -75,14 +75,7 @@ Catalog::config(array(
 		'adapter' => 'Php',
 		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
 	)
-));
-
-/**
- * Globalization runtime data.  You can add globalized data during runtime utilizing a
- * configuration set up to use the _memory_ adapter.
- */
-$data = function($n) { return $n != 1 ? 1 : 0; };
-Catalog::write('message.plural', 'root', $data, array('name' => 'runtime'));
+) + Catalog::config());
 
 /**
  * Integration with `Inflector`.
