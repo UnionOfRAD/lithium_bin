@@ -69,15 +69,18 @@ class Paste extends \lithium\data\Model {
 	public static function __init($options = array()) {
 		parent::__init($options);
 		$self = static::_instance();
+
 		$self->_finders['count'] = function($self, $params, $chain) {
-			$result = Connections::get($self::meta('connection'))->get(
-				$self::meta('source') . '/_design/paste/_view/count'
-			);
+			$config = Connections::get($self::meta('connection'), array('config' => true));
+			$connection = Connections::get($self::meta('connection'));
+			$result = $connection->get($config['database'].'/_design/paste/_view/count');
+
 			if (empty($result->total_rows)) {
 				return 0;
 			}
 			return $result->total_rows;
 		};
+
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
 			if (!$document->id) {
