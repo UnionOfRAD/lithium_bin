@@ -11,6 +11,7 @@ namespace app\controllers;
 use \app\models\Paste;
 use \app\models\PasteView;
 use \lithium\storage\Session;
+use \lithium\util\Set;
 
 /**
  * Controller that decides what data is available to the different actions (urls)
@@ -31,18 +32,21 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		$page = 1;
-		$limit = 10;
-		$order = array('descending' => 'true');
-		if (isset($this->request->params['page'])) {
-			$page = $this->request->params['page'];
-			if (!empty($this->request->params['limit'])) {
-				$limit = $this->request->params['limit'];
-			}
-		}
-		$conditions = array('design' => 'paste', 'view' => 'all', 'skip' => ($page - 1) * $limit);
-		$total = Paste::find('count');
-		$latest = Paste::find('all', compact('conditions', 'limit', 'order'));
+		$defaults = array('page' => 1, 'limit' => 10, 'order' => array('descending' => 'true'));
+		$params = Set::merge($defaults, $this->request->params);
+		list($limit, $page, $order) = array($params['limit'], $params['page'], $params['order']);
+
+		$latest = Paste::all(array(
+			'conditions' => array(
+				'design' => 'paste', 'view' => 'all',
+				'skip' => ($params['page'] - 1) * $params['limit'],
+				'limit' => $params['limit']
+			) + $params['order']
+		));
+
+		$total = Paste::find('count', array(
+			'conditions' => array('design' => 'paste', 'view' => 'count')
+		));
 		return compact('latest', 'limit', 'page', 'total');
 	}
 
@@ -59,7 +63,7 @@ class PastesController extends \lithium\action\Controller {
 	public function view($id = null) {
 		$paste = Paste::find($id);
 		if ($paste->rewind() == 'not_found') {
-			$this->redirect(array('controller' => 'pastes', 'action' => 'index'));
+			$this->redirect('Pastes::index');
 		}
 
 		if ($this->request->type === 'json') {
@@ -100,7 +104,7 @@ class PastesController extends \lithium\action\Controller {
 			}
 		}
 		$languages = Paste::languages();
-		$url = array('controller' => 'pastes', 'action' => 'add');
+		$url = 'Pastes::add';
 		$this->set(compact('url', 'paste', 'languages'));
 		$this->render('form');
 	}
@@ -120,7 +124,7 @@ class PastesController extends \lithium\action\Controller {
 		if (empty($this->request->data)) {
 			$paste = Paste::find($id);
 			if ($paste == null) {
-				$this->redirect(array('controller' => 'pastes', 'action' => 'add'));
+				$this->redirect('Pastes::add');
 			}
 		} else {
 			$paste = Paste::find($this->request->data['id']);
@@ -144,13 +148,14 @@ class PastesController extends \lithium\action\Controller {
 	 * @return void
 	 */
 	protected function _remember($paste) {
+		$data = null;
+
 		if (!empty($this->request->data['remember'])) {
-			Session::write('paste', json_encode(array(
+			$data = json_encode(array(
 				'author' => $paste->author, 'remember' => true, 'language' => $paste->language
-			)));
-			return;
+			));
 		}
-		Session::write('paste', null);
+		Session::write('paste', $data);
 	}
 }
 
