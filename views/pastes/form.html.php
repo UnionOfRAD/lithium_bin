@@ -35,7 +35,7 @@ if (isset($errors['content'])) {
 <br>
 <?php
 
-echo $this->form->label('Paste.language', 'language');
+echo $this->form->label('Paste.language', 'language', array('class' => 'required'));
 echo $this->form->select('language', array_combine($languages, $languages), array(
 	'id' => 'Paste.language'
 ));
@@ -43,8 +43,21 @@ if (isset($errors['language'])) {
 	echo '<p style="color:red">'.implode($errors['language'], "<br>").'</p>';
 }
 
+?>
+<br>
+<?php
 echo $this->form->checkbox('permanent', array('id' => 'Paste.permanent'));
 echo $this->form->label('Paste.permanent', " permanent");
+
+?>
+<br>
+<br>
+<?php
+echo $this->form->label('Paste.password', "Lock with password? <small>Leave blank if not</small>", array('escape' => false));
+echo $this->form->text('Paste.password', array('id' => 'Paste.password'));
+if (isset($errors['Paste.password'])) {
+	echo '<p style="color:red">'.implode($errors['Paste.password'], "<br>").'</p>';
+}
 
 ?>
 <br><br>

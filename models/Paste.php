@@ -89,6 +89,11 @@ class Paste extends \lithium\data\Model {
 			if (!empty($params['data'])) {
 				$document->set($params['data']);
 			}
+			if (!empty($document->password)) {
+				$document->locked = true;
+			} else {
+				$document->locked = false;
+			}
 			$document->parsed = Paste::parse($document->content, $document->language);
 			$document->preview = substr($document->content, 0, 100);
 			$document->modified = date('Y-m-d h:i:s');
