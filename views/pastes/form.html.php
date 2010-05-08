@@ -64,5 +64,11 @@ if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) |
 endif;
 ?>
 <br><br>
-<?php echo $this->form->submit('save');?>
+<?php
+
+echo $this->form->submit('save');
+if (isset($paste->id))
+	echo $this->form->submit('save copy', array('name' => 'copy'));
+
+?>
 </form>

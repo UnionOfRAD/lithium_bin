@@ -127,7 +127,19 @@ class PastesController extends \lithium\action\Controller {
 				$this->redirect('Pastes::add');
 			}
 		} else {
-			$paste = Paste::find($this->request->data['id']);
+			if (isset($this->request->data['copy'])){
+				$data = $this->request->data;
+				unset($data['id']);
+				unset($data['password']);
+				$paste = Paste::create($data);
+			} else {
+				$paste = Paste::find($this->request->data['id']);
+				if (isset($paste->password) && !empty($paste->password) &&
+					$paste->password != $this->request->data['password']) {
+					$paste = false;
+				}
+			}
+
 			if ($paste && $paste->save($this->request->data)) {
 				$this->_remember($paste);
 				$this->redirect(array(
