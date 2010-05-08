@@ -49,16 +49,18 @@ if (isset($errors['language'])) {
 echo $this->form->checkbox('permanent', array('id' => 'Paste.permanent'));
 echo $this->form->label('Paste.permanent', " permanent");
 
-?>
-<br>
-<br>
-<?php
-echo $this->form->label('Paste.password', "Lock with password? <small>Leave blank if not</small>", array('escape' => false));
-echo $this->form->text('Paste.password', array('id' => 'Paste.password'));
-if (isset($errors['Paste.password'])) {
-	echo '<p style="color:red">'.implode($errors['Paste.password'], "<br>").'</p>';
-}
 
+if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) :
+	?>
+	<br>
+	<br>
+	<?php
+	echo $this->form->label('Paste.password', "Lock with password? <small>Leave blank if not</small>", array('escape' => false));
+	echo $this->form->text('password', array('id' => 'Paste.password'));
+	if (isset($errors['Paste.password'])) {
+		echo '<p style="color:red">'.implode($errors['Paste.password'], "<br>").'</p>';
+	}
+endif;
 ?>
 <br><br>
 <?php echo $this->form->submit('save');?>
