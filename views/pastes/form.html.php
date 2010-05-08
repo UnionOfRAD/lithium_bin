@@ -46,9 +46,10 @@ if (isset($errors['language'])) {
 ?>
 <br>
 <?php
+if (!isset($paste->id)) {
 echo $this->form->checkbox('permanent', array('id' => 'Paste.permanent'));
 echo $this->form->label('Paste.permanent', " permanent");
-
+}
 
 if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) :
 	?>
