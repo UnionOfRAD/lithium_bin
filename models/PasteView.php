@@ -39,14 +39,7 @@ class PasteView extends \lithium\data\Model {
 						});
 					}
 				}'
-			),
-			'count' => array(
-				'map' => 'function(doc) {
-					if (doc.permanent == "1") {
-						emit(doc._id, null);
-					}
-				}'
-			),
+			)
 		))
 	);
 }

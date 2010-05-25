@@ -44,9 +44,7 @@ class PastesController extends \lithium\action\Controller {
 			) + $params['order']
 		));
 
-		$total = Paste::find('count', array(
-			'conditions' => array('design' => 'paste', 'view' => 'count')
-		));
+		$total = $latest->stats('total_rows');
 		return compact('latest', 'limit', 'page', 'total');
 	}
 
