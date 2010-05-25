@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * Lithium: the most rad php framework
  *
