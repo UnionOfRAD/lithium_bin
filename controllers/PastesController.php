@@ -128,12 +128,13 @@ class PastesController extends \lithium\action\Controller {
 			}
 		} else {
 			if (isset($this->request->data['copy'])){
-				$data = $this->request->data;
-				unset($data['id']);
-				unset($data['password']);
-				unset($data['copy']);
-				unset($data['rev']);
-				$paste = Paste::create($data);
+				unset(
+					$this->request->data['id'],
+					$this->request->data['rev'],
+					$this->request->data['password'],
+					$this->request->data['copy']
+				);
+				$paste = Paste::create();
 			} else {
 				$paste = Paste::find($this->request->data['id']);
 				if (isset($paste->password) && !empty($paste->password) &&
@@ -144,7 +145,7 @@ class PastesController extends \lithium\action\Controller {
 				}
 			}
 
-			if ($paste && $paste->save()) {
+			if ($paste && $paste->save($this->request->data)) {
 				$this->_remember($paste);
 				$this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
