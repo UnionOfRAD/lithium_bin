@@ -8,8 +8,10 @@
 
 use \lithium\net\http\Router;
 
-Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
+Router::connect('/', array('controller' => 'pages', 'action' => 'view', 'home'));
 
+Router::connect('/add', array('controller' => 'pastes', 'action' => 'add'));
+Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
 Router::connect('/latest/page:{:page:[0-9]+}', array(
 	'controller' => 'pastes', 'action' => 'index', 'page' => 1
@@ -18,13 +20,6 @@ Router::connect('/latest/page:{:page}/limit:{:limit}', array(
 	'controller' => 'pastes', 'action' => 'index', 'page' => 1, 'limit' => 10
 ));
 
-Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
-Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
 
-Router::connect('/view/{:args}.{:type}', array('controller' => 'pastes', 'action' => 'view'));
-Router::connect('/view/{:args}', array('controller' => 'pastes', 'action' => 'view'));
-
-Router::connect('/test/{:args}', array('controller' => '\lithium\test\Controller'));
-Router::connect('/test', array('controller' => '\lithium\test\Controller'));
-
+Router::connect('/{:controller}/{:action}/{:args}');
 ?>

@@ -1,23 +1,23 @@
-<?php
-/**
- * Lithium: the most rad php framework
- *
- * @copyright     Copyright 2010, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
- */
-?>
-<h2>Lithium is coming...</h2>
+<h2>Lithium Bin</h2>
+<h3>A Lithium example app</h3>
+<p>
+This application utilizes CouchDB and also powers the paste bin at pastium.org. Amongst others it hast the following features:
+</p>
+<br><br>
+<h4>Features</h4>
+<ul style="margin: 1em 2em;">
+  <li> Posting of code snippets</li>
+  <li> List of recently made snippets </li>
+  <li> Syntax highlighting </li>
+  <li> Pagination </li>
+  <li> Cookie remembering author name </li>
+  <li> Versioning </li>
+</ul>
 
-<p>
-	temporary home page that will eventually be filled with configuration checks.
-</p>
-
-<p>
-	<a href="http://rad-dev.org/lithium/wiki">Lithium Wiki</a>
-</p>
-<p>
-	<a href="http://rad-dev.org/lithium">Lithium Source</a>
-</p>
-<p>
-	<a href="http://groups.google.com/group/lithium">Lithium Google Group</a>
-</p>
+<h4>Requirements</h4>
+<ul style="margin: 1em 2em;">
+  <li> Lithium Core ( git clone code@rad-dev.org:lithium.git ) 0.9</li>
+  <li> php  5.3.1</li>
+  <li> CouchDB (Tested with version 0.10.0)</li>
+  <li> GeSHI  1.0.8.4 (originally supplied with this package)</li>
+</ul>
