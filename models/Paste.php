@@ -68,7 +68,7 @@ class Paste extends \lithium\data\Model {
 	*/
 	public static function __init($options = array()) {
 		parent::__init($options);
-		$self = static::_instance();
+		$self = static::_object();
 
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['record'];
