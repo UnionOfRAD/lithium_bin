@@ -101,10 +101,7 @@ class Paste extends \lithium\data\Model {
 	}
 
 	/**
-	* Takes a reference to a `Document`, and parses the content
-	* While it is defined as a non-static method in the Paste model, it is
-	* used through the `Document` instance. It is the `__call` method in
-	* `Document` that makes this possible.
+ 	* Takes a string and returns it parsed in the specified language
 	*
 	* @param string $content
 	* @param string $langauge
