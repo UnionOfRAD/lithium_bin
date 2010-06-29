@@ -81,8 +81,6 @@ class PastesController extends \lithium\action\Controller {
 	 * Request object will post that tothe model for save. If save is successfull
 	 * it will redirect to a view of the newly created paste.
 	 *
-	 * @todo add cookie / session remembering of author name
-     *
 	 * @param string $author
 	 * @param string $language
 	 */
