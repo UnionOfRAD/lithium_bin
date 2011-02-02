@@ -4,8 +4,8 @@ namespace app\tests\integration;
 
 use lithium\data\Connections;
 use lithium\data\model\Query;
-use \app\tests\mocks\models\MockIntegrationPaste;
-use \app\tests\mocks\models\MockIntegrationPasteView;
+use app\tests\mocks\models\MockIntegrationPaste;
+use app\tests\mocks\models\MockIntegrationPasteView;
 
 class PasteTest extends \lithium\test\Unit {
 
@@ -156,7 +156,7 @@ class PasteTest extends \lithium\test\Unit {
 
 	protected function _taskDeleteTable() {
         Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
+       		array('model' => 'app\tests\mocks\models\MockIntegrationPaste')
         ));
 	}
 

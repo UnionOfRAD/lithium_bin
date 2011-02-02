@@ -2,7 +2,7 @@
 
 namespace app\extensions\command;
 
-use \app\models\PasteView;
+use app\models\PasteView;
 use lithium\data\Connections;
 
 /**

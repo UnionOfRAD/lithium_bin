@@ -2,7 +2,7 @@
 
 namespace app\tests\cases\models;
 
-use \app\tests\mocks\models\MockPaste;
+use app\tests\mocks\models\MockPaste;
 
 class PasteTest extends \lithium\test\Unit {
 

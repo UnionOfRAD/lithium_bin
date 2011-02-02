@@ -8,8 +8,8 @@
 
 namespace app\controllers;
 
-use \app\models\Paste;
-use \app\models\PasteView;
+use app\models\Paste;
+use app\models\PasteView;
 use lithium\storage\Session;
 use lithium\util\Set;
 

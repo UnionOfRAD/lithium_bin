@@ -4,7 +4,7 @@ namespace app\tests\integration;
 
 use lithium\data\Connections;
 use lithium\data\model\Query;
-use \app\tests\mocks\models\MockIntegrationPasteView;
+use app\tests\mocks\models\MockIntegrationPasteView;
 
 class PasteViewTest extends \lithium\test\Unit {
 
@@ -15,7 +15,7 @@ class PasteViewTest extends \lithium\test\Unit {
 		$this->assertTrue($result);
 
 		Connections::get("test")->delete(new Query(
-       		array('model' => '\app\tests\mocks\models\MockIntegrationPaste')
+       		array('model' => 'app\tests\mocks\models\MockIntegrationPaste')
         ));
 	}
 
