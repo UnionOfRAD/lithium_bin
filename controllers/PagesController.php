@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use \lithium\util\Inflector;
+use lithium\util\Inflector;
 
 class PagesController extends \lithium\action\Controller {
 

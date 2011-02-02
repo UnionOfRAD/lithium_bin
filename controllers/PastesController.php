@@ -10,8 +10,8 @@ namespace app\controllers;
 
 use \app\models\Paste;
 use \app\models\PasteView;
-use \lithium\storage\Session;
-use \lithium\util\Set;
+use lithium\storage\Session;
+use lithium\util\Set;
 
 /**
  * Controller that decides what data is available to the different actions (urls)

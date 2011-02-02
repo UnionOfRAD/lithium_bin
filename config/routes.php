@@ -6,7 +6,7 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
-use \lithium\net\http\Router;
+use lithium\net\http\Router;
 
 Router::connect('/', array('controller' => 'pages', 'action' => 'view', 'home'));
 

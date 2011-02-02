@@ -10,7 +10,7 @@ class PasteViewTest extends \lithium\test\Unit {
 	public function testCreate() {
 		$view = MockPasteView::create();
 
-		$result = $view instanceof \lithium\data\model\Document;
+		$result = $view instanceof lithium\data\model\Document;
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a Document result');
 
@@ -25,7 +25,7 @@ class PasteViewTest extends \lithium\test\Unit {
 	public function testCreateLatest() {
 		$view = MockPasteView::create();
 
-		$result = $view instanceof \lithium\data\model\Document;
+		$result = $view instanceof lithium\data\model\Document;
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a Document result');
 

@@ -29,8 +29,8 @@
  * well as the parameters.
  */
 
-use \lithium\core\Environment;
-use \lithium\action\Dispatcher;
+use lithium\core\Environment;
+use lithium\action\Dispatcher;
 
 /**
  * Loads application routes before the request is dispatched.  Change this to `include_once` if

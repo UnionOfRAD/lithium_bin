@@ -3,9 +3,9 @@
 namespace app\models;
 
 use \Geshi;
-use \lithium\core\Libraries;
-use \lithium\util\Validator;
-use \lithium\data\Connections;
+use lithium\core\Libraries;
+use lithium\util\Validator;
+use lithium\data\Connections;
 
 /**
  * Data model for access the pastebin documents.

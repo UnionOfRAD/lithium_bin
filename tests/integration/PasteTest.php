@@ -2,8 +2,8 @@
 
 namespace app\tests\integration;
 
-use \lithium\data\Connections;
-use \lithium\data\model\Query;
+use lithium\data\Connections;
+use lithium\data\model\Query;
 use \app\tests\mocks\models\MockIntegrationPaste;
 use \app\tests\mocks\models\MockIntegrationPasteView;
 
@@ -94,7 +94,7 @@ class PasteTest extends \lithium\test\Unit {
 			'limit' => '10',
 			'descending' => 'true'
 		)));
-		$result = $latest instanceof \lithium\data\model\Document;
+		$result = $latest instanceof lithium\data\model\Document;
 
 		$this->assertTrue($result);
 		$this->skipIf(!$result, 'Not a document result');

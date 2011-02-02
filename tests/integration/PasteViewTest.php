@@ -2,8 +2,8 @@
 
 namespace app\tests\integration;
 
-use \lithium\data\Connections;
-use \lithium\data\model\Query;
+use lithium\data\Connections;
+use lithium\data\model\Query;
 use \app\tests\mocks\models\MockIntegrationPasteView;
 
 class PasteViewTest extends \lithium\test\Unit {

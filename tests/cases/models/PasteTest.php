@@ -10,17 +10,17 @@ class PasteTest extends \lithium\test\Unit {
 		$paste = new MockPaste();
 
 		$expected = array(
-	      'query' => '\lithium\data\model\Query',
-	      'record' => '\lithium\data\model\Document',
-	      'validator' => '\lithium\util\Validator',
-	      'recordSet' => '\lithium\data\model\Document',
-	      'connections' => '\lithium\data\Connections'
+	      'query' => 'lithium\data\model\Query',
+	      'record' => 'lithium\data\model\Document',
+	      'validator' => 'lithium\util\Validator',
+	      'recordSet' => 'lithium\data\model\Document',
+	      'connections' => 'lithium\data\Connections'
 		);
 		$result = $paste->classes();
 		$this->assertEqual($expected, $result);
 
 		$doc = MockPaste::create();
-		$this->assertTrue(is_a($doc, '\lithium\data\model\Document'));
+		$this->assertTrue(is_a($doc, 'lithium\data\model\Document'));
 	}
 
 	public function testCreate() {
@@ -110,9 +110,9 @@ class PasteTest extends \lithium\test\Unit {
 		$result = $paste->validates();
 		$this->assertFalse($result);
 
-		$this->assertTrue(is_a($paste, '\lithium\data\model\Document'),
+		$this->assertTrue(is_a($paste, 'lithium\data\model\Document'),
 			'Paste isnt a Document');
-		$this->skipIf(!is_a($paste, '\lithium\data\model\Document'));
+		$this->skipIf(!is_a($paste, 'lithium\data\model\Document'));
 		$result = $paste->errors();
 		$this->assertTrue(is_array($result));
 		$expected = array(

@@ -3,7 +3,7 @@
 namespace app\extensions\command;
 
 use \app\models\PasteView;
-use \lithium\data\Connections;
+use lithium\data\Connections;
 
 /**
  * Command to assist in setup and management of Lithium Bin
