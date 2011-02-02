@@ -15,28 +15,39 @@ use lithium\core\Libraries;
 use lithium\action\Dispatcher;
 use lithium\storage\cache\adapter\Apc;
 
-/**
- * If APC is not available and the cache directory is not writeable, bail out.
- */
-if (!$apcEnabled = Apc::enabled() && !is_writable(LITHIUM_APP_PATH . '/resources/tmp/cache')) {
+if (PHP_SAPI === 'cli') {
 	return;
 }
 
-Cache::config(array(
-	'default' => array(
-		'adapter' => '\lithium\storage\cache\adapter\\' . ($apcEnabled ? 'Apc' : 'File')
-	)
-));
+/**
+ * If APC is not available and the cache directory is not writeable, bail out. This block should be
+ * removed post-install, and the cache should be configured with the adapter you plan to use.
+ */
+if (!($apcEnabled = Apc::enabled()) && !is_writable(LITHIUM_APP_PATH . '/resources/tmp/cache')) {
+	return;
+}
+
+if ($apcEnabled) {
+	$default = array(
+		'adapter' => 'lithium\storage\cache\adapter\Apc',
+	);
+} else {
+	$default = array(
+		'adapter' => 'lithium\storage\cache\adapter\File',
+		'strategies' => array('Serializer')
+	);
+}
+Cache::config(compact('default'));
 
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if ($cache = Cache::read('default', 'core.libraries')) {
-		$cache = (array) unserialize($cache) + Libraries::cache();
+		$cache = (array) $cache + Libraries::cache();
 		Libraries::cache($cache);
 	}
 	$result = $chain->next($self, $params, $chain);
 
 	if ($cache != Libraries::cache()) {
-		Cache::write('default', 'core.libraries', serialize(Libraries::cache()), '+1 day');
+		Cache::write('default', 'core.libraries', Libraries::cache(), '+1 day');
 	}
 	return $result;
 });
