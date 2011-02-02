@@ -69,7 +69,7 @@ require __DIR__ . '/bootstrap/action.php';
  * This file contains configuration for session (and/or cookie) storage, and user or web service
  * authentication.
  */
-// require __DIR__ . '/bootstrap/session.php';
+require __DIR__ . '/bootstrap/session.php';
 
 /**
  * This file contains your application's globalization rules, including inflections,
@@ -82,12 +82,12 @@ require __DIR__ . '/bootstrap/action.php';
  * This file contains configurations for handling different content types within the framework,
  * including converting data to and from different formats, and handling static media assets.
  */
-// require __DIR__ . '/bootstrap/media.php';
+require __DIR__ . '/bootstrap/media.php';
 
 /**
  * This file configures console filters and settings, specifically output behavior and coloring.
  */
-// require __DIR__ . '/bootstrap/console.php';
+require __DIR__ . '/bootstrap/console.php';
 
 
 ?>
