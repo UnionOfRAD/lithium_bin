@@ -56,10 +56,11 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
-$default = Media::type('default');
-$text = Media::type('text');
 
-Media::type('xml', null, $default['options']);
-Media::type('txt', null, $text['options']);
+$default = Media::type('default');
+Media::type('xml', null, (array) $default['options']);
+
+$text = Media::type('text');
+Media::type('txt', null, (array) $text['options']);
 
 ?>
