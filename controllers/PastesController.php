@@ -152,8 +152,14 @@ class PastesController extends \lithium\action\Controller {
 		$languages = Paste::languages();
 		$url = array('controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id));
 		$this->set(compact('url', 'paste', 'languages'));
-		$this->render('form');
-	}
+		$this->render(array(
+			'template' => 'form',
+			'data' => array(
+				'url' => 'Pastes::add',
+				'languages' => Paste::languages()
+			) + compact('paste')
+		));
+}
 
 	/**
 	 * Remember the current user of the paste
