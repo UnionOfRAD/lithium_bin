@@ -15,6 +15,8 @@ Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add
 
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
 
+Router::connect('/view/{:args}', array('controller' => 'pastes', 'action' => 'view'));
+
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
 Router::connect('/latest/page:{:page:[0-9]+}', array(
 	'controller' => 'pastes', 'action' => 'index', 'page' => 1
