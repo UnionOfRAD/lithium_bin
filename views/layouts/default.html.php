@@ -15,7 +15,7 @@
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
 	<?=$this->html->script('http://code.jquery.com/jquery-1.4.1.min.js'); ?>
-	<?=$this->html->script(array('ZeroClipboard.js', 'bin.js')); ?>
+	<?=$this->html->script(array('ZeroClipboard.js', 'lithium_bin.js')); ?>
 </head>
 <body>
 	<div id="container">
