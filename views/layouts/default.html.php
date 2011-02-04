@@ -9,29 +9,31 @@
 <!doctype html>
 <html>
 <head>
-	<?php echo $this->html->charset(); ?>
-	<title>Li3 Paste Bin</title>
-	<?php echo $this->html->style('lithium_bin'); ?>
+	<?=$this->html->charset(); ?>
+	<title>Lithium Bin</title>
+	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
+	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
-	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
-	<?php echo $this->html->script(array('jquery-1.3.2.min.js', 'ZeroClipboard.js', 'bin.js')); ?>
+	<?=$this->html->script('http://code.jquery.com/jquery-1.4.1.min.js'); ?>
+	<?=$this->html->script(array('ZeroClipboard.js', 'bin.js')); ?>
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<?php echo $this->html->image('lithium-logo.png');?>
+		<header>
+			<h1>
+				<?=$this->html->link('Lithium Bin', array(
+					'controller' => 'pages', 'action' => 'view', 'home'
+				)); ?>
+			</h1>
 			<div id="menu">
 				<ul >
 					<li><?php echo $this->html->link('Add new', array('controller'=>'pastes', 'action' => 'add'));?></li>
 					<li><?php echo $this->html->link('Latest', array('controller'=>'pastes', 'action' => 'index'));?></li>
 				</ul>
 			</div>
-		</div>
+		</header>
 		<div id="content">
 			<?php echo $this->content; ?>
-		</div>
-		<div id="footer">
-			@2009 Union of Rad
 		</div>
 	</div>
 </body>
