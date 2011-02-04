@@ -14,7 +14,8 @@
 	'type' => 'textarea'
 )); ?>
 <?=$this->form->field('language', array(
-	'options' => $languages
+	'type' => 'select',
+	'list' => $languages
 )); ?>
 <?=$this->form->field('permanent', array(
 	'type' => 'checkbox',
