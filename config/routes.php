@@ -12,6 +12,7 @@ Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
 
 Router::connect('/add', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
+
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
 Router::connect('/latest/page:{:page:[0-9]+}', array(
 	'controller' => 'pastes', 'action' => 'index', 'page' => 1
@@ -20,6 +21,6 @@ Router::connect('/latest/page:{:page}/limit:{:limit}', array(
 	'controller' => 'pastes', 'action' => 'index', 'page' => 1, 'limit' => 10
 ));
 
-
 Router::connect('/{:controller}/{:action}/{:args}');
+
 ?>
