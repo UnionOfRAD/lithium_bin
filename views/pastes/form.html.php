@@ -39,7 +39,5 @@
 <?php else: ?>
 	<?=$this->form->submit('create') ?>
 <?php endif; ?>
-<div class="notice">
-	<small>Pastes are publicly viewable. Paste wisely.</small>
-</div>
+<div class="notice">Pastes are publicly viewable. Paste wisely.</div>
 <?=$this->form->end(); ?>
