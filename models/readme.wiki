@@ -39,5 +39,5 @@ When the find call in the example above returns a NULL, that means the view does
 exist in the `Paste` database.
 ###To create and save the latest view:
 {{{
- 		PasteView::create()->save();
+ 		$ li3 bin install
 }}}
