@@ -26,12 +26,12 @@ class PastesController extends \lithium\action\Controller {
 
 	/**
 	 * Asks the model for the data to be rendered at /latest
-	 * showing the 10 latest pastes made.
+	 * showing the 20 latest pastes made.
 	 *
 	 * @return array
 	 */
 	public function index() {
-		$defaults = array('limit' => 10, 'order' => array('descending' => 'true'));
+		$defaults = array('limit' => 20, 'order' => array('descending' => 'true'));
 		$params = Set::merge($defaults, $this->request->params);
 		list($limit, $order) = array($params['limit'], $params['order']);
 
