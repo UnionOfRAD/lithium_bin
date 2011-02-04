@@ -21,7 +21,6 @@ use lithium\util\Set;
  *
  * @link	http://rad-dev.org/lithium_bin
  * @package	lithium_bin
- * @author	alkemann
  */
 class PastesController extends \lithium\action\Controller {
 
