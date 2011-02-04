@@ -23,7 +23,7 @@
 
 <?php if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) : ?>
 	<?=$this->form->field('password', array(
-		'type' => 'text',
+		'type' => 'password',
 		'label' => 'Password (provide one to lock or leave empty if not)'
 	)); ?>
 <?php endif; ?>
