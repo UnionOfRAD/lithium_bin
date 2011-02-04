@@ -22,7 +22,7 @@
 		<header>
 			<h1>
 				<?=$this->html->link('Lithium Bin', array(
-					'controller' => 'pages', 'action' => 'view', 'home'
+					'controller' => 'pastes', 'action' => 'add'
 				)); ?>
 			</h1>
 			<div id="menu">

@@ -8,7 +8,7 @@
 
 use lithium\net\http\Router;
 
-Router::connect('/', array('controller' => 'pages', 'action' => 'view', 'home'));
+Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
 
 Router::connect('/add', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
