@@ -71,7 +71,7 @@ class Paste extends \lithium\data\Model {
 		$self = static::_object();
 
 		Paste::applyFilter('save', function($self, $params, $chain) {
-			$document = $params['record'];
+			$document = $params['entity'];
 			if (!$document->id) {
 				$document->created = date('Y-m-d h:i:s');
 			}
@@ -81,7 +81,7 @@ class Paste extends \lithium\data\Model {
 			$document->parsed = Paste::parse($document->content, $document->language);
 			$document->preview = substr($document->content, 0, 100);
 			$document->modified = date('Y-m-d h:i:s');
-			$params['record'] = $document;
+			$params['entity'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
 		Validator::add('validLanguage', function ($value, $format, $options) {
