@@ -31,19 +31,17 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function index() {
-		$defaults = array('page' => 1, 'limit' => 10, 'order' => array('descending' => 'true'));
+		$defaults = array('limit' => 10, 'order' => array('descending' => 'true'));
 		$params = Set::merge($defaults, $this->request->params);
-		list($limit, $page, $order) = array($params['limit'], $params['page'], $params['order']);
+		list($limit, $order) = array($params['limit'], $params['order']);
 
 		$latest = Paste::all(array(
 			'conditions' => array(
 				'design' => 'all', 'view' => 'pastes',
-				'skip' => ($params['page'] - 1) * $params['limit'],
 				'limit' => $params['limit']
 			) + $params['order']
 		));
-		$total = $latest->stats('total_rows');
-		return compact('latest', 'limit', 'page', 'total');
+		return compact('latest');
 	}
 
 	/**
