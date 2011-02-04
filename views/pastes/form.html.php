@@ -1,74 +1,36 @@
-<?php
-echo $this->form->create($paste, array('url' => $url, 'method' => 'POST'));
+<?=$this->form->create($paste, array('url' => $url, 'method' => 'POST')); ?>
 
-$errors = $paste->errors();
-
-$this->form->config(array('templates' => array('checkbox' =>
-	'<input type="hidden" name="{:name}" value="0" />
-	 <input type="checkbox" value="1" name="{:name}"{:options} />'
-)));
-
-if (isset($paste->id) && isset($paste->rev)) {
-		echo $this->form->hidden('id');
-		echo $this->form->hidden('rev');
-}
-
-echo $this->form->label('Paste.author', 'Who are you?', array('class' => 'required'));
-echo $this->form->text('author', array('id' => 'Paste.author'));
-if (isset($errors['author'])) {
-	echo '<p style="color:red">'.implode($errors['author'], "<br>").'</p>';
-}
-
-echo $this->form->checkbox('remember', array('id' => 'Paste.remember'));
-echo $this->form->label('Paste.remember', ' remember');
-?>
-<br><br>
-<?php
-
-echo $this->form->label('Paste.content', 'Paste content', array('class' => 'required'));
-echo $this->form->textarea('content', array('id' => 'Paste.content', 'rows' => '20'));
-if (isset($errors['content'])) {
-	echo '<p style="color:red">'.implode($errors['content'], "<br>").'</p>';
-}
-
-?>
-<br>
-<?php
-
-echo $this->form->label('Paste.language', 'language', array('class' => 'required'));
-echo $this->form->select('language', array_combine($languages, $languages), array(
-	'id' => 'Paste.language'
-));
-if (isset($errors['language'])) {
-	echo '<p style="color:red">'.implode($errors['language'], "<br>").'</p>';
-}
-
-?>
-<br>
-<?php
-echo $this->form->field('permanent', array(
+<?php if (isset($paste->id) && isset($paste->rev)): ?>
+	<?=$this->form->hidden('id'); ?>
+	<?=$this->form->hidden('rev'); ?>
+<?php endif; ?>
+<?=$this->form->field('author', array(
+	'label' => 'Who are you?'
+)); ?>
+<?=$this->form->field('remember', array(
+	'type' => 'checkbox'
+)); ?>
+<?=$this->form->field('content', array(
+	'type' => 'textarea'
+)); ?>
+<?=$this->form->field('language', array(
+	'options' => $languages
+)); ?>
+<?=$this->form->field('permanent', array(
 	'type' => 'checkbox',
 	'label' => 'permanent (shows up in index)'
-));
+)); ?>
 
-if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) :
-	?>
-	<br>
-	<br>
-	<?php
-	echo $this->form->label('Paste.password', "Lock with password? <small>Leave blank if not</small>", array('escape' => false));
-	echo $this->form->text('password', array('id' => 'Paste.password'));
-	if (isset($errors['Paste.password'])) {
-		echo '<p style="color:red">'.implode($errors['Paste.password'], "<br>").'</p>';
-	}
-endif;
-?>
-<br><br>
-<?php
-
-echo $this->form->submit('save');
-if (isset($paste->id))
-	echo $this->form->submit('save copy', array('name' => 'copy'));
-
-?>
+<?php if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) : ?>
+	<?=$this->form->field('password', array(
+		'type' => 'text',
+		'label' => 'Password (provide one to lock or leave empty if not)'
+	)); ?>
+<?php endif; ?>
+<?php if (isset($paste->id)): ?>
+	<?=$this->form->submit('save') ?>
+	<?=$this->form->submit('save copy', array('name' => 'copy')); ?>
+<?php else: ?>
+	<?=$this->form->submit('create') ?>
+<?php endif; ?>
 </form>
