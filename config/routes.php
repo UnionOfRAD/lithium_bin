@@ -7,8 +7,12 @@
  */
 
 use lithium\net\http\Router;
+use lithium\action\Response;
 
-Router::connect('/', array('controller' => 'pastes', 'action' => 'add'));
+Router::connect('/', array(), function($request) {
+	$location = array('controller' => 'pastes', 'action' => 'add');
+	return new Response(compact('location'));
+});
 Router::connect('/add', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
