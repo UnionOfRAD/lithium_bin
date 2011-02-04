@@ -38,12 +38,11 @@ class PastesController extends \lithium\action\Controller {
 
 		$latest = Paste::all(array(
 			'conditions' => array(
-				'design' => 'paste', 'view' => 'all',
+				'design' => 'all', 'view' => 'pastes',
 				'skip' => ($params['page'] - 1) * $params['limit'],
 				'limit' => $params['limit']
 			) + $params['order']
 		));
-
 		$total = $latest->stats('total_rows');
 		return compact('latest', 'limit', 'page', 'total');
 	}
