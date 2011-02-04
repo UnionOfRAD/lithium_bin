@@ -1,11 +1,5 @@
 <h2>Latest</h2>
-<?php
-if ($latest->count() == 0):
-	echo 'NO PASTES';
-	return;
-endif;
-
-?>
+<?php if ($latest->count()): ?>
 <ul class="latest">
 	<?php foreach($latest as $row): ?>
 		<li>
@@ -69,3 +63,6 @@ endif;
 		}?>
 	</li>
 </ul>
+<?php else: ?>
+	<p>No pastes available.</p>
+<?php endif; ?>
