@@ -34,9 +34,11 @@ class Paste extends \lithium\data\Model {
 		'author' 	=> array('default' => null, 'type' => 'string'),
 		'content' 	=> array('default' => null, 'type' => 'string'),
 		'parsed' 	=> array('default' => null, 'type' => 'string'),
-		'permanent'	=> array('default' => false, 'type' => 'boolean'),
+		'private'	=> array('default' => false, 'type' => 'boolean'),
+		'immutable'=> array('default' => false, 'type' => 'boolean'),
 		'language' 	=> array('default' => 'text', 'type' => 'string'),
 		'created' 	=> array('default' => '1979-01-01 01:01:01', 'type' => 'string')
+
 	);
 
 	/**
