@@ -24,13 +24,16 @@
 	)); ?>
 	<?=$this->form->field('permanent', array(
 		'type' => 'checkbox',
-		'label' => 'permanent (shows up in index)'
+		'label' => 'permanent'
 	)); ?>
+	<span class="help">Causes the paste to show up in index.</span>
+
 	<?php if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) : ?>
 		<?=$this->form->field('password', array(
 			'type' => 'password',
-			'label' => 'Password (provide one to lock or leave empty if not)'
+			'label' => 'Password'
 		)); ?>
+		<span class="help">Provide one to lock the paste.</span>
 	<?php endif; ?>
 </div>
 <?php if (isset($paste->id)): ?>
