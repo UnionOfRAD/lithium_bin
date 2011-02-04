@@ -5,7 +5,7 @@
 		<th>Paste</th>
 		<th>Preview</th>
 		<th>Author</th>
-		<th>Date</th>
+		<th>Created</th>
 	</tr>
 	<tbody>
 	<?php foreach ($latest as $key => $row): ?>
