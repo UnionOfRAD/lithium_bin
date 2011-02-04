@@ -119,7 +119,10 @@ class Paste extends \lithium\data\Model {
 	public static function languages() {
 		if (static::$languages === null) {
 			static::$languages =  Libraries::find('geshi', array(
-				'path' => '/geshi', 'filter' => false, 'format' => function($class) {
+				'path' => '/geshi',
+				'filter' => false,
+				'suffix' => false,
+				'format' => function($class) {
 					return basename($class, '.php');
 				}
 			));
