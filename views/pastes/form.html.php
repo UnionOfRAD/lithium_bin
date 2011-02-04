@@ -40,7 +40,7 @@
 	<?=$this->form->submit('save') ?>
 	<?=$this->form->submit('save copy', array('name' => 'copy')); ?>
 <?php else: ?>
-	<?=$this->form->submit('create') ?>
+	<?=$this->form->submit('add') ?>
 <?php endif; ?>
 <div class="notice">Pastes are publicly viewable. Paste wisely.</div>
 <?=$this->form->end(); ?>
