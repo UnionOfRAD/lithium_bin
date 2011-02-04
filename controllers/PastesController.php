@@ -98,10 +98,13 @@ class PastesController extends \lithium\action\Controller {
 				));
 			}
 		}
-		$languages = Paste::languages();
-		$url = 'Pastes::add';
-		$this->set(compact('url', 'paste', 'languages'));
-		$this->render('form');
+		$this->render(array(
+			'template' => 'form',
+			'data' => array(
+				'url' => 'Pastes::add',
+				'languages' => Paste::languages()
+			) + compact('paste')
+		));
 	}
 
 	/**
