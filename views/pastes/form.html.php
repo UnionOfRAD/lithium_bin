@@ -15,7 +15,7 @@
 )); ?>
 <?=$this->form->field('language', array(
 	'type' => 'select',
-	'list' => $languages
+	'list' => array_combine($languages, $languages)
 )); ?>
 <?=$this->form->field('permanent', array(
 	'type' => 'checkbox',
