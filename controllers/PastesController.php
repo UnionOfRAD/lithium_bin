@@ -19,7 +19,7 @@ use lithium\util\Set;
  * in the most generic way possible so as to not get involved with how the data is
  * handled.
  *
- * @link	http://rad-dev.org/lithium_bin
+ * @link	http://dev.lithify.me/lithium_bin
  * @package	lithium_bin
  */
 class PastesController extends \lithium\action\Controller {

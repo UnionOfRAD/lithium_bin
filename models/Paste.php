@@ -14,7 +14,7 @@ use lithium\data\Connections;
  * can ask for data in a very generic way.
  *
  *
- * @link	http://rad-dev.org/lithium_bin
+ * @link	http://dev.lithify.me/lithium_bin
  */
 class Paste extends \lithium\data\Model {
 
@@ -63,7 +63,7 @@ class Paste extends \lithium\data\Model {
 	* The filters return the same as the method they filter would, ie
 	* 	- Find filter returns a modified Document instance
 	*
-	* @link http://li3.rad-dev.org/docs/lithium/util/collection/Filters
+	* @link http://lithify.me/docs/lithium/util/collection/Filters
 	* @param array $options Merged with the `meta` property, see `Paste::$_meta`
 	*/
 	public static function __init($options = array()) {
