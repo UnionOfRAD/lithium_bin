@@ -36,6 +36,12 @@
 		<span class="help">Prevents editing of paste.</span>
 	<?php endif; ?>
 </div>
+
+<!-- Catch Me If You Can -->
+<?=$this->form->text('catch', array(
+	'style' => 'position:absolute; margin-left: -5000px;'
+)); ?>
+
 <?php if (isset($paste->id)): ?>
 	<?=$this->form->submit('save') ?>
 	<?=$this->form->submit('save copy', array('name' => 'copy')); ?>

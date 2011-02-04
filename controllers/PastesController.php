@@ -86,6 +86,10 @@ class PastesController extends \lithium\action\Controller {
 			}
 			$paste = Paste::create($data);
 		} else {
+			if (!empty($this->request->data['catch'])) {
+				sleep(5);
+				die('Caught!');
+			}
 			$paste = Paste::create($this->request->data);
 			if ($paste->save()) {
 				$this->_remember($paste);
@@ -121,6 +125,10 @@ class PastesController extends \lithium\action\Controller {
 				$this->redirect('Pastes::add');
 			}
 		} else {
+			if (!empty($this->request->data['catch'])) {
+				sleep(5);
+				die('Caught!');
+			}
 			if (isset($this->request->data['copy'])){
 				unset(
 					$this->request->data['id'],
