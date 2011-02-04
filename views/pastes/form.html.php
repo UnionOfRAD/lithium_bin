@@ -5,9 +5,10 @@
 	<?=$this->form->hidden('rev'); ?>
 <?php endif; ?>
 <?=$this->form->field('author', array(
-	'label' => 'Who are you?'
+	'label' => 'Author'
 )); ?>
 <?=$this->form->field('remember', array(
+	'label' => 'remember me',
 	'type' => 'checkbox'
 )); ?>
 <?=$this->form->field('content', array(
