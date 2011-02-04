@@ -6,35 +6,70 @@ use app\models\PasteView;
 use lithium\data\Connections;
 
 /**
- * Command to assist in setup and management of Lithium Bin
- *
+ * Command to assist in setup and management of Lithium bin
  */
 class Bin extends \lithium\console\Command {
 
 	/**
 	 * Run the install method to create database and views
 	 *
-	 * @return boolea
+	 * @return boolean
 	 */
 	public function install() {
-		$this->header('Lithium Bin');
-		$config = Connections::get('default', array('config' => true));
-		Connections::get('default')->put($config['database']);
-		PasteView::create()->save();
-		return $this->checkView();
-	}
+		$this->header('Lithium Bin Installer');
+		$this->hr();
 
-	public function update() {
-		$view = PasteView::find('_design/paste');
-		if ($view && !isset($view->error)) {
-			$view->delete();
+		if (!$this->_database()) {
+			$this->out('The database could not be created.');
+			return false;
 		}
-		PasteView::create()->save();
-		return $this->checkView();
+
+		foreach (PasteView::$views as $key => $view) {
+			if (!$existing = PasteView::first($view['id'])) {
+				$view = PasteView::create($view);
+				$view->save();
+				if ($this->_check($view->model(), $key)) {
+					$this->out("`{$view->id}` created.");
+				}
+			} else {
+				$this->out("View `{$existing->id}` already exists.");
+				$choice = $this->in('Would you like to update this view?', array(
+					'choices' => array('n', 'y')
+				));
+				if ($choice == 'y') {
+					$existing->set($view + $existing->to('array'));
+					$existing->save();
+					if ($this->_check($existing->model(), $key)) {
+						$this->out("`{$existing->id}` updated.");
+					}
+				} else {
+					$this->out("`{$existing->id}` skipped!");
+				}
+			}
+			$this->out();
+		}
 	}
 
-	protected function checkView() {
-		$view = PasteView::find('_design/paste');
+	protected function _database() {
+		$connection = PasteView::meta('connection');
+		if (!$config = Connections::config($connection)) {
+			$this->out("Database connection `{$connection}` is not configured.");
+			return false;
+		}
+		$database = $config['database'];
+		$this->out("Verifying database `{$database}`...");
+		$this->out();
+		Connections::get($connection)->describe($database);
+		return true;
+	}
+
+	protected function _check($model, $name = null) {
+		if (!$name) {
+			return null;
+		}
+
+		$view = $model::find("_design/{$name}");
+
 		if (!empty($view->reason)) {
 			switch($view->reason) {
 				case 'no_db_file':
@@ -51,13 +86,11 @@ class Bin extends \lithium\console\Command {
 				break;
 			}
 		}
-		if (isset($view->id) && $view->id == '_design/paste' && count($view->views) == 2) {
-			$this->out('Installation successful.');
+		if (isset($view->id) && $view->id == "_design/{$name}") {
+			$this->out("{$model} {$name} view created.");
 			return true;
 		}
-		return false;
 	}
-
 }
 
 ?>
