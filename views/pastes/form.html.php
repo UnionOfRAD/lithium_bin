@@ -28,12 +28,12 @@
 	)); ?>
 	<span class="help">Causes the paste to show up in index.</span>
 
-	<?php if ((isset($paste->id) && isset($paste->password) && !empty($paste->password)) || !isset($paste->id)) : ?>
-		<?=$this->form->field('password', array(
-			'type' => 'password',
-			'label' => 'Password'
+	<?php if ((isset($paste->id) && !empty($paste->immutable)) || !isset($paste->id)) : ?>
+		<?=$this->form->field('immutable', array(
+			'type' => 'checkbox',
+			'label' => 'immutable'
 		)); ?>
-		<span class="help">Provide one to lock the paste.</span>
+		<span class="help">Prevents editing of paste.</span>
 	<?php endif; ?>
 </div>
 <?php if (isset($paste->id)): ?>

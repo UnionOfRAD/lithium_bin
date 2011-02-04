@@ -131,11 +131,8 @@ class PastesController extends \lithium\action\Controller {
 				$paste = Paste::create();
 			} else {
 				$paste = Paste::find($this->request->data['id']);
-				if (isset($paste->password) && !empty($paste->password) &&
-					$paste->password != $this->request->data['password']) {
-					$this->redirect(array(
-						'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
-					));
+				if ($paste->immutable) {
+					$this->redirect('Pastes::add');
 				}
 			}
 
