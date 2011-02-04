@@ -22,11 +22,11 @@
 		'type' => 'select',
 		'list' => array_combine($languages, $languages)
 	)); ?>
-	<?=$this->form->field('permanent', array(
+	<?=$this->form->field('private', array(
 		'type' => 'checkbox',
-		'label' => 'permanent'
+		'label' => 'private'
 	)); ?>
-	<span class="help">Causes the paste to show up in index.</span>
+	<span class="help">Causes the paste to not show up in any public index.</span>
 
 	<?php if ((isset($paste->id) && !empty($paste->immutable)) || !isset($paste->id)) : ?>
 		<?=$this->form->field('immutable', array(

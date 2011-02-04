@@ -33,7 +33,7 @@ class PasteView extends \lithium\data\Model {
 			'views' => array(
 				'pastes' => array(
 					'map' => 'function(doc) {
-						if (doc.permanent == "1") {
+						if (doc.private) {
 							emit(doc.created, doc);
 						}
 					}'
