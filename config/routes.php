@@ -13,8 +13,8 @@ Router::connect('/', array(), function($request) {
 	$location = array('controller' => 'pastes', 'action' => 'add');
 	return new Response(compact('location'));
 });
-Router::connect('/add', array('controller' => 'pastes', 'action' => 'add'));
-Router::connect('/add/{:args}', array('controller' => 'pastes', 'action' => 'add'));
+Router::connect('/new', array('controller' => 'pastes', 'action' => 'add'));
+Router::connect('/new/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
 Router::connect('/view/{:args}', array('controller' => 'pastes', 'action' => 'view'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));

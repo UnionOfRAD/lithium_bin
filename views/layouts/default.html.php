@@ -27,7 +27,7 @@
 			</h1>
 			<div id="menu" class="nav">
 				<ul >
-					<li><?php echo $this->html->link('Add', array('controller'=>'pastes', 'action' => 'add'));?></li>
+					<li><?php echo $this->html->link('New', array('controller'=>'pastes', 'action' => 'add'));?></li>
 					<li><?php echo $this->html->link('Latest', array('controller'=>'pastes', 'action' => 'index'));?></li>
 				</ul>
 			</div>
