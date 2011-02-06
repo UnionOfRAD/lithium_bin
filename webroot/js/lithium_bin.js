@@ -14,7 +14,7 @@ var LithiumBin = {
 	},
 
 	loadJs: function() {
-		$.getScript(this._config.assetBase + "/js/ZeroClipboard/ZeroClipboard.js", function() {
+		$.getScript(this._config.assetBase + "/js/ZeroClipboard.js", function() {
 			LithiumBin.setupCopy();
 		});
 	},
@@ -39,8 +39,8 @@ var LithiumBin = {
 	},
 
 	setupCopy: function() {
-		if ($('#copy-to-clipboard')) {
-			ZeroClipboard.setMoviePath(this._config.assetBase + "/js/ZeroClipboard/ZeroClipboard.swf");
+		if ($('#copy-to-clipboard').length) {
+			ZeroClipboard.setMoviePath(this._config.assetBase + "/js/ZeroClipboard.swf");
 			var clip = new ZeroClipboard.Client();
 
 			$('#copy-to-clipboard').click(function(e) {
