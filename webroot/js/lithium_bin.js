@@ -30,12 +30,12 @@ var LithiumBin = {
 
 	setupCodeSizers: function() {
 		$('#code-smaller').click(function() {
-			var currentFontSize = parseFloat($('.code:first').css('font-size'), 10);
-			$('.code').css('font-size', currentFontSize-1);
+			var currentFontSize = parseFloat($('.paste .parsed:first').css('font-size'), 10);
+			$('.paste .parsed').css('font-size', currentFontSize-1);
 		});
 		$('#code-bigger').click(function() {
-			var currentFontSize = parseFloat($('.code:first').css('font-size'), 10);
-			$('.code').css('font-size', currentFontSize+1);
+			var currentFontSize = parseFloat($('.paste .parsed:first').css('font-size'), 10);
+			$('.paste .parsed').css('font-size', currentFontSize+1);
 		});
 	},
 
