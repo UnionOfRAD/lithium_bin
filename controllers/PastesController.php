@@ -90,10 +90,12 @@ class PastesController extends \lithium\action\Controller {
 				sleep(5);
 				die('Caught!');
 			}
+			unset($this->request->data['catch']);
+
 			$paste = Paste::create($this->request->data);
 			if ($paste->save()) {
 				$this->_remember($paste);
-				$this->redirect(array(
+				return $this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
@@ -119,16 +121,17 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function edit($id = null) {
-		if (empty($this->request->data)) {
-			$paste = Paste::find($id);
-			if ($paste == null) {
-				$this->redirect('Pastes::add');
-			}
-		} else {
+		if (!$paste = Paste::find($id)) {
+			return $this->redirect('Pastes:add');
+		}
+
+		if (!empty($this->request->data)) {
 			if (!empty($this->request->data['catch'])) {
 				sleep(5);
 				die('Caught!');
 			}
+			unset($this->request->data['catch']);
+
 			if (isset($this->request->data['copy'])){
 				unset(
 					$this->request->data['id'],
@@ -136,23 +139,22 @@ class PastesController extends \lithium\action\Controller {
 					$this->request->data['password'],
 					$this->request->data['copy']
 				);
-				$paste = Paste::create();
-			} else {
-				$paste = Paste::find($this->request->data['id']);
+				$paste = Paste::create($this->request->data);
+			} elseif ($paste = Paste::find($this->request->data['id'])) {
 				if ($paste->immutable) {
-					$this->redirect('Pastes::add');
+					return $this->redirect('Pastes::add');
 				}
 			}
-
-			if ($paste && $paste->save($this->request->data)) {
+			if ($paste->save($this->request->data)) {
 				$this->_remember($paste);
-				$this->redirect(array(
+				return $this->redirect(array(
 					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
 				));
 			}
 		}
+
 		$languages = Paste::languages();
-		$url = array('controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id));
+		$url = array('controller' => 'pastes', 'action' => 'edit', 'args' => array($id));
 		$this->set(compact('url', 'paste', 'languages'));
 		$this->render(array(
 			'template' => 'form',
