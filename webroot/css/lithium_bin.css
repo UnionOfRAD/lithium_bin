@@ -1,14 +1,128 @@
+/*-------------------------------------------------------------------------------------------------
+   Lithium: the most rad php framework
 
-.paste .parsed, .paste .raw {
-	margin: 10px 0 10px 30px;
-	padding: 15px;
-	border-top: 2px solid #333333;
-	border-right: 2px solid #AAAAAA;
-	border-bottom: 2px solid #AAAAAA;
-	border-left: 2px solid #333333;
-	background-color: white;
+   @copyright     Copyright 2009, Union of RAD (http://union-of-rad.org)
+   @license       http://opensource.org/licenses/bsd-license.php The BSD License
+-------------------------------------------------------------------------------------------------*/
+
+/*--- This is the stylesheet for Pastium. ---*/
+
+/*--- Basics ---*/
+a {
+	border: 0;
 }
 
+.section {
+	display: block;
+}
+.section.submit {
+	clear: both;
+}
+
+/*--- Add/Edit --- */
+form {
+	background-color: #f0f0f0;
+}
+.paste-content textarea {
+	font-size: 11px;
+	margin: 0;
+}
+.paste-content {
+	border: 2px solid #F0F0F0;
+	display: block;
+	width: 700px;
+	float: left;
+}
+.paste-meta {
+	border: 2px solid #F0F0F0;
+	width: 140px;
+	float: left;
+	padding: 1em 20px 1em 20px;
+	background: #f0f0f0;
+}
+.paste-meta input[type=text] {
+}
+.paste-meta input[type=submit] {
+	margin: 1em auto;
+}
+
+.notice {
+	display: block;
+	clear: both;
+	text-align: left;
+}
+.notice small {
+	font-size: 14px;
+	color: #454545;
+	font-style: italic;
+}
+p.error {
+	background: #ffe5e5;
+	border: 1px solid #ffb1b1;
+	border-width: 1px 0 0 0;
+	padding: .5em 1em;
+	font-style: italic;
+}
+
+/*--- View ---*/
+.author {
+	margin-bottom: 2em;
+	clear: both;
+}
+code, pre {
+	font-family: Monaco, Courier, monospace !important;
+}
+pre code {
+	border: none;
+}
+.wrap {
+	white-space: pre-wrap;       /* css-3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+#copied-notification {
+	clear: both;
+	color: #00bf2d;
+	padding: 0.5em 1.5em;
+	margin-bottom: 0.5em;
+	background-color: #95fdad;
+	border: 3px solid #cbfad6;
+}
+#paste, #clean {
+	clear: both;
+}
+#paste li, #clean li{
+	margin: 0;
+}
+#paste li div, #clean li div {
+	padding-left: 10px;
+}
+
+/*--- Index ---*/
+.pastes {
+	width: 100%;
+	background: #f0f0f0;
+	clear: both;
+}
+.pastes .preview, .pastes tr > td a {
+	font-size: 12px;
+	font-family: Monaco, Courier, monospace;
+}
+td.preview {
+	width: 430px;
+	color: #666;
+	overflow: hidden;
+}
+
+.pastes tr > td a {
+	font-size: 12px;
+	font-family: Monaco, Courier, monospace;
+
+ }
+
+/*--- Code ---*/
 li.li1 {
 	background-color: white;
 }
