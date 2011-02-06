@@ -54,7 +54,7 @@ form {
 	color: #454545;
 	font-style: italic;
 }
-p.error {
+.error {
 	background: #ffe5e5;
 	border: 1px solid #ffb1b1;
 	border-width: 1px 0 0 0;
