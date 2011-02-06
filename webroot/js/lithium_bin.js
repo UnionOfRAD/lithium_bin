@@ -8,7 +8,6 @@ var LithiumBin = {
 		this._config = options;
 		this.setupColor();
 		this.setupCodeSizers();
-		this.setupToggleContentMode();
 		this.loadJs();
 		this.wrap();
 	},
@@ -20,8 +19,10 @@ var LithiumBin = {
 	},
 
 	setupColor: function(options) {
+		$('.paste .raw').hide();
+
 		$('#toggle-color').click(function() {
-			$('#clean, #paste').animate({
+			$('.paste .raw, .paste .parsed').animate({
 				opacity : 'toggle'
 			},'fast');
 		});
@@ -65,25 +66,6 @@ var LithiumBin = {
 				}, 2000);
             });
 		}
-	},
-
-	setupToggleContentMode: function() {
-		var toogle = false;
-		$('.paste .raw').hide();
-
-		$('#toggle-content').click(function() {
-			if (toogle) {
-				$('.paste .raw').hide();
-				$('.paste .parsed').show();
-				$(this).text('raw');
-			} else {
-				$('.paste .raw').show();
-				$('.paste .parsed').hide();
-				$(this).text('highlight');
-			}
-			toogle = !toogle;
-			return false;
-		});
 	},
 
 	wrap: function() {

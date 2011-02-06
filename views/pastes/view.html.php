@@ -7,15 +7,9 @@
 	<div class="nav">
 		<ul>
 			<li>
-				<?=$this->html->link('Parsed', '#', array(
-					'id' => 'toggle-content',
-					'title' => 'Toggle Content.'
-				)); ?>
-			</li>
-			<li>
 				<?=$this->html->link('Color', '#', array(
 					'id' => 'toggle-color',
-					'title' => 'Toggle Color.'
+					'title' => 'Toggle between raw and highlighted mode.'
 				)); ?>
 			</li>
 			<li>
