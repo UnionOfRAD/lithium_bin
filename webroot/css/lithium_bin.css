@@ -46,9 +46,8 @@ form {
 }
 
 .notice {
-	display: block;
-	clear: both;
-	text-align: left;
+	margin-top: .5em;
+	color: #454545;
 }
 .notice small {
 	font-size: 14px;
