@@ -44,7 +44,7 @@
 
 <?php if (isset($paste->id)): ?>
 	<?=$this->form->submit('save') ?>
-	<?=$this->form->submit('save copy', array('name' => 'copy')); ?>
+	<?=$this->form->submit('save as copy', array('name' => 'copy')); ?>
 <?php else: ?>
 	<?=$this->form->submit('paste this') ?>
 <?php endif; ?>
