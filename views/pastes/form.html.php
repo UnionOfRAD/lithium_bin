@@ -14,13 +14,13 @@
 	<?=$this->form->field('author', array(
 		'label' => 'Author'
 	)); ?>
-	<?=$this->form->field('remember', array(
-		'label' => 'remember me',
-		'type' => 'checkbox'
-	)); ?>
 	<?=$this->form->field('language', array(
 		'type' => 'select',
 		'list' => array_combine($languages, $languages)
+	)); ?>
+	<?=$this->form->field('remember', array(
+		'label' => 'remember me',
+		'type' => 'checkbox'
 	)); ?>
 	<?=$this->form->field('private', array(
 		'type' => 'checkbox',
