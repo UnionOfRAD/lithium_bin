@@ -80,7 +80,6 @@ class Paste extends \lithium\data\Model {
 			if (!empty($params['data'])) {
 				$document->set($params['data']);
 			}
-			$document->parsed = Paste::parse($document->content, $document->language);
 			$document->preview = substr($document->content, 0, 100);
 			$document->modified = date('Y-m-d h:i:s');
 			$params['entity'] = $document;

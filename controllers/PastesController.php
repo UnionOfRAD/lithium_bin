@@ -58,6 +58,7 @@ class PastesController extends \lithium\action\Controller {
 		if (!$paste = Paste::find($id)) {
 			$this->redirect('Pastes::index');
 		}
+		$paste->parsed = Paste::parse($paste->content, $paste->language);
 
 		if ($this->request->type === 'json') {
 			return $paste->to('json');
