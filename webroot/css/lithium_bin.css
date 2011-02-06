@@ -1,5 +1,5 @@
 
-div#paste, div#clean {
+.paste .parsed, .paste .raw {
 	margin: 10px 0 10px 30px;
 	padding: 4px;
 	border-top: 2px solid #333333;
