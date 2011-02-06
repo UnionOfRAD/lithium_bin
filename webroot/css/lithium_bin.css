@@ -35,9 +35,8 @@ form {
 }
 .paste-meta {
 	border: 2px solid #F0F0F0;
-	width: 140px;
+	width: 200px;
 	float: left;
-	padding: 1em 20px 1em 20px;
 	background: #f0f0f0;
 }
 .paste-meta input[type=text] {
