@@ -20,13 +20,6 @@ a {
 }
 
 /*--- Add/Edit --- */
-form {
-	background-color: #f0f0f0;
-}
-.paste-content textarea {
-	font-size: 11px;
-	margin: 0;
-}
 .paste-content {
 	border: 2px solid #F0F0F0;
 	display: block;
@@ -39,20 +32,34 @@ form {
 	float: left;
 	background: #f0f0f0;
 }
+form {
+	background-color: #f0f0f0;
+}
+label[for="PasteContent"] {
+	display: none;
+}
+textarea#PasteContent {
+	height: 30em;
+	font-size: 11px;
+	margin: 0;
+}
 .paste-meta input[type=text] {
 }
 .paste-meta input[type=submit] {
-	margin: 1em auto;
+	width: 240px;
+	margin-top: 1em;
+}
+input[type="checkbox"] {
+	margin-right: 4px;
 }
 
 .notice {
 	margin-top: .5em;
 	color: #454545;
 }
-.notice small {
-	font-size: 14px;
+.help {
+	font-size: 12px;
 	color: #454545;
-	font-style: italic;
 }
 .error {
 	background: #ffe5e5;
