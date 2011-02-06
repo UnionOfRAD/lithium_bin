@@ -7,7 +7,7 @@ $truncate = function($string, $length = 50) {
 <?php if ($latest->count()): ?>
 <table class="pastes">
 	<tr>
-		<th>Paste</th>
+		<th>Id</th>
 		<th>Preview</th>
 		<th>Author</th>
 		<th>Created</th>
