@@ -14,8 +14,8 @@
 	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
-	<?=$this->html->script('http://code.jquery.com/jquery-1.4.1.min.js'); ?>
-	<?=$this->html->script('ZeroClipboard.js'); ?>
+	<?=$this->html->script('http://code.jquery.com/jquery-1.3.2.min.js'); ?>
+	<?=$this->html->script('lithium_bin'); ?>
 </head>
 <body>
 	<div id="container">
@@ -36,5 +36,12 @@
 			<?php echo $this->content; ?>
 		</div>
 	</div>
+	<script>
+	$(document).ready(function () {
+		LithiumBin.setup({
+			assetBase: '',
+		});
+	});
+	</script>
 </body>
 </html>
