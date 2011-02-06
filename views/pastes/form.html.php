@@ -9,6 +9,7 @@
 	<?=$this->form->field('content', array(
 		'type' => 'textarea'
 	)); ?>
+	<div class="notice">Pastes are publicly viewable. Paste wisely.</div>
 </div>
 <div class="section paste-meta">
 	<?=$this->form->field('author', array(
@@ -35,18 +36,18 @@
 		)); ?>
 		<span class="help">Prevents editing of paste.</span>
 	<?php endif; ?>
+
+	<!-- Catch Me If You Can -->
+	<?=$this->form->text('catch', array(
+		'style' => 'position:absolute; margin-left: -5000px;'
+	)); ?>
+
+	<?php if (isset($paste->id)): ?>
+		<?=$this->form->submit('save') ?>
+		<?=$this->form->submit('save as copy', array('name' => 'copy')); ?>
+	<?php else: ?>
+		<?=$this->form->submit('paste this') ?>
+	<?php endif; ?>
 </div>
-
-<!-- Catch Me If You Can -->
-<?=$this->form->text('catch', array(
-	'style' => 'position:absolute; margin-left: -5000px;'
-)); ?>
-
-<?php if (isset($paste->id)): ?>
-	<?=$this->form->submit('save') ?>
-	<?=$this->form->submit('save as copy', array('name' => 'copy')); ?>
-<?php else: ?>
-	<?=$this->form->submit('paste this') ?>
-<?php endif; ?>
-<div class="notice">Pastes are publicly viewable. Paste wisely.</div>
+<div style="clear:both;"></div>
 <?=$this->form->end(); ?>
