@@ -20,9 +20,11 @@
 		'list' => array_combine($languages, $languages)
 	)); ?>
 	<?=$this->form->field('remember', array(
-		'label' => 'remember me',
-		'type' => 'checkbox'
+		'label' => 'remember',
+		'type' => 'checkbox',
+		'checked' => true
 	)); ?>
+	<span class="help">Store last used settings.</span>
 	<?=$this->form->field('private', array(
 		'type' => 'checkbox',
 		'label' => 'private'
