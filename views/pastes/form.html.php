@@ -29,7 +29,7 @@
 		'type' => 'checkbox',
 		'label' => 'private'
 	)); ?>
-	<span class="help">Causes the paste to not show up in any public index.</span>
+	<span class="help">Will need URL to view paste.</span>
 
 	<?php if ((isset($paste->id) && !empty($paste->immutable)) || !isset($paste->id)) : ?>
 		<?=$this->form->field('immutable', array(
