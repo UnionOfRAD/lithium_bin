@@ -1,7 +1,22 @@
 <?php
 $truncate = function($string, $length = 50) {
 	return strlen($string) > $length ? substr($string, 0, $length) . '…' : $string;
-}
+};
+$preview = function($string) use ($truncate) {
+	$contents = explode("\n", $string);
+	$offset = (integer) (count($contents) / 3.5);
+
+	foreach ($contents as $key => $line) {
+		if (strpos($line, 'class') !== false) {
+			$offset = $key;
+			break;
+		}
+	}
+	$preview = array_slice($contents, $offset, 2);
+	$preview = array_map($truncate, $preview);
+
+	return implode("\n", $preview);
+};
 ?>
 <h2><?=$this->title('Latest Pastes'); ?></h2>
 <?php if ($latest->count()): ?>
@@ -20,7 +35,7 @@ $truncate = function($string, $length = 50) {
 					$truncate($row->id, 12), '/view/' . $row->id);
 				?>
 			</td>
-			<td class="preview"><?= $truncate($row->content); ?></td>
+			<td class="preview"><?= $preview($row->content); ?></td>
 			<td><?=$row->author; ?></td>
 			<td><time datetime="<?=date('c', strtotime($row->created)); ?>"><?=$row->created; ?></time></td>
 		</tr>
