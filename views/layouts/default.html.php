@@ -43,7 +43,7 @@
 	<script>
 	$(document).ready(function () {
 		LithiumBin.setup({
-			assetBase: '',
+			assetBase: '<?=$this->request()->env('base'); ?>',
 		});
 	});
 	</script>
