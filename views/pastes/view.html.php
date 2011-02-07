@@ -1,8 +1,10 @@
+<h2>View Paste</h2>
 <div class="paste">
-	<h2>This <span class="language"><?=$paste->language;?></span> paste was created by
+	<div class="meta">
+		This <span class="language"><?=$paste->language;?></span> paste was created by
 		<span class="author user"><?=$paste->author;?></span> at
-		<span class="created"><?=$paste->created;?></span>
-	</h2>
+		<span class="created"><?=$paste->created;?></span>.
+	</div>
 	<div class="nav">
 		<ul>
 			<li>
