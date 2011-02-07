@@ -1,4 +1,4 @@
-<h2>View Paste</h2>
+<h2><?=$this->title('View Paste'); ?></h2>
 <div class="paste">
 	<div class="meta">
 		This <span class="language"><?=$paste->language;?></span> paste was created by

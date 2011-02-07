@@ -1,3 +1,5 @@
+<h2><?=$this->title($this->_request->action == 'add' ? 'New Paste' : 'Edit Paste'); ?></h2>
+
 <?=$this->form->create($paste, compact('url') + array('method' => 'POST')); ?>
 
 <?php if (isset($paste->id) && isset($paste->rev)): ?>

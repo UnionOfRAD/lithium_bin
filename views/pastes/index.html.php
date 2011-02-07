@@ -3,7 +3,7 @@ $truncate = function($string, $length = 50) {
 	return strlen($string) > $length ? substr($string, 0, $length) . '…' : $string;
 }
 ?>
-<h2>Latest</h2>
+<h2><?=$this->title('Latest Pastes'); ?></h2>
 <?php if ($latest->count()): ?>
 <table class="pastes">
 	<tr>
