@@ -22,7 +22,7 @@ $truncate = function($string, $length = 50) {
 			</td>
 			<td class="preview"><?= $truncate($row->content); ?></td>
 			<td><?=$row->author; ?></td>
-			<td><?php echo date('Y-m-d H:i', strtotime($row->created)); ?></td>
+			<td><time datetime="<?=date('c', strtotime($row->created)); ?>"><?=$row->created; ?></time></td>
 		</tr>
 	<?php endforeach;?>
 	</tbody>

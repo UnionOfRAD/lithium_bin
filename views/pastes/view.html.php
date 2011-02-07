@@ -3,7 +3,7 @@
 	<div class="meta">
 		This <span class="language"><?=$paste->language;?></span> paste was created by
 		<span class="author user"><?=$paste->author;?></span> at
-		<span class="created"><?=$paste->created;?></span>.
+		<time datetime="<?=date('c', strtotime($paste->created)); ?>" class="created"><?=$paste->created;?></time>.
 	</div>
 	<div class="nav">
 		<ul>
