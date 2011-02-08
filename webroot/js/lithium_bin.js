@@ -21,10 +21,9 @@ var LithiumBin = {
 	setupColor: function(options) {
 		$('.paste .raw').hide();
 
-		$('#toggle-color').click(function() {
-			$('.paste .raw, .paste .parsed').animate({
-				opacity : 'toggle'
-			},'fast');
+		$('#toggle-color').click(function(e) {
+			e.preventDefault();
+			$('.paste .raw, .paste .parsed').toggle();
 		});
 	},
 
