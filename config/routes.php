@@ -8,6 +8,7 @@
 
 use lithium\net\http\Router;
 use lithium\action\Response;
+use lithium\core\Environment;
 
 Router::connect('/', array(), function($request) {
 	$location = array('controller' => 'pastes', 'action' => 'add');
@@ -17,6 +18,14 @@ Router::connect('/new', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/new/{:args}', array('controller' => 'pastes', 'action' => 'add'));
 Router::connect('/edit/{:args}', array('controller' => 'pastes', 'action' => 'edit'));
 Router::connect('/latest', array('controller' => 'pastes', 'action' => 'index'));
+
+/**
+ * Connect the testing routes.
+ */
+if (!Environment::is('production')) {
+	Router::connect('/test/{:args}', array('controller' => 'lithium\test\Controller'));
+	Router::connect('/test', array('controller' => 'lithium\test\Controller'));
+}
 
 /* This route ensures old links don't break and a migrated to the shorter URL. */
 Router::connect('/view/{:args}', array(), function($request) {
