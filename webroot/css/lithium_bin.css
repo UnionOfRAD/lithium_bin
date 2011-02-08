@@ -21,18 +21,18 @@ a {
 
 /*--- Add/Edit --- */
 .paste-content {
-	border: 2px solid #F0F0F0;
 	display: block;
-	width: 700px;
+	width: 78%;
 	float: left;
+	margin-right: 10px;
 }
 .paste-meta {
-	border: 2px solid #F0F0F0;
-	width: 200px;
+	width: 20%;
 	float: left;
-	background: #f0f0f0;
+	margin-top: .5em;
 }
 form {
+	padding: 1em;
 	background-color: #f0f0f0;
 }
 label[for="PasteContent"] {
@@ -40,14 +40,13 @@ label[for="PasteContent"] {
 }
 textarea#PasteContent {
 	height: 30em;
-	font-size: 11px;
 	margin: 0;
 }
-.paste-meta input[type=text] {
+.paste-meta .fields {
+	height: 30.5em;
 }
 .paste-meta input[type=submit] {
-	width: 240px;
-	margin-top: 1em;
+	width: 100%;
 }
 input[type="checkbox"] {
 	margin-right: 4px;
