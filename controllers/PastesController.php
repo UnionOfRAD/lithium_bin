@@ -78,7 +78,7 @@ class PastesController extends \lithium\action\Controller {
 	 * @param string $author
 	 * @param string $language
 	 */
-	public function add($author = null, $language = 'php') {
+	public function add($author = 'anonymous', $language = 'php') {
 		if (empty($this->request->data)) {
 			if ($saved = Session::read('paste')) {
 				$data = (array) json_decode($saved);
