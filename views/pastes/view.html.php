@@ -62,6 +62,6 @@ $nickRgb = function($nick) {
 			</li>
 		</ul>
 	</div>
-	<div class="raw"><pre><code><?=$paste->content;?></code></pre></div>
+	<div class="raw"><pre><code><?php echo $h($paste->content);?></code></pre></div>
 	<div class="parsed"><?php echo $paste->parsed;?></div>
 </div>
