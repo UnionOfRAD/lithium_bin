@@ -17,6 +17,14 @@ $preview = function($string) use ($truncate) {
 
 	return implode("\n", $preview);
 };
+$nickRgb = function($nick) {
+	$hash = abs(crc32($nick));
+
+	$rgb = array($hash % 255, $hash % 255, $hash % 255);
+	$rgb[$hash % 2] = 0;
+
+	return $rgb;
+};
 ?>
 <h2><?=$this->title('Latest Pastes'); ?></h2>
 <?php if ($latest->count()): ?>
@@ -36,7 +44,7 @@ $preview = function($string) use ($truncate) {
 				?>
 			</td>
 			<td class="preview"><?= $preview($row->content); ?></td>
-			<td><?=$row->author; ?></td>
+			<td style="color: rgb(<?=implode(',' , $nickRgb($row->author))?>);"><?=$row->author; ?></td>
 			<td><time datetime="<?=date('c', strtotime($row->created)); ?>"><?=$row->created; ?></time></td>
 		</tr>
 	<?php endforeach;?>

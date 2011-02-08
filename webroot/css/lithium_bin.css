@@ -70,6 +70,9 @@ input[type="checkbox"] {
 }
 
 /*--- View ---*/
+.paste .meta .flag {
+	color: #454545;
+}
 .author {
 	margin-bottom: 2em;
 	clear: both;

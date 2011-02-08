@@ -1,8 +1,21 @@
+<?php
+$nickRgb = function($nick) {
+	$hash = abs(crc32($nick));
+
+	$rgb = array($hash % 255, $hash % 255, $hash % 255);
+	$rgb[$hash % 2] = 0;
+
+	return $rgb;
+};
+?>
 <h2><?=$this->title('View Paste'); ?></h2>
 <div class="paste">
 	<div class="meta">
-		This <span class="language"><?=$paste->language;?></span> paste was created by
-		<span class="author user"><?=$paste->author;?></span> at
+		This
+		<?php if ($paste->private): ?><span class="flag">private</span><?php endif; ?>
+		<?php if ($paste->immutable): ?><span class="flag">immutable</span><?php endif; ?>
+		<span class="language"><?=$paste->language;?></span> paste was created by
+		<span class="author user" style="color: rgb(<?=implode(',' , $nickRgb($paste->author))?>);"><?=$paste->author;?></span> at
 		<time datetime="<?=date('c', strtotime($paste->created)); ?>" class="created"><?=$paste->created;?></time>.
 	</div>
 	<div class="nav">
