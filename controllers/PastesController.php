@@ -56,7 +56,7 @@ class PastesController extends \lithium\action\Controller {
 	 */
 	public function view($id = null) {
 		if (!$paste = Paste::find($id)) {
-			$this->redirect('Pastes::index');
+			return $this->redirect('Pastes::index');
 		}
 		$paste->parsed = Paste::parse($paste->content, $paste->language);
 
