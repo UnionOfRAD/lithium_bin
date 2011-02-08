@@ -122,10 +122,9 @@ class PastesController extends \lithium\action\Controller {
 	 * @return array
 	 */
 	public function edit($id = null) {
-		if (!$paste = Paste::find($id)) {
+		if (!($paste = Paste::find($id)) || $paste->immutable) {
 			return $this->redirect('Pastes::add');
 		}
-
 		if (!empty($this->request->data)) {
 			if (!empty($this->request->data['catch'])) {
 				sleep(5);
