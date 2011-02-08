@@ -31,14 +31,16 @@
 					'title' => 'Copy to clipboard.'
 				)); ?>
 			</li>
-			<li>
-				<?=$this->html->link('Edit', array(
-					'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id)
-				), array(
-					'id' => 'code-edit',
-					'title' => 'Edit this paste.'
-				)); ?>
-			</li>
+			<?php if (!$paste->immutable): ?>
+				<li>
+					<?=$this->html->link('Edit', array(
+						'controller' => 'pastes', 'action' => 'edit', 'args' => array($paste->id)
+					), array(
+						'id' => 'code-edit',
+						'title' => 'Edit this paste.'
+					)); ?>
+				</li>
+			<?php endif; ?>
 			<li>
 				<?=$this->html->link('Wrap Text', '#', array(
 					'id' => 'textwrap',
