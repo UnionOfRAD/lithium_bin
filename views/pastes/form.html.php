@@ -17,6 +17,24 @@
 	<?=$this->form->field('author', array(
 		'label' => 'Author'
 	)); ?>
+	<?php
+		/* Promote most used languages to the top. */
+		$languages = array(
+			'bash',
+			'css',
+			'diff',
+			'gettext',
+			'php',
+			'powershell',
+			'ini',
+			'javascript',
+			'sql',
+			'mysql',
+			'text',
+			'xml',
+			'-------------'
+		) + $languages;
+	?>
 	<?=$this->form->field('language', array(
 		'type' => 'select',
 		'list' => array_combine($languages, $languages)
