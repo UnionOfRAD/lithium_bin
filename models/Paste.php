@@ -74,7 +74,8 @@ class Paste extends \lithium\data\Model {
 
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['entity'];
-			if (!$document->id) {
+
+			if (!isset($document->id)) {
 				$document->created = date('Y-m-d h:i:s');
 			}
 			if (!empty($params['data'])) {
