@@ -24,6 +24,7 @@ Router::connect('/view/{:args}', array(), function($request) {
 	return new Response(compact('location'));
 });
 
+Router::connect('/{:args}.{:type}', array('controller' => 'pastes', 'action' => 'view'));
 Router::connect('/{:args}', array('controller' => 'pastes', 'action' => 'view'));
 
 ?>
