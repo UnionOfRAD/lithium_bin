@@ -58,9 +58,9 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 
 
 $default = Media::type('default');
-Media::type('xml', null, (array) $default['options']);
+Media::type('xml', $default['content'], (array) $default['options']);
 
 $text = Media::type('text');
-Media::type('txt', null, (array) $text['options']);
+Media::type('txt', $text['content'], (array) $text['options']);
 
 ?>
