@@ -123,7 +123,7 @@ class PastesController extends \lithium\action\Controller {
 	 */
 	public function edit($id = null) {
 		if (!$paste = Paste::find($id)) {
-			return $this->redirect('Pastes:add');
+			return $this->redirect('Pastes::add');
 		}
 
 		if (!empty($this->request->data)) {
