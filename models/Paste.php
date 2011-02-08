@@ -46,7 +46,7 @@ class Paste extends \lithium\data\Model {
 	*/
 	public $validates = array(
 		'content' => 'You seem to be missing the content.',
-		'author' => array('alphaNumeric', 'message' => 'You forgot your alphanumeric name?'),
+		'author' => array('alphaNumeric', 'message' => 'Provide an alphanumeric name.'),
 		'language' => array('validLanguage', 'message' => 'Invalid language.')
 	);
 

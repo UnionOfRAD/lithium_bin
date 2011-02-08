@@ -62,10 +62,6 @@ input[type="checkbox"] {
 	color: #454545;
 }
 .error {
-	background: #ffe5e5;
-	border: 1px solid #ffb1b1;
-	border-width: 1px 0 0 0;
-	padding: .5em 1em;
 	font-style: italic;
 }
 
