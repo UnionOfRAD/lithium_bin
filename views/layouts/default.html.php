@@ -14,8 +14,10 @@
 	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
-	<?=$this->html->script('http://code.jquery.com/jquery-1.3.2.min.js'); ?>
-	<?=$this->html->script('lithium_bin'); ?>
+	<?=$this->html->script(array(
+		'http://code.jquery.com/jquery-1.3.2.min.js',
+		'lithium_bin.js'
+	)); ?>
 </head>
 <body>
 	<div id="container">
