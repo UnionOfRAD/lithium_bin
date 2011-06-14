@@ -109,6 +109,13 @@ input[type="checkbox"] {
 }
 
 /*--- View ---*/
+.paste .meta {
+	clear: both;
+}
+.paste .meta .author,
+.paste .meta .language {
+	font-weight: bold;
+}
 .paste .meta .flag {
 	color: #454545;
 }
