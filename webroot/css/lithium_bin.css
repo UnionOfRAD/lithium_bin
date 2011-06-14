@@ -194,6 +194,9 @@ pre code {
 .pastes .preview, .pastes tr > td a {
 	font-family: Monaco, Courier, monospace;
 }
+.pastes th {
+	display: none;
+}
 td.preview {
 	width: 430px;
 	color: #666;
