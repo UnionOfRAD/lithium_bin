@@ -12,6 +12,33 @@ a {
 	border: 0;
 }
 
+#container {
+	padding-top: 2.5em;
+}
+header h1 {
+	margin: .1em 0;
+	font-size: 35px;
+}
+header .logo {
+	float: left;
+	margin: -15px .7em 1em 0;
+}
+header h2 {
+	margin: 0 .5em 2em 0;
+	color: #666;
+	font-size: 22px;
+	line-height: 28px;
+	width: 400px;
+	float: left;
+}
+#content > h2 {
+	display: none;
+	clear: both;
+}
+#footer-spacer {
+	height: 130px;
+}
+
 .section {
 	display: block;
 }
