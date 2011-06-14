@@ -76,12 +76,12 @@ class Paste extends \lithium\data\Model {
 			$document = $params['entity'];
 
 			if (!isset($document->id)) {
-				$document->created = date('Y-m-d h:i:s');
+				$document->created = date('Y-m-d H:i:s');
 			}
 			if (!empty($params['data'])) {
 				$document->set($params['data']);
 			}
-			$document->modified = date('Y-m-d h:i:s');
+			$document->modified = date('Y-m-d H:i:s');
 			$params['entity'] = $document;
 			return $chain->next($self, $params, $chain);
 		});
