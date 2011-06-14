@@ -11,7 +11,13 @@
 	<?=$this->form->field('content', array(
 		'type' => 'textarea'
 	)); ?>
-	<div class="notice">Pastes are publicly viewable. Paste wisely.</div>
+	<div class="notice">
+		Pastes are publicly viewable.
+		Pastium is <?=$this->html->link(
+			'open source',
+			'https://github.com/UnionOfRAD/lithium_bin'
+		); ?>.
+	</div>
 </div>
 <div class="section paste-meta">
 	<div class="fields">
