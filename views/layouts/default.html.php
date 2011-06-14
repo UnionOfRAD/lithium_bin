@@ -26,6 +26,7 @@
 	)); ?>
 </head>
 <body>
+<div id="wrapper">
 	<div id="container">
 		<header>
 			<?=$this->html->image('http://lithify.me/img/pastium-logo.png', array(
@@ -51,13 +52,22 @@
 			<?php echo $this->content; ?>
 		</div>
 	</div>
-	<script>
-	$(document).ready(function () {
-		LithiumBin.setup({
-			assetBase: '<?=$this->request()->env('base'); ?>',
-		});
-		$('time').timeago();
+	<div id="footer-spacer"></div>
+</div>
+<div id="footer">
+	<p class="copyright">
+		<?= sprintf('Pretty much everything is © %d and beyond, the Union of Rad',
+			date('Y')
+		); ?>
+	</p>
+</div>
+<script>
+$(document).ready(function () {
+	LithiumBin.setup({
+		assetBase: '<?=$this->request()->env('base'); ?>',
 	});
-	</script>
+	$('time').timeago();
+});
+</script>
 </body>
 </html>
