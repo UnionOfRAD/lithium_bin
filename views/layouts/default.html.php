@@ -11,7 +11,11 @@
 <head>
 	<?=$this->html->charset(); ?>
 	<title>Pastium</title>
-	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
+	<?=$this->html->style(array(
+		'http://lithify.me/css/lithium.css',
+		'http://lithify.me/css/u1m.css',
+		'lithium_bin.css'
+	)); ?>
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
 	<?=$this->html->script(array(
@@ -23,7 +27,7 @@
 	<div id="container">
 		<header>
 			<h1>
-				<?=$this->html->link('Lithium Bin', array(
+				<?=$this->html->link('Pastium', array(
 					'controller' => 'pastes', 'action' => 'add'
 				)); ?>
 			</h1>
