@@ -20,7 +20,8 @@
 	<?php echo $this->scripts(); ?>
 	<?=$this->html->script(array(
 		'http://code.jquery.com/jquery-1.4.1.min.js',
-		'lithium_bin.js'
+		'lithium_bin.js',
+		'jquery.timeago.js'
 	)); ?>
 </head>
 <body>
@@ -51,6 +52,7 @@
 		LithiumBin.setup({
 			assetBase: '<?=$this->request()->env('base'); ?>',
 		});
+		$('time').timeago();
 	});
 	</script>
 </body>
