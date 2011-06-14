@@ -28,6 +28,9 @@
 <body>
 	<div id="container">
 		<header>
+			<?=$this->html->image('http://lithify.me/img/pastium-logo.png', array(
+				'width' => 90, 'height' => 93, 'alt' => 'logo', 'class' => 'logo'
+			)); ?>
 			<h1>
 				<?=$this->html->link('Pastium', array(
 					'controller' => 'pastes', 'action' => 'add'
