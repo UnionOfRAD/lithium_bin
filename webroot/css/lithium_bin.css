@@ -123,6 +123,9 @@ input[type="checkbox"] {
 	margin-bottom: 2em;
 	clear: both;
 }
+.paste .code {
+	clear: both;
+}
 code, pre {
 	font-family: Monaco, Courier, monospace !important;
 }
