@@ -46,6 +46,20 @@ header h2 {
 	clear: both;
 }
 
+/*--- Main Menu ---*/
+.nav a[href$="/new"]:before,
+.nav a[href$="/latest"]:before {
+	position: relative;
+	top: .25em;
+	margin-right: 5px;
+}
+.nav a[href$="/new"]:before {
+	content: url("http://lithify.me/img/icons/silk/page_white_add.png");
+}
+.nav a[href$="/latest"]:before {
+	content: url("http://lithify.me/img/icons/silk/page_white_stack.png");
+}
+
 /*--- Add/Edit --- */
 .paste-content {
 	display: block;
