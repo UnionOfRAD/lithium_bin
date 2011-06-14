@@ -72,6 +72,14 @@ class Paste extends \lithium\data\Model {
 		parent::__init($options);
 		$self = static::_instance(__CLASS__);
 
+		Paste::finder('count', function($self, $params, $chain) {
+			$config = Connections::get($self::meta('connection'), array('config' => true));
+			$connection = Connections::get($self::meta('connection'));
+			$result = $connection->get("{$config['database']}/_design/paste/_view/count");
+
+			return $result->total_rows ?: 0;
+		});
+
 		Paste::applyFilter('save', function($self, $params, $chain) {
 			$document = $params['entity'];
 
