@@ -120,12 +120,6 @@ td.preview {
 	overflow: hidden;
 }
 
-.pastes tr > td a {
-	font-size: 12px;
-	font-family: Monaco, Courier, monospace;
-
- }
-
 /*--- Code ---*/
 li.li1 {
 	background-color: white;
