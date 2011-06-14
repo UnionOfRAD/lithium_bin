@@ -37,6 +37,7 @@
 					'controller' => 'pastes', 'action' => 'add'
 				)); ?>
 			</h1>
+			<h2>Let there be paste!</h2>
 			<div id="menu" class="nav capsule">
 				<ul >
 					<li><?php echo $this->html->link('Latest', array(
