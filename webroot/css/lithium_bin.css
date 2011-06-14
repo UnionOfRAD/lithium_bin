@@ -96,13 +96,11 @@ pre code {
 	background-color: #95fdad;
 	border: 3px solid #cbfad6;
 }
-#paste, #clean {
-	clear: both;
-}
-#paste li, #clean li{
+
+.paste li, .paste .raw li {
 	margin: 0;
 }
-#paste li div, #clean li div {
+.paste li div, .paste .raw li div {
 	padding-left: 10px;
 }
 
