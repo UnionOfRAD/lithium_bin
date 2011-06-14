@@ -10,7 +10,7 @@
 <html>
 <head>
 	<?=$this->html->charset(); ?>
-	<title>Lithium Bin</title>
+	<title>Pastium</title>
 	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
