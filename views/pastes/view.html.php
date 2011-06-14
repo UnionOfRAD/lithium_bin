@@ -18,7 +18,7 @@ $nickRgb = function($nick) {
 		<span class="author user" style="color: rgb(<?=implode(',' , $nickRgb($paste->author))?>);"><?=$paste->author;?></span>
 		<time datetime="<?=date('c', strtotime($paste->created)); ?>" class="created">at <?=$paste->created;?></time>.
 	</div>
-	<div class="nav">
+	<div class="nav tabs light">
 		<ul>
 			<li>
 				<?=$this->html->link('Color', '#', array(
