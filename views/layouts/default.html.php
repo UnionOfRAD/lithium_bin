@@ -19,7 +19,7 @@
 	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
 	<?php echo $this->scripts(); ?>
 	<?=$this->html->script(array(
-		'http://code.jquery.com/jquery-1.3.2.min.js',
+		'http://code.jquery.com/jquery-1.4.1.min.js',
 		'lithium_bin.js'
 	)); ?>
 </head>
