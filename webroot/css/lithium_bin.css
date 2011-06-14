@@ -155,6 +155,36 @@ pre code {
 	padding-left: 10px;
 }
 
+/*--- Paste Menu ---*/
+.paste .nav {
+	margin-top: 2em;
+}
+.paste .nav a:before {
+	position: relative;
+	top: .25em;
+	margin-right: 5px;
+}
+.paste .nav #toggle-color:before {
+	content: url("http://lithify.me/img/icons/silk/color_wheel.png");
+}
+.paste .nav #code-bigger:before {
+	content: url("http://lithify.me/img/icons/silk/magnifier_zoom_in.png");
+}
+.paste .nav #code-smaller:before {
+	content: url("http://lithify.me/img/icons/silk/magifier_zoom_out.png");
+}
+.paste .nav #copy-to-clipboard:before {
+	content: url("http://lithify.me/img/icons/silk/cut.png");
+	z-index: 10;
+}
+.paste .nav #code-edit:before {
+	content: url("http://lithify.me/img/icons/silk/pencil.png");
+	z-index: 10;
+}
+.paste .nav #textwrap {
+	margin-top: 5px;
+}
+
 /*--- Index ---*/
 .pastes {
 	width: 100%;
