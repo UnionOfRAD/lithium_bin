@@ -111,7 +111,6 @@ pre code {
 	clear: both;
 }
 .pastes .preview, .pastes tr > td a {
-	font-size: 12px;
 	font-family: Monaco, Courier, monospace;
 }
 td.preview {
