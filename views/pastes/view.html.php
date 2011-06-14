@@ -15,8 +15,8 @@ $nickRgb = function($nick) {
 		<?php if ($paste->private): ?><span class="flag">private</span><?php endif; ?>
 		<?php if ($paste->immutable): ?><span class="flag">immutable</span><?php endif; ?>
 		<span class="language"><?=$paste->language;?></span> paste was created by
-		<span class="author user" style="color: rgb(<?=implode(',' , $nickRgb($paste->author))?>);"><?=$paste->author;?></span> at
-		<time datetime="<?=date('c', strtotime($paste->created)); ?>" class="created"><?=$paste->created;?></time>.
+		<span class="author user" style="color: rgb(<?=implode(',' , $nickRgb($paste->author))?>);"><?=$paste->author;?></span>
+		<time datetime="<?=date('c', strtotime($paste->created)); ?>" class="created">at <?=$paste->created;?></time>.
 	</div>
 	<div class="nav">
 		<ul>
