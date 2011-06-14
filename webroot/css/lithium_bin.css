@@ -199,3 +199,16 @@ td.preview {
 	color: #666;
 	overflow: hidden;
 }
+
+.pastes a {
+	padding: 2px .5em 2px 30px;
+	margin-left: -34px;
+	background: url("http://lithify.me/img/icons/silk/page_white_text.png") no-repeat center left;
+}
+.pastes .php a {
+	background-image: url("http://lithify.me/img/icons/silk/page_white_php.png");
+}
+.pastes .html a,
+.pastes .javascript a {
+	background-image: url("http://lithify.me/img/icons/silk/page_white_cup.png");
+}
