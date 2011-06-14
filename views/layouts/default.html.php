@@ -37,7 +37,7 @@
 					'controller' => 'pastes', 'action' => 'add'
 				)); ?>
 			</h1>
-			<div id="menu" class="nav">
+			<div id="menu" class="nav capsule">
 				<ul >
 					<li><?php echo $this->html->link('Latest', array(
 						'controller' => 'pastes', 'action' => 'index'
