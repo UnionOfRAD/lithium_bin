@@ -21,7 +21,8 @@
 	<?=$this->html->script(array(
 		'http://code.jquery.com/jquery-1.4.1.min.js',
 		'lithium_bin.js',
-		'jquery.timeago.js'
+		'jquery.timeago.js',
+		'ZeroClipboard.js'
 	)); ?>
 </head>
 <body>
