@@ -11,43 +11,31 @@
 <head>
 	<?=$this->html->charset(); ?>
 	<title>Lithium Bin</title>
-	<?=$this->html->style(array('lithium', 'lithium_bin')); ?>
-	<?=$this->html->link('Icon', null, array('type' => 'icon')); ?>
-	<?php echo $this->scripts(); ?>
-	<?=$this->html->script(array(
-		'http://code.jquery.com/jquery-1.3.2.min.js',
-		'lithium_bin.js'
-	)); ?>
+	<?=$this->html->style(array('lithium', 'lithium_bin')) ?>
+	<?=$this->html->link('Icon', null, array('type' => 'icon')) ?>
 </head>
 <body>
 	<div id="container">
 		<header>
-			<h1>
-				<?=$this->html->link('Lithium Bin', array(
-					'controller' => 'pastes', 'action' => 'add'
-				)); ?>
-			</h1>
+			<h1><?=$this->html->link('Lithium Bin', 'Pastes::add') ?></h1>
 			<div id="menu" class="nav">
-				<ul >
-					<li><?php echo $this->html->link('Latest', array(
-						'controller' => 'pastes', 'action' => 'index'
-					));?></li>
-					<li><?php echo $this->html->link('New', array(
-						'controller' => 'pastes', 'action' => 'add'
-					));?></li>
+				<ul>
+					<li><?= $this->html->link('Latest', 'Pastes::index') ?></li>
+					<li><?= $this->html->link('New', 'Pastes::add') ?></li>
 				</ul>
 			</div>
 		</header>
 		<div id="content">
-			<?php echo $this->content; ?>
+			<?=$this->content(); ?>
 		</div>
 	</div>
-	<script>
-	$(document).ready(function () {
-		LithiumBin.setup({
-			assetBase: '<?=$this->request()->env('base'); ?>',
-		});
-	});
-	</script>
+	<?=$this->scripts() ?>
+	<?=$this->html->script(array(
+		'http://code.jquery.com/jquery-1.7.1.min.js',
+		'lithium_bin.js'
+	)) ?>
+	<script>$(function(){
+		LithiumBin.setup()
+	})</script>
 </body>
 </html>
