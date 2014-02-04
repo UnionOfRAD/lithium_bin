@@ -38,12 +38,6 @@ $nickRgb = function($nick) {
 					'title' => "Decreases the code's font size."
 				)); ?>
 			</li>
-			<li>
-				<?=$this->html->link('Copy', '#', array(
-					'id' => 'copy-to-clipboard',
-					'title' => 'Copy to clipboard.'
-				)); ?>
-			</li>
 			<?php if (!$paste->immutable): ?>
 				<li>
 					<?=$this->html->link('Edit', array(

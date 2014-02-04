@@ -60,9 +60,6 @@ class PastesController extends \lithium\action\Controller {
 		}
 		$paste->parsed = Paste::parse($paste->content, $paste->language);
 
-		if ($this->request->type === 'json') {
-			return $paste->to('json');
-		}
 		if ($this->request->type === 'txt' || $this->request->type === 'text') {
 			return $paste->content;
 		}
@@ -87,17 +84,29 @@ class PastesController extends \lithium\action\Controller {
 			}
 			$paste = Paste::create($data);
 		} else {
-			if (!empty($this->request->data['catch'])) {
+			$data =& $this->request->data;
+			if (!empty($data['catch'])) {
 				sleep(5);
 				die('Caught!');
 			}
-			unset($this->request->data['catch']);
+			unset($data['catch']);
 
-			$paste = Paste::create($this->request->data);
+			if (isset($data['id'])) {
+				$paste = Paste::find($data['id']);
+				if (!$paste || $paste->immutable) {
+					unset($paste);
+				} else {
+					$paste->set($data);
+				}
+			}
+
+			if (!isset($paste)) {
+				$paste = Paste::create($data);
+			}
 			if ($paste->save()) {
 				$this->_remember($paste);
 				return $this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
+					'Pastes::view', 'args' => array($paste->id)
 				));
 			}
 		}
@@ -124,33 +133,6 @@ class PastesController extends \lithium\action\Controller {
 	public function edit($id = null) {
 		if (!($paste = Paste::find($id)) || $paste->immutable) {
 			return $this->redirect('Pastes::add');
-		}
-		if (!empty($this->request->data)) {
-			if (!empty($this->request->data['catch'])) {
-				sleep(5);
-				die('Caught!');
-			}
-			unset($this->request->data['catch']);
-
-			if (isset($this->request->data['copy'])){
-				unset(
-					$this->request->data['id'],
-					$this->request->data['rev'],
-					$this->request->data['password'],
-					$this->request->data['copy']
-				);
-				$paste = Paste::create($this->request->data);
-			} elseif ($paste = Paste::find($this->request->data['id'])) {
-				if ($paste->immutable) {
-					return $this->redirect('Pastes::add');
-				}
-			}
-			if ($paste->save($this->request->data)) {
-				$this->_remember($paste);
-				return $this->redirect(array(
-					'controller' => 'pastes', 'action' => 'view', 'args' => array($paste->id)
-				));
-			}
 		}
 
 		$languages = Paste::languages();
